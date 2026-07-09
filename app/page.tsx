@@ -16,10 +16,14 @@ export default function Home() {
         <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">Padel Doc</h1>
       </header>
 
-      {/* TODO: replace this About placeholder with final copy. */}
       <p className="text-text/90 leading-relaxed mb-14 max-w-prose">
-        Padel Doc is a small set of free tools for padel players and coaches. No account, no cost.
-        More about the project soon.
+        I'm a padel coach based in Dublin with a PhD in Sport Science, which is
+        where the name comes from. My sport science background shapes how I coach: Informed coaching, not guesswork. Here are some of the key tools that coaches and players can use to empower their knowledge to help their players improve. Video plays an important role in coaching, assessing skills frame by frame, not because it looked that way from across the court. The tools on this site come from the same place. The americano organiser
+        exists because I got tired of scribbling rotations on the back of a
+        receipt while twelve people shouted suggestions, searching whatsapp groups for the picture, and because the maths of a fair draw is a solved problem that no app had bothered to solve.
+        Everything here gets tested on real courts with real players before it
+        goes near this site. Use whatever helps your game or your coaching, and if something's
+        broken or missing, tell me and I'll probably build it.
       </p>
 
       <section>
