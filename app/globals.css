@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+/* ============================================================
+   PADEL DOC DESIGN TOKENS (mirror src/brands/padeldoc.js).
+   Map to Tailwind v4 utilities automatically: bg-bg, text-text,
+   text-accent, text-accent-2, border-line, etc.
+   Style D fonts: Spline Sans (body) + IBM Plex Mono (numbers).
+   ============================================================ */
+@theme {
+  --color-bg:       #141517; /* anthracite base */
+  --color-panel:    #1c1e21; /* card / panel */
+  --color-panel-2:  #17191c; /* inset panel */
+  --color-line:     rgba(255, 255, 255, 0.08);
+  --color-accent:   #c1834e; /* warm copper — PRIMARY, used sparingly */
+  --color-accent-2: #2f9bff; /* electric technical blue — SECONDARY */
+  --color-text:     #ece7e1; /* off-white */
+  --color-muted:    #8a9ba3; /* petrol blue-grey */
+
+  --font-sans: var(--font-spline-sans), system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
