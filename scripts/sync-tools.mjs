@@ -18,7 +18,7 @@ const MAP = [
   { route: 'tracker', src: 'dist/padeldoc/tracker.html' },
   { route: 'analyse', src: 'dist/padeldoc/analyse.html' },
   { route: 'americano', src: 'dist/padeldoc/americano.html' },
-  { route: 'balance', src: 'standalone/balance.html' },
+  { route: 'balance', src: 'dist/padeldoc/balance.html' },
 ]
 
 const PLAUSIBLE =
