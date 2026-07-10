@@ -26,6 +26,26 @@ export const metadata: Metadata = {
   description:
     'Free padel tools. Track matches, run Americanos, analyse video, set racket balance and plan tactics. No account needed.',
   alternates: { canonical: '/' },
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: '32x32' },
+      { url: '/icon-192.png', type: 'image/png', sizes: '192x192' },
+      { url: '/icon-512.png', type: 'image/png', sizes: '512x512' },
+    ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
+  },
+  openGraph: {
+    type: 'website',
+    siteName: 'The Padel Doc',
+    url: '/',
+    images: [
+      { url: '/og.png', width: 1200, height: 630, alt: 'The Padel Doc — free padel tools' },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: [{ url: '/og.png', alt: 'The Padel Doc — free padel tools' }],
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

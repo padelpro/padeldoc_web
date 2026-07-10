@@ -28,3 +28,7 @@ tsconfig.tsbuildinfo
 
 # Local Claude Code settings
 .claude/settings.local.json
+
+# Brand asset staging folder — source PNGs live here; only the generated
+# public/ favicon + OG files get committed.
+brand-assets/
