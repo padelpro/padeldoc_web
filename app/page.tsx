@@ -11,9 +11,18 @@ const tools = [
 export default function Home() {
   return (
     <div className="min-h-screen mx-auto max-w-2xl px-6 py-16 sm:py-24">
-      <header className="mb-10">
-        <p className="text-muted text-sm mb-1">The</p>
-        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">Padel Doc</h1>
+      <header className="mb-10 flex items-center gap-3">
+        <img
+          src="/logo-mark.png"
+          alt="The Padel Doc"
+          width={58}
+          height={80}
+          className="h-10 w-auto shrink-0"
+        />
+        <div>
+          <p className="text-muted text-sm mb-1">The</p>
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">Padel Doc</h1>
+        </div>
       </header>
 
       <p className="text-text/90 leading-relaxed mb-14 max-w-prose">
