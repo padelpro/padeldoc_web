@@ -39,9 +39,34 @@ the SAME app twice — once per brand — selecting a token file at build time:
 `padelpro_web` and `padeldoc_web` are just the two deployment shells. Neither builds
 the tools; both consume pre-built bundles committed into their own `public/`.
 
-## Tool-update workflow (the full routine)
+## Tool-update workflow (the normal path)
 
-When a tool changes, do all of this so both live sites stay in step:
+When a tool changes, **one command in `padel-coach-src` prepares BOTH deployment repos**
+correctly — including the cross-domain canonical re-injection that a hand copy always
+forgets (manual-sync item 2 below). Prefer it:
+
+```bash
+cd ~/padel-coach-src
+npm run release            # use the existing dist/ bundles
+npm run release -- --build # rebuild both brand sets first, then release
+```
+
+`scripts/release.mjs` copies the padelpro bundles into `padelpro_web/public/` and
+re-injects the `canonical -> thepadeldoc.com/<route>` tag; copies the padeldoc bundles
+(+ `standalone/balance.html`) into `padeldoc_web/public/` with canonical + Plausible
+(absorbing `sync-tools.mjs`); then **verifies and hard-fails** on any miss (missing
+canonical, a stray Google Fonts link on padelpro.ie, or a missing font/copper token on
+thepadeldoc.com). It prints the per-repo file changes and the exact next steps. It
+**never commits, pushes, or stages** — you review and commit each repo by hand. It also
+prints a **loud reminder** that the padelpro balance page is a manual mirror (see
+manual-sync item 1) — the script does not touch it.
+
+After `npm run release`, skip to step 4 (commit + push). The manual routine below is the
+fallback / explanation of what the script automates.
+
+### Manual routine (fallback)
+
+If you ever need to do it by hand, this is the full sequence:
 
 1. **Edit source** in `padel-coach-src` (`src/…`).
 2. **Build both brand sets:**
@@ -52,7 +77,7 @@ When a tool changes, do all of this so both live sites stay in step:
 3. **Sync into each deployment repo's `public/`:**
    - **padelpro.ie** — copy `dist/*.html` into `padelpro_web/public/<tool>/index.html`
      (tactics=board, tracker, analyse, americano). Re-add the cross-domain canonical
-     tags afterward (see manual-sync item 1 below).
+     tags afterward (see manual-sync item 2 below).
    - **thepadeldoc.com** — from this repo run:
      ```bash
      cd ~/padeldoc_web
@@ -81,11 +106,19 @@ When a tool changes, do all of this so both live sites stay in step:
 
 ## Known manual-sync items (do not let these drift)
 
-1. **Standalone Balance Calculator copy.** `padel-coach-src/standalone/balance.html`
-   is a hand-maintained vanilla-HTML copy that is **not** part of the esbuild pipeline.
-   If the padelpro Balance tool changes (markup or maths), mirror the change into this
-   file by hand, then re-run `npm run sync-tools`. Its `<head>` also carries the Style D
-   Google Fonts link, kept in sync manually with `src/brands/padeldoc.js`.
+1. **Balance Calculator is a hand-maintained vanilla file — and it is asymmetric.**
+   The only balance source in `padel-coach-src` is `standalone/balance.html`, and that is
+   the **padeldoc** copy (Style D Google Fonts + copper `#c1834e`, kept in sync manually
+   with `src/brands/padeldoc.js`). `npm run release` (and `npm run sync-tools`) copies it
+   into `padeldoc_web/public/balance/index.html` automatically. **padelpro.ie's balance
+   page is different:** `padelpro_web/public/balance/index.html` is a *separate*
+   hand-maintained file (system fonts, navy tokens, no web fonts) with **no bundle in
+   `padel-coach-src`** — so no script can regenerate it. If the balance markup or maths
+   changes, edit `standalone/balance.html` and mirror the change **by hand** into the
+   padelpro file (stripping the Google Fonts, keeping the padelpro tokens). `npm run
+   release` never touches the padelpro balance file and prints a **loud reminder** of this
+   whenever it runs. If balance changes become frequent, promote it into the
+   `padel-coach-src` build as a dual-brand entry so both copies regenerate from one source.
 
 2. **Cross-domain canonical tags on padelpro.ie.** Exactly five files carry an injected
    `<link rel="canonical" href="https://thepadeldoc.com/<route>">` so the duplicate tool
@@ -105,14 +138,13 @@ When a tool changes, do all of this so both live sites stay in step:
    canonical tag.** After such a copy, and *before committing `padelpro_web`*, you must
    re-add the canonical line to each of the five files. Re-apply it one of two ways:
 
+   - **`npm run release` (preferred):** `padel-coach-src/scripts/release.mjs` does the
+     padelpro copy **and** the canonical re-injection in one step, then verifies every one
+     of the five files carries exactly its canonical (and that none carry a Google Fonts
+     link). This is the whole reason the script exists — you can no longer forget the tag.
    - **Checklist (manual):** in each file above, insert the matching `<link rel="canonical" …>`
      line immediately before the first `</head>`, then verify with
      `grep -c 'rel="canonical"' padelpro_web/public/*/index.html` (expect `1` per file).
-   - **Script (preferred):** keep a small injector alongside the copy step — the same
-     idempotent replace-before-`</head>` logic this repo uses in `scripts/sync-tools.mjs`
-     (which does canonical + Plausible for thepadeldoc.com). Point it at `padelpro_web/public`
-     with the hrefs in the table above (canonical only, no Plausible), and run it after every
-     padelpro bundle copy. Idempotent: it skips any file that already has a canonical.
 
 3. **Inert-token trade-off in `build.mjs`.** `src/brand.js` statically imports both
    token files, so esbuild (which tree-shakes by symbol reachability) bundles both
