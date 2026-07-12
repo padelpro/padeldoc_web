@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
       { source: '/analyse', destination: '/analyse/index.html' },
       { source: '/balance', destination: '/balance/index.html' },
       { source: '/americano', destination: '/americano/index.html' },
+      { source: '/americano-25', destination: '/americano-25/index.html' },
     ]
   },
 }
