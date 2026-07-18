@@ -4,3 +4,19 @@
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+
+# Viewer routes: serve the SPA tool for any share code. These edge rewrites (status 200) are
+# evaluated before the Next handler, so they reliably serve the static tool HTML — Next's
+# rewrites() 404 for a dynamic source pointing at a static file on this runtime (see next.config.ts).
+[[redirects]]
+  from = "/m/*"
+  to = "/scoreboard/index.html"
+  status = 200
+[[redirects]]
+  from = "/embed/m/*"
+  to = "/scoreboard/index.html"
+  status = 200
+[[redirects]]
+  from = "/t/*"
+  to = "/americano/index.html"
+  status = 200
