@@ -14,6 +14,9 @@ const nextConfig: NextConfig = {
       { source: '/americano', destination: '/americano/index.html' },
       { source: '/t/:code', destination: '/americano/index.html' },
       { source: '/americano-25', destination: '/americano/index.html' },
+      { source: '/scoreboard', destination: '/scoreboard/index.html' },
+      { source: '/m/:code', destination: '/scoreboard/index.html' },
+      { source: '/embed/m/:code', destination: '/scoreboard/index.html' },
     ]
   },
 }
