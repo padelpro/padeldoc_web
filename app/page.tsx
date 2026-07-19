@@ -6,6 +6,7 @@ const tools = [
   { name: 'Balance Calculator', href: '/balance', desc: 'Work out lead tape placement and the new balance point.' },
   { name: 'Video Analyser', href: '/analyse', desc: 'Load a clip, trim it, slow it down and annotate technique.' },
   { name: 'Americano Organizer', href: '/americano', desc: 'Set up an Americano, run the schedule and track scores.' },
+  { name: 'Scoreboard', href: '/scoreboard', desc: 'Score a match courtside and share a live link anyone can follow.' },
 ]
 
 export default function Home() {
