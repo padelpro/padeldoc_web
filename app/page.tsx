@@ -1,3 +1,5 @@
+import UsageCounter from './usage-counter'
+
 // Tool routes rewrite to static HTML bundles in public/<route>/index.html (see next.config.ts),
 // so these are plain anchors, not next/link client navigations.
 const tools = [
@@ -30,6 +32,8 @@ export default function Home() {
         A set of free tools for anyone developing padel: players, coaches and
         club managers.
       </p>
+
+      <UsageCounter />
 
       <section>
         <h2 className="text-xs font-mono uppercase tracking-[0.2em] text-muted mb-2">Tools</h2>
