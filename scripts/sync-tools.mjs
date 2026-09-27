@@ -1,3 +1,4 @@
+// RETIRED: superseded by padel-coach-src's scripts/release.mjs (npm run release). Kept for reference only.
 // Sync the built Padel Doc tool bundles from the padel-coach-src repo into public/,
 // injecting a canonical tag (-> thepadeldoc.com/<route>) and the Plausible snippet into
 // each tool's <head>. The bundles themselves are brand-built in padel-coach-src (Style D

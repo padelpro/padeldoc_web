@@ -18,6 +18,7 @@ const nextConfig: NextConfig = {
       { source: '/scoreboard', destination: '/scoreboard/index.html' },
       { source: '/m/:code', destination: '/scoreboard/index.html' },
       { source: '/embed/m/:code', destination: '/scoreboard/index.html' },
+      { source: '/tagger', destination: '/tagger/index.html' },
     ]
   },
 }
