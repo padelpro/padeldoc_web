@@ -7,7 +7,7 @@ import type { NextConfig } from 'next'
 const nextConfig: NextConfig = {
   async rewrites() {
     return [
-      // Dynamic-source rewrites (/t/:code, /m/:code, /embed/m/:code) are inert on Netlify; the tool HTML is served by netlify.toml edge rewrites.
+      // Dynamic-source rewrites (/t/:code, /m/:code, /embed/m/:code, /v/:code) are inert on Netlify; the tool HTML is served by netlify.toml edge rewrites.
       { source: '/tracker', destination: '/tracker/index.html' },
       { source: '/tactics', destination: '/tactics/index.html' },
       { source: '/analyse', destination: '/analyse/index.html' },
@@ -19,6 +19,7 @@ const nextConfig: NextConfig = {
       { source: '/m/:code', destination: '/scoreboard/index.html' },
       { source: '/embed/m/:code', destination: '/scoreboard/index.html' },
       { source: '/tagger', destination: '/tagger/index.html' },
+      { source: '/v/:code', destination: '/tagger/index.html' },
     ]
   },
 }
