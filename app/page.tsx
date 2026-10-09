@@ -60,6 +60,7 @@ export default function Home() {
           <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm">
             <a href="/coach/join" className="font-mono text-accent font-medium hover:underline">Get free coach access</a>
             <a href="/coach" className="font-mono text-muted hover:text-text hover:underline">Coach sign in</a>
+            <a href="/tagger" className="hidden sm:inline font-mono text-muted hover:text-text hover:underline">YouTube Match Tagger</a>
           </div>
         </div>
       </section>

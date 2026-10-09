@@ -103,7 +103,7 @@ If you ever need to do it by hand, this is the full sequence:
 | `/analyse`   | `dist/padeldoc/analyse.html`        |
 | `/americano` | `dist/padeldoc/americano.html`      |
 | `/balance`   | `dist/padeldoc/balance.html`        |
-| `/tagger`    | `dist/padeldoc/tagger.html` (beta, noindex, no nav link) |
+| `/tagger`    | `dist/padeldoc/tagger.html` (beta, noindex; linked from the homepage "For coaches" section, desktop only) |
 | `/coach`     | `dist/padeldoc/player.html` (coach dashboard; `/coach/join` sign-up; `/player` and `/p/:code` too; noindex) |
 
 ## Known manual-sync items (do not let these drift)
