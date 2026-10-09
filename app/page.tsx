@@ -9,6 +9,7 @@ const tools = [
   { name: 'Video Analyser', href: '/analyse', desc: 'Load a clip, trim it, slow it down and annotate technique.' },
   { name: 'Americano Organizer', href: '/americano', desc: 'Set up an Americano, run the schedule and track scores.' },
   { name: 'Scoreboard', href: '/scoreboard', desc: 'Score a match courtside and share a live link anyone can follow.' },
+  { name: 'YouTube Match Tagger', href: '/tagger', desc: 'Tag shots on a match video and jump back to any moment.', desktopOnly: true },
 ]
 
 export default function Home() {
@@ -39,7 +40,7 @@ export default function Home() {
         <h2 className="text-xs font-mono uppercase tracking-[0.2em] text-muted mb-2">Tools</h2>
         <ul className="border-t border-line">
           {tools.map((t) => (
-            <li key={t.href} className="border-b border-line">
+            <li key={t.href} className={t.desktopOnly ? 'hidden sm:block border-b border-line' : 'border-b border-line'}>
               <a href={t.href} className="flex flex-col gap-1 py-4 hover:bg-panel/40 -mx-3 px-3 rounded transition-colors">
                 <span className="font-mono text-accent text-sm font-medium">{t.name}</span>
                 <span className="text-muted text-sm">{t.desc}</span>
@@ -47,6 +48,9 @@ export default function Home() {
             </li>
           ))}
         </ul>
+        <p className="mt-3 text-muted text-sm sm:hidden">
+          The YouTube Match Tagger works on a laptop or computer. Open thepadeldoc.com there to use it.
+        </p>
       </section>
 
       <section className="mt-14">
@@ -60,11 +64,7 @@ export default function Home() {
           <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm">
             <a href="/coach/join" className="font-mono text-accent font-medium hover:underline">Get free coach access</a>
             <a href="/coach" className="font-mono text-muted hover:text-text hover:underline">Coach sign in</a>
-            <a href="/tagger" className="hidden sm:inline font-mono text-muted hover:text-text hover:underline">YouTube Match Tagger</a>
           </div>
-          <p className="mt-3 text-muted text-sm sm:hidden">
-            The YouTube Match Tagger works on a laptop or computer. Open thepadeldoc.com there to use it.
-          </p>
         </div>
       </section>
 
