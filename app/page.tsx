@@ -54,7 +54,7 @@ export default function Home() {
         <div className="border-t border-line pt-4">
           <p className="text-text/90 leading-relaxed max-w-prose">
             Give every player a private page with their goals, session notes, homework, ratings,
-            match numbers and annotated clips. Your dashboard shows who is due a session.
+            match stats and annotated clips. Your dashboard shows who is due a session.
           </p>
           <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm">
             <a href="/coach/join" className="font-mono text-accent font-medium hover:underline">Request coach access</a>
