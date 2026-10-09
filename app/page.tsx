@@ -62,6 +62,9 @@ export default function Home() {
             <a href="/coach" className="font-mono text-muted hover:text-text hover:underline">Coach sign in</a>
             <a href="/tagger" className="hidden sm:inline font-mono text-muted hover:text-text hover:underline">YouTube Match Tagger</a>
           </div>
+          <p className="mt-3 text-muted text-sm sm:hidden">
+            The YouTube Match Tagger works on a laptop or computer. Open thepadeldoc.com there to use it.
+          </p>
         </div>
       </section>
 
