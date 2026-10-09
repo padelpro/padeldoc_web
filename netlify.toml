@@ -24,3 +24,7 @@
   from = "/v/*"
   to = "/tagger/index.html"
   status = 200
+[[redirects]]
+  from = "/p/*"
+  to = "/player/index.html"
+  status = 200

@@ -3,8 +3,8 @@
 Deployment repo for **thepadeldoc.com** — a lean Next.js 15 site that serves the
 Padel Doc set of free padel tools. It mirrors `padelpro_web`'s stack (App Router,
 Tailwind v4, `@netlify/plugin-nextjs`) but carries no auth or database: it is a
-homepage plus seven tool routes (tactics, tracker, balance, analyse, americano,
-scoreboard, tagger) that rewrite to self-contained static HTML bundles
+homepage plus eight tool routes (tactics, tracker, balance, analyse, americano,
+scoreboard, tagger, player) that rewrite to self-contained static HTML bundles
 in `public/`.
 
 ## Layout
@@ -104,6 +104,7 @@ If you ever need to do it by hand, this is the full sequence:
 | `/americano` | `dist/padeldoc/americano.html`      |
 | `/balance`   | `dist/padeldoc/balance.html`        |
 | `/tagger`    | `dist/padeldoc/tagger.html` (beta, noindex, no nav link) |
+| `/player`    | `dist/padeldoc/player.html` (coach tool + `/p/:code` player pages; noindex, no nav link) |
 
 ## Known manual-sync items (do not let these drift)
 
