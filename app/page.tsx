@@ -49,6 +49,20 @@ export default function Home() {
         </ul>
       </section>
 
+      <section className="mt-14">
+        <h2 className="text-xs font-mono uppercase tracking-[0.2em] text-muted mb-2">For coaches</h2>
+        <div className="border-t border-line pt-4">
+          <p className="text-text/90 leading-relaxed max-w-prose">
+            Give every player a private page with their goals, session notes, homework, ratings,
+            match numbers and annotated clips. Your dashboard shows who is due a session.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+            <a href="/coach/join" className="font-mono text-accent font-medium hover:underline">Request coach access</a>
+            <a href="/coach" className="font-mono text-muted hover:text-text hover:underline">Coach sign in</a>
+          </div>
+        </div>
+      </section>
+
       <footer className="mt-16 text-sm text-muted">
         Feedback:{' '}
         <a className="text-accent-2 hover:underline" href="mailto:hello@padelpro.ie">

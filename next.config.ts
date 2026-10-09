@@ -22,6 +22,8 @@ const nextConfig: NextConfig = {
       { source: '/v/:code', destination: '/tagger/index.html' },
       { source: '/player', destination: '/player/index.html' },
       { source: '/p/:code', destination: '/player/index.html' },
+      { source: '/coach', destination: '/player/index.html' },
+      { source: '/coach/join', destination: '/player/index.html' },
     ]
   },
 }

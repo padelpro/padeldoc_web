@@ -28,3 +28,11 @@
   from = "/p/*"
   to = "/player/index.html"
   status = 200
+[[redirects]]
+  from = "/coach"
+  to = "/player/index.html"
+  status = 200
+[[redirects]]
+  from = "/coach/*"
+  to = "/player/index.html"
+  status = 200
