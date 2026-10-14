@@ -17,7 +17,7 @@ export function Community() {
 export function Footer() {
   return (
     <footer className="mt-24 border-t border-line pt-8 pb-12 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted">
-      <span>Free padel tools by Kevin O&rsquo;Brien, padel coach and sport scientist.</span>
+      <span>Free padel tools by Dr Kevin O&rsquo;Brien, padel coach and sport scientist.</span>
       <a className="hover:text-text" href="/about">About</a>
       <a className="text-accent-2 hover:underline" href="mailto:hello@padelpro.ie">hello@padelpro.ie</a>
     </footer>
