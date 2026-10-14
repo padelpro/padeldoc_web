@@ -25,6 +25,10 @@
   to = "/tagger/index.html"
   status = 200
 [[redirects]]
+  from = "/contribute/withdraw"
+  to = "/tagger/index.html"
+  status = 200
+[[redirects]]
   from = "/p/*"
   to = "/player/index.html"
   status = 200
