@@ -1,83 +1,75 @@
+import { Community, Footer } from './site-parts'
 import UsageCounter from './usage-counter'
+import { tools, byWho, type Tool } from './tools-data'
 
-// Tool routes rewrite to static HTML bundles in public/<route>/index.html (see next.config.ts),
-// so these are plain anchors, not next/link client navigations.
-const tools = [
-  { name: 'Tactics Board', href: '/tactics', desc: 'Draw plays and set player positions on a padel court.' },
-  { name: 'Match Tracker', href: '/tracker', desc: 'Log shots, winners and errors live while you play.' },
-  { name: 'Balance Calculator', href: '/balance', desc: 'Work out lead tape placement and the new balance point.' },
-  { name: 'Video Analyser', href: '/analyse', desc: 'Load a clip, trim it, slow it down and annotate technique.' },
-  { name: 'Americano Organizer', href: '/americano', desc: 'Set up an Americano, run the schedule and track scores.' },
-  { name: 'Scoreboard', href: '/scoreboard', desc: 'Score a match courtside and share a live link anyone can follow.' },
-  { name: 'YouTube Match Tagger', href: '/tagger', desc: 'Tag shots on a match video and jump back to any moment.', desktopOnly: true },
+// The homepage: the visitor picks player, coach or club organiser, and each panel lists the tools
+// for that job. Every tool links to its own page under /tools/<slug>.
+const sides = [
+  { key: 'play' as const, title: 'I’m a player', line: 'Watch your matches back, see where points are won and lost, and set up your racket.', cta: { label: 'Tag a match', href: '/tools/tagger' }, note: 'Player sign-in is coming, so you can keep your own matches.' },
+  { key: 'coach' as const, title: 'I’m a coach', line: 'Give each player a private page with notes, homework, stats and clips.', cta: { label: 'Get free coach access', href: '/coach/join' } },
+  { key: 'club' as const, title: 'I’m a club organiser', line: 'Run Americanos and Mexicanos, and score matches people can follow live.', cta: { label: 'Set up an Americano', href: '/americano' } },
 ]
+
+function Mini({ t }: { t: Tool }) {
+  return (
+    <a href={`/tools/${t.slug}`} className="group flex items-center gap-4 py-3 border-t border-line">
+      <img src={t.shot} alt="" className="h-12 w-20 shrink-0 rounded object-cover object-top border border-line" />
+      <span>
+        <span className="block font-medium group-hover:text-accent">{t.name}</span>
+        <span className="block text-sm text-muted leading-snug">{t.line}</span>
+      </span>
+    </a>
+  )
+}
 
 export default function Home() {
   return (
-    <div className="min-h-screen mx-auto max-w-2xl px-6 py-16 sm:py-24">
-      <header className="mb-10 flex items-center gap-3">
-        <img
-          src="/logo-mark.png"
-          alt="The Padel Doc"
-          width={58}
-          height={80}
-          className="h-10 w-auto shrink-0"
-        />
-        <div>
-          <p className="text-muted text-sm mb-1">The</p>
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">Padel Doc</h1>
-        </div>
+    <div className="min-h-screen mx-auto max-w-6xl px-6">
+      <header className="flex items-center gap-3 py-6">
+        <img src="/logo-mark.png" alt="" className="h-8 w-auto" />
+        <span className="font-bold tracking-tight">The Padel Doc</span>
+        <a href="/coach" className="ml-auto text-sm text-text/75 hover:text-text">Coach sign in</a>
       </header>
 
-      <p className="text-text/90 leading-relaxed mb-14 max-w-prose">
-        A set of free tools for anyone developing padel: players, coaches and
-        club managers.
-      </p>
-
-      <UsageCounter />
-
-      <section>
-        <h2 className="text-xs font-mono uppercase tracking-[0.2em] text-muted mb-2">Tools</h2>
-        <ul className="border-t border-line">
-          {tools.map((t) => (
-            <li key={t.href} className={t.desktopOnly ? 'hidden sm:block border-b border-line' : 'border-b border-line'}>
-              <a href={t.href} className="flex flex-col gap-1 py-4 hover:bg-panel/40 -mx-3 px-3 rounded transition-colors">
-                <span className="font-mono text-accent text-sm font-medium">{t.name}</span>
-                <span className="text-muted text-sm">{t.desc}</span>
-              </a>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-3 text-muted text-sm sm:hidden">
-          The YouTube Match Tagger works on a laptop or computer. Open thepadeldoc.com there to use it.
+      <section className="pt-12 pb-14 max-w-3xl">
+        <h1 className="text-5xl sm:text-6xl font-bold tracking-tight leading-[1.02]">Free padel tools to help the game grow.</h1>
+        <p className="mt-6 text-lg text-text/80 leading-relaxed max-w-prose">
+          Start with what you do. Everything here is free to use.
         </p>
+        <div className="mt-6"><UsageCounter /></div>
       </section>
 
-      <section className="mt-14">
-        <h2 className="text-xs font-mono uppercase tracking-[0.2em] text-muted mb-2">For coaches</h2>
-        <div className="border-t border-line pt-4">
-          <p className="text-text/90 leading-relaxed max-w-prose">
-            <span className="font-semibold text-text">Free for coaches.</span> Give every player a private page
-            with their goals, session notes, homework, ratings, match stats and annotated clips. Your
-            dashboard shows who is due a session.
-          </p>
-          <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm">
-            <a href="/coach/join" className="font-mono text-accent font-medium hover:underline">Get free coach access</a>
-            <a href="/coach" className="font-mono text-muted hover:text-text hover:underline">Coach sign in</a>
+      <section className="grid gap-6 lg:grid-cols-3">
+        {sides.map((s) => (
+          <div key={s.key} className="rounded-xl bg-panel border border-line p-6 flex flex-col">
+            <h2 className="text-3xl font-bold tracking-tight">{s.title}</h2>
+            <p className="mt-3 text-text/80 leading-relaxed">{s.line}</p>
+            <div className="mt-6 flex-1">
+              {byWho(s.key).map((t) => (
+                <Mini key={t.slug} t={t} />
+              ))}
+            </div>
+            <a href={s.cta.href} className="mt-6 self-start font-medium bg-accent text-bg rounded px-4 py-2 hover:brightness-110">{s.cta.label}</a>
+            {s.note && <p className="mt-4 text-sm text-accent-2">{s.note}</p>}
           </div>
+        ))}
+      </section>
+
+      <section className="mt-24">
+        <h2 className="text-3xl font-bold tracking-tight">All the tools</h2>
+        <div className="mt-8 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+          {tools.map((t) => (
+            <a key={t.slug} href={`/tools/${t.slug}`} className="group block">
+              <img src={t.shot} alt="" className="aspect-[4/3] w-full rounded-lg object-cover object-top border border-line" />
+              <h3 className="mt-4 font-bold group-hover:text-accent">{t.name}</h3>
+              <p className="mt-1 text-sm text-muted leading-snug">{t.line}</p>
+            </a>
+          ))}
         </div>
       </section>
 
-      <footer className="mt-16 text-sm text-muted">
-        Feedback:{' '}
-        <a className="text-accent-2 hover:underline" href="mailto:hello@padelpro.ie">
-          hello@padelpro.ie
-        </a>
-        <span className="mx-2 text-line">·</span>
-        <a className="hover:underline" href="/about">
-          About
-        </a>
-      </footer>
+      <Community />
+      <Footer />
     </div>
   )
 }
