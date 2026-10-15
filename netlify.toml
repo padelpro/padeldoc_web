@@ -41,6 +41,21 @@
   to = "/player/index.html"
   status = 200
 
+# Box League (padel-coach-src box-league-spec.md): one page serves the club dashboard (/club), the club request
+# form (/club/join), a player's private link (/league/me#token) and a league's public page (/league/CODE).
+[[redirects]]
+  from = "/club"
+  to = "/league/index.html"
+  status = 200
+[[redirects]]
+  from = "/club/*"
+  to = "/league/index.html"
+  status = 200
+[[redirects]]
+  from = "/league/*"
+  to = "/league/index.html"
+  status = 200
+
 # Player alerts (padel-share-api 0010). The service worker must never be served stale, or a fix to it would
 # take days to reach phones. The manifest has no start_url on purpose: the home-screen icon opens the page
 # it was added from (the player's own /p/:code link).
