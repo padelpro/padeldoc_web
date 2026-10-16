@@ -9,6 +9,10 @@ export type Tool = {
   laptop?: boolean
   steps?: { title: string; body: string }[]
   notes?: string[]
+  // The tool page's main button and the line next to it, when "Open the <name>" / "Free, no account needed" don't fit.
+  cta?: { label: string; note: string }
+  // A second link under the button, e.g. for people already set up.
+  signIn?: { label: string; href: string }
 }
 
 export const tools: Tool[] = [
@@ -116,6 +120,33 @@ export const tools: Tool[] = [
       "Players can follow the draw and standings on their phones.",
     ],
     who: ['club'],
+  },
+  {
+    slug: 'box-league',
+    name: 'Box League',
+    href: '/club/join',
+    line: 'Run a monthly box league at your club: boxes drawn for you, results and tables online.',
+    points: [
+      'Boxes of 4 or 5 by level, with promotion and relegation',
+      'A private link per player: their box, box-mates’ numbers and fixtures',
+      'Players book their matches and captains enter the scores',
+      'A public league page with your sponsor',
+    ],
+    shot: '/shots/box-league.png',
+    steps: [
+      { title: 'Ask to run one', body: 'Tell us about your club and we send you a club key.' },
+      { title: 'Add your members', body: 'Upload your list from a spreadsheet, with levels and phone numbers, and send each player their private link.' },
+      { title: 'Draw and publish the boxes', body: 'The draw sets the boxes by level each month. Move anyone you like, then publish and everyone gets their box.' },
+      { title: 'Players play, the tables update', body: 'Players book a court and the captain enters each score. The top of each box goes up, the bottom goes down.' },
+    ],
+    notes: [
+      'Free to use. You collect any fees yourself.',
+      'Players need no account or app, just their link.',
+      'Phone numbers are only shared inside a player’s own box.',
+    ],
+    who: ['club'],
+    cta: { label: 'Run a box league at your club', note: 'Free. Tell us about your club to get started.' },
+    signIn: { label: 'Already set up? Club sign in', href: '/club' },
   },
   {
     slug: 'scoreboard',

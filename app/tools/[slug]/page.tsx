@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { tools } from '../../tools-data'
 import { Footer } from '../../site-parts'
+import UsedByStrip from '../../used-by-strip'
 
 export function generateStaticParams() {
   return tools.map((t) => ({ slug: t.slug }))
@@ -19,7 +20,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
   const t = tools.find((x) => x.slug === slug)
   if (!t) notFound()
   const others = tools.filter((x) => x.slug !== t.slug && x.who.some((w) => t.who.includes(w))).slice(0, 3)
-  const open = t.slug === 'coach' ? 'Get free coach access' : `Open the ${t.name}`
+  const open = t.cta ? t.cta.label : t.slug === 'coach' ? 'Get free coach access' : `Open the ${t.name}`
 
   return (
     <div className="min-h-screen mx-auto max-w-6xl px-6">
@@ -28,7 +29,8 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
           <img src="/logo-mark.png" alt="" className="h-8 w-auto" />
           <span className="font-bold tracking-tight">The Padel Doc</span>
         </a>
-        <a href="/coach" className="ml-auto text-sm text-text/75 hover:text-text">Coach sign in</a>
+        <a href="/club" className="ml-auto text-sm text-text/75 hover:text-text">Club sign in</a>
+        <a href="/coach" className="text-sm text-text/75 hover:text-text">Coach sign in</a>
       </header>
 
       <section className="pt-10 pb-12 max-w-3xl">
@@ -39,8 +41,11 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
           <a href={t.href} className={`${t.laptop ? 'hidden sm:inline-block' : 'inline-block'} font-medium bg-accent text-bg rounded px-5 py-3 hover:brightness-110`}>
             {open}
           </a>
-          <span className="text-sm text-muted">Free, no account needed.</span>
+          <span className="text-sm text-muted">{t.cta ? t.cta.note : 'Free, no account needed.'}</span>
         </div>
+        {t.signIn && (
+          <a href={t.signIn.href} className="mt-4 inline-block text-sm text-accent-2 hover:underline">{t.signIn.label}</a>
+        )}
         {t.laptop && (
           <p className="mt-4 text-sm text-accent-2 sm:hidden">This one works on a laptop or computer. Open thepadeldoc.com there to use it.</p>
         )}
@@ -49,6 +54,8 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
       <div className="rounded-xl border border-line bg-panel-2 overflow-hidden shadow-[0_40px_80px_-40px_rgba(0,0,0,0.9)]">
         <img src={t.shot} alt={`${t.name} screen`} className="w-full" />
       </div>
+
+      {t.slug === 'box-league' && <UsedByStrip className="mt-16" />}
 
       <section className="mt-20 grid gap-12 lg:grid-cols-[1fr_1fr]">
         <div>
