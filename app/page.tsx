@@ -6,7 +6,7 @@ import { tools, byWho, type Tool } from './tools-data'
 // The homepage: the visitor picks player, coach or club organiser, and each panel lists the tools
 // for that job. Every tool links to its own page under /tools/<slug>.
 const sides = [
-  { key: 'play' as const, title: 'I’m a player', line: 'Watch your matches back, see where points are won and lost, and set up your racket.', ctas: [{ label: 'Tag a match', href: '/tools/tagger' }], note: 'Player sign-in is coming, so you can keep your own matches.' },
+  { key: 'play' as const, title: 'I’m a player', line: 'Watch your matches back, see where points are won and lost, and set up your racket.', ctas: [{ label: 'Sign up free', href: '/me/join' }, { label: 'Tag a match', href: '/tools/tagger' }], note: 'Keep your matches, see your stats and link up with your coach.' },
   { key: 'coach' as const, title: 'I’m a coach', line: 'Give each player a private page with notes, homework, stats and clips.', ctas: [{ label: 'Get free coach access', href: '/coach/join' }] },
   { key: 'club' as const, title: 'I’m a club organiser', line: 'Run box leagues, Americanos and Mexicanos, and score matches people can follow live.', ctas: [{ label: 'Run a box league', href: '/tools/box-league' }, { label: 'Set up an Americano', href: '/americano' }] },
 ]
@@ -29,8 +29,8 @@ export default function Home() {
       <header className="flex items-center gap-3 py-6">
         <img src="/logo-mark.png" alt="" className="h-8 w-auto" />
         <span className="font-bold tracking-tight">The Padel Doc</span>
-        <a href="/club" className="ml-auto text-sm text-text/75 hover:text-text">Club sign in</a>
-        <a href="/coach" className="text-sm text-text/75 hover:text-text">Coach sign in</a>
+        <a href="/signin" className="ml-auto text-sm text-text/75 hover:text-text">Sign in</a>
+        <a href="/signin#new" className="text-sm font-medium text-accent hover:underline">Set up account</a>
       </header>
 
       <section className="pt-12 pb-14 max-w-3xl">

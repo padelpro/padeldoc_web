@@ -29,8 +29,8 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
           <img src="/logo-mark.png" alt="" className="h-8 w-auto" />
           <span className="font-bold tracking-tight">The Padel Doc</span>
         </a>
-        <a href="/club" className="ml-auto text-sm text-text/75 hover:text-text">Club sign in</a>
-        <a href="/coach" className="text-sm text-text/75 hover:text-text">Coach sign in</a>
+        <a href="/signin" className="ml-auto text-sm text-text/75 hover:text-text">Sign in</a>
+        <a href="/signin#new" className="text-sm font-medium text-accent hover:underline">Set up account</a>
       </header>
 
       <section className="pt-10 pb-12 max-w-3xl">

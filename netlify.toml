@@ -41,6 +41,21 @@
   to = "/player/index.html"
   status = 200
 
+# One sign-in page for players, coaches and clubs, and a player account's own page: sign-up, My page and a coach's
+# invite link (padel-coach-src sessions SI1, D1, D2). All in the player bundle.
+[[redirects]]
+  from = "/signin"
+  to = "/player/index.html"
+  status = 200
+[[redirects]]
+  from = "/me"
+  to = "/player/index.html"
+  status = 200
+[[redirects]]
+  from = "/me/*"
+  to = "/player/index.html"
+  status = 200
+
 # Box League (padel-coach-src box-league-spec.md): one page serves the club dashboard (/club), the club request
 # form (/club/join), a player's private link (/league/me#token) and a league's public page (/league/CODE).
 [[redirects]]

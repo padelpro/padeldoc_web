@@ -24,6 +24,10 @@ const nextConfig: NextConfig = {
       { source: '/p/:code', destination: '/player/index.html' },
       { source: '/coach', destination: '/player/index.html' },
       { source: '/coach/join', destination: '/player/index.html' },
+      { source: '/signin', destination: '/player/index.html' },
+      { source: '/me', destination: '/player/index.html' },
+      { source: '/me/join', destination: '/player/index.html' },
+      { source: '/me/link', destination: '/player/index.html' },
     ]
   },
 }
