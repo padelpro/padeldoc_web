@@ -18,9 +18,9 @@ export type Tool = {
 export const tools: Tool[] = [
   {
     slug: 'tagger',
-    name: 'Video Tagger',
+    name: 'Match Tagger',
     href: '/tagger',
-    line: 'Tag each point of a match video and jump back to any shot.',
+    line: 'Tag each point of a match, compare by outcome, player and shot type.',
     points: [
       'YouTube or a video file on your laptop',
       'Score, shot types and rally lengths build as you tag',
@@ -64,7 +64,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'analyse',
-    name: 'Video Analyser',
+    name: 'Technique Analyser',
     href: '/analyse',
     line: 'Trim a clip, slow it down and draw on it.',
     points: ['Frame by frame and slow motion', 'Draw lines, angles and circles on the frame', 'The video never leaves your phone'],

@@ -29,7 +29,7 @@ npm run build    # production build (what Netlify runs)
 
 ## The two brands share one source
 
-The React tools (Tactics Board, Match Tracker, Video Analyser, Americano Organizer,
+The React tools (Tactics Board, Match Tracker, Technique Analyser, Americano Organizer,
 Balance Calculator) live in **`../padel-coach-src`**. That repo builds the SAME app
 twice — once per brand — selecting a token file at build time:
 
