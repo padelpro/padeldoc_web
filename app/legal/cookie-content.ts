@@ -44,7 +44,7 @@ export type Row = { tool: string; name: string; holds: string; lasts: string }
 
 const until = 'Until you clear site data'
 export const rows: Row[] = [
-  { tool: 'All tools', name: 'pc_vtag_coachkey', holds: 'Your coach, player or club key, so you paste it once.', lasts: 'Until you press Forget key or clear site data' },
+  { tool: 'All tools', name: 'pc_vtag_coachkey', holds: 'Your coach or player key, so you paste it once; or the key this device got from an email sign-in.', lasts: 'Until you press Forget key or sign out, or clear site data' },
   { tool: 'All tools', name: 'pc_current_player', holds: 'The player you last picked in the coach bar.', lasts: until },
   { tool: 'All tools', name: 'pc_tooltips, pc_help_seen_*, pc_tour_seen_*', holds: 'Whether you have seen the help and tour; tooltip preference.', lasts: until },
   { tool: 'Match Tracker', name: 'pc_roster, pc_live, pc_index, pc_match_*', holds: 'Your player names, the match in progress and saved matches.', lasts: until },
@@ -53,7 +53,7 @@ export const rows: Row[] = [
   { tool: 'Scoreboard', name: 'pc_scoreboard, pc_scoreboard_share', holds: 'The match on the board, and its live share code and key.', lasts: until },
   { tool: 'Technique Analyser', name: 'pc_analyse_index, pc_analyse_*', holds: 'Your sessions: player, note, drawings and the name, size and length of the video file. Never the video itself.', lasts: until },
   { tool: 'Balance Calculator', name: 'pc_balance', holds: 'Racket weight, balance point and tape.', lasts: until },
-  { tool: 'Tactics Board', name: 'pc_board_players, pc_board_styles, pc_board_draft, pc_board_index, pc_board_play_*', holds: 'Player names and hands, drawing style, the play you are working on and saved plays.', lasts: until },
+  { tool: 'Tactics Board', name: 'pc_board_players, pc_board_styles, pc_board_draft, pc_board_index, pc_board_play_*', holds: 'Player names and hands, drawing style, the play you are working on and saved plays, with the link to each play\u2019s copy in your account.', lasts: until },
   { tool: 'Tactics Board', name: 'pc_board_audio (IndexedDB)', holds: 'Voice-over recordings for your plays.', lasts: until },
   { tool: 'Tactics Board', name: 'pc_board_origin, pc_board_from_point', holds: 'A point handed over from the Match Tagger.', lasts: 'Until the next hand-over' },
   { tool: 'Match Tagger', name: 'pc_vtag_draft, pc_vtag_index, pc_vtag_*', holds: 'The match you are tagging and saved matches: player names, tags, and the YouTube id or file name.', lasts: until },
@@ -65,6 +65,9 @@ export const rows: Row[] = [
   { tool: 'Box League', name: 'pd_league_member', holds: 'Your private player link, so your page opens without the link.', lasts: until },
   { tool: 'Box League', name: 'pd_league_alerts_notnow, pd_import_map_*', holds: 'That you said Not now to alerts; which spreadsheet columns you matched when importing members (headings only).', lasts: until },
 ]
+
+// Above the table. Was in the pages until version 2; now here so both sites say the same.
+export const tableIntro = 'All of it is browser storage, not cookies. It stays on your device, except what goes to your account: a coach\u2019s tagged matches and Tactics Board plays are saved there as you work, and anything you press Save, Share or Send on.'
 
 export const outro = [
   'Clearing your browser’s site data for thepadeldoc.com or padelpro.ie removes all of the above. Anything you had not saved to the cloud goes with it.',

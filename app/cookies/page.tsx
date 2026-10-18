@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { intro, sections, rows, outro, VERSION } from '../legal/cookie-content'
+import { intro, sections, rows, outro, tableIntro, VERSION } from '../legal/cookie-content'
 import { LegalFooter } from '../legal/blocks'
 
 export const metadata: Metadata = {
@@ -30,7 +30,7 @@ export default function Cookies() {
 
       <section className="mt-10">
         <h2 className="text-2xl font-bold tracking-tight">What the tools store on your device</h2>
-        <p className={para}>All of it is browser storage, not cookies. Nothing in this table leaves your device unless you press Save, Share or Send.</p>
+        <p className={para}>{tableIntro}</p>
         <div className="mt-4 overflow-x-auto rounded-lg border border-line">
           <table className="w-full text-sm">
             <thead className="bg-panel text-left text-xs font-mono uppercase tracking-wider text-muted">
