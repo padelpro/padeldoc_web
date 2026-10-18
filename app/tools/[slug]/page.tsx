@@ -20,7 +20,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
   const t = tools.find((x) => x.slug === slug)
   if (!t) notFound()
   const others = tools.filter((x) => x.slug !== t.slug && x.who.some((w) => t.who.includes(w))).slice(0, 3)
-  const open = t.cta ? t.cta.label : t.slug === 'coach' ? 'Get free coach access' : `Open the ${t.name}`
+  const open = t.cta ? t.cta.label : t.slug === 'coach' ? 'Set up free' : `Open the ${t.name}`
 
   return (
     <div className="min-h-screen mx-auto max-w-6xl px-6">

@@ -1,13 +1,14 @@
 import { Community, Footer } from './site-parts'
 import UsageCounter from './usage-counter'
 import UsedByStrip from './used-by-strip'
+import ReviewsStrip from './reviews-strip'
 import { tools, byWho, type Tool } from './tools-data'
 
 // The homepage: the visitor picks player, coach or club organiser, and each panel lists the tools
 // for that job. Every tool links to its own page under /tools/<slug>.
 const sides = [
   { key: 'play' as const, title: 'I’m a player', line: 'Watch your matches back, see where points are won and lost, and set up your racket.', ctas: [{ label: 'Sign up free', href: '/me/join' }, { label: 'Tag a match', href: '/tools/tagger' }], note: 'Keep your matches, see your stats and link up with your coach.' },
-  { key: 'coach' as const, title: 'I’m a coach', line: 'Give each player a private page with notes, homework, stats and clips.', ctas: [{ label: 'Get free coach access', href: '/coach/join' }] },
+  { key: 'coach' as const, title: 'I’m a coach', line: 'Give each player a private page with notes, homework, stats and clips.', ctas: [{ label: 'Set up free', href: '/coach/join' }] },
   { key: 'club' as const, title: 'I’m a club organiser', line: 'Run box leagues, Americanos and Mexicanos, and score matches people can follow live.', ctas: [{ label: 'Run a box league', href: '/tools/box-league' }, { label: 'Set up an Americano', href: '/americano' }] },
 ]
 
@@ -64,6 +65,7 @@ export default function Home() {
       </section>
 
       <UsedByStrip className="mt-16" />
+      <ReviewsStrip className="mt-16" />
 
       <section className="mt-24">
         <h2 className="text-3xl font-bold tracking-tight">All the tools</h2>

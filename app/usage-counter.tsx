@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { usageSentence } from './usage-sentence'
+import { usageSentence, accountsSentence } from './usage-sentence'
 
 // The padel-share Worker's public counters. A LITERAL, not an env var: this endpoint is
 // unauthenticated and already public — the same base URL is baked into every tool bundle under
@@ -16,6 +16,7 @@ const TIMEOUT_MS = 4000
 
 export default function UsageCounter() {
   const [sentence, setSentence] = useState<string | null>(null)
+  const [people, setPeople] = useState<string | null>(null)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -27,7 +28,7 @@ export default function UsageCounter() {
         const res = await fetch(STATS_URL, { signal: controller.signal })
         if (!res.ok) return                      // any non-200: nothing to say
         const data: unknown = await res.json()   // a malformed body throws, and is caught below
-        if (live) setSentence(usageSentence(data))
+        if (live) { setSentence(usageSentence(data)); setPeople(accountsSentence(data)) }
       } catch {
         // Fetch failed, timed out, was aborted, or the body was not JSON. Render nothing and say
         // nothing — a console error on a marketing page helps nobody. State stays null.
@@ -46,11 +47,16 @@ export default function UsageCounter() {
   // Nothing to show means no element at all, rather than an empty <p> whose margins would still
   // occupy space. That is the whole of §7's reservation rule: absent, the DOM is untouched and the
   // page is byte-identical to one without this component.
-  if (!sentence) return null
+  if (!sentence && !people) return null
 
   // A normal in-flow line. No top margin is needed: the intro's mb-14 is an adjacent sibling
   // margin and collapses to the larger of the two, so it already supplies the 3.5rem above. This
   // element's own mb-14 preserves the same 3.5rem before the tools section, so the page grows by
   // exactly one line height when the counter renders.
-  return <p className="text-sm font-mono text-muted mb-14">{sentence}</p>
+  return (
+    <div className="text-sm font-mono text-muted mb-14">
+      {people && <p>{people}</p>}
+      {sentence && <p>{sentence}</p>}
+    </div>
+  )
 }

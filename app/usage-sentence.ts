@@ -12,6 +12,18 @@
 //
 // Plurals are unconditional: the counters seed at 54 and 8 and only ever increase (§3), so "1
 // match" is unreachable and a singular branch would be dead code.
+// "12 coaches, 30 players and 5 clubs use thepadeldoc.com" (SU1, Kevin 18 Oct 2026). Only once there is at least one of
+// each: a zero or a missing key says nothing, same rule as above. Unlike the counters these can be 1, so singulars count.
+export function accountsSentence(data: unknown): string | null {
+  if (typeof data !== 'object' || data === null) return null
+  const d = data as { coaches?: unknown; players?: unknown; clubs?: unknown }
+  const one = (v: unknown, s: string, p: string): string | null =>
+    typeof v === 'number' && Number.isInteger(v) && v > 0 ? `${v.toLocaleString()} ${v === 1 ? s : p}` : null
+  const c = one(d.coaches, 'coach', 'coaches'), pl = one(d.players, 'player', 'players'), k = one(d.clubs, 'club', 'clubs')
+  if (!c || !pl || !k) return null
+  return `${c}, ${pl} and ${k} use thepadeldoc.com`
+}
+
 export function usageSentence(data: unknown): string | null {
   if (typeof data !== 'object' || data === null) return null
   const { matches, americanos } = data as { matches?: unknown; americanos?: unknown }

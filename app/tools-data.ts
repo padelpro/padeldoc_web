@@ -134,7 +134,7 @@ export const tools: Tool[] = [
     ],
     shot: '/shots/box-league.png',
     steps: [
-      { title: 'Ask to run one', body: 'Tell us about your club and we send you a club key.' },
+      { title: 'Set up your club', body: 'Name, email and your club. You\u2019re in as soon as you open the link we send.' },
       { title: 'Add your members', body: 'Upload your list from a spreadsheet, with levels and phone numbers, and send each player their private link.' },
       { title: 'Draw and publish the boxes', body: 'The draw sets the boxes by level each month. Move anyone you like, then publish and everyone gets their box.' },
       { title: 'Players play, the tables update', body: 'Players book a court and the captain enters each score. The top of each box goes up, the bottom goes down.' },
@@ -192,7 +192,7 @@ export const tools: Tool[] = [
     points: ['Goals, session notes, homework and ratings', 'Match stats and clips from the tagger', 'Your dashboard shows who is due a session'],
     shot: '/shots/player.png',
     steps: [
-      { title: "Get free coach access", body: "Ask for access and get your coach key." },
+      { title: "Set up free", body: "Name and email, and you're in as soon as you open the link we send." },
       { title: "Add your players", body: "Each player gets a private page." },
       { title: "Fill it in", body: "Goals, session notes, homework, ratings, and match stats and clips from the tagger." },
       { title: "Send the link", body: "Each player opens their own page. No account needed on their side." },
