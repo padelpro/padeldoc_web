@@ -90,6 +90,10 @@ export default function Contribute() {
             An email address if you want updates on padel-vision. It&rsquo;s optional. We don&rsquo;t keep the
             file name, since it can carry names or places.
           </p>
+          <p>
+            How we look after what you send is in our{' '}
+            <a className="text-accent-2 hover:underline" href="/privacy#what">privacy policy</a>.
+          </p>
         </div>
       </section>
 

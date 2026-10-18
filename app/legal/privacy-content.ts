@@ -1,0 +1,158 @@
+// The privacy policy, as plain data, so the page is just markup around it (session GD1, Kevin 18 Oct 2026).
+// The same text is published on padelpro.ie: keep the two copies identical, and bump VERSION on any change.
+// Written from an audit of what the code actually stores, not from a template. Version 1 is a first draft
+// for an expert to review, so every claim here should be true of the code on the day it is published.
+
+export const VERSION = 'Version 1, October 2026'
+export const CONTACT = 'hello@padelpro.ie'
+
+export type Block =
+  | { kind: 'p'; text: string }
+  | { kind: 'list'; items: string[] }
+  | { kind: 'h3'; text: string }
+
+export type Section = { id: string; title: string; blocks: Block[] }
+
+const p = (text: string): Block => ({ kind: 'p', text })
+const list = (...items: string[]): Block => ({ kind: 'list', items })
+const h3 = (text: string): Block => ({ kind: 'h3', text })
+
+export const intro: Block[] = [
+  p('This policy covers thepadeldoc.com and padelpro.ie, and the coaching tools that run on both: the Match Tracker, Americano Organiser, Scoreboard, Technique Analyser, Tactics Board, Balance Calculator, Match Tagger, coach and player pages, and the Box League. The two sites share one backend, so one policy covers both.'),
+  p('It is written in plain language on purpose. If anything here is unclear, email us and we will answer in plain language too.'),
+]
+
+export const sections: Section[] = [
+  {
+    id: 'who',
+    title: '1. Who we are',
+    blocks: [
+      p('The data controller is Kevin O’Brien, trading as PadelPro.ie and The Padel Doc, based in Ireland. For anything about your data, email ' + CONTACT + '. There is no data protection officer; the sites are small enough that one person answers every request.'),
+    ],
+  },
+  {
+    id: 'what',
+    title: '2. What we collect, and why',
+    blocks: [
+      p('Most of the tools work with nothing stored anywhere but your own browser. Data reaches us only when you save, share, sign up or send something. This section goes through it by who you are.'),
+
+      h3('If you just visit'),
+      p('We do not store your IP address. Pages on thepadeldoc.com use Plausible, an analytics service that counts visits without cookies and without identifying anyone. padelpro.ie has no analytics. When you open a live scoreboard, Americano or shared match, we count the open using a one-way hash of your IP address and browser that changes every day and is kept for 35 days; it cannot be turned back into you. To stop abuse, some actions are rate limited using a hash of the IP address, kept for two days.'),
+      p('Legal basis: our legitimate interest in running the sites securely and knowing roughly how many people use them.'),
+
+      h3('If you run a live scoreboard or Americano'),
+      p('The names you type and the scores are sent to our server so the live link works. Anyone with the link can see them. The share is deleted 30 days after the last change. Names on a share come from the person running it, who should only add people who are happy to be shown.'),
+      p('Legal basis: providing the live link you asked for.'),
+
+      h3('If you are a coach'),
+      p('We hold your name, your email if you gave one, and a hashed copy of your key (we cannot see the key itself). A request for coach access keeps your name, email, club and note. Everything you save, such as tagged matches, Tracker matches, player pages, clips and notes, is stored under your account until you delete it.'),
+      p('Legal basis: providing the account and tools you asked for.'),
+
+      h3('If a coach has made a page for you'),
+      p('A coach can make a page for a player they coach. It can hold your name, session notes, homework, ratings, fitness test results, videos, photos, Tactics Board plays with voice-over, a racket report, questions you ask and the coach’s replies. The coach also has private notes you never see. You see your page through a private link that lasts a year, or through your own account if you link it. If you turn on alerts, your browser’s push subscription is stored so we can send them.'),
+      p('The coach is responsible for telling you that the page exists and for having your agreement, or a parent’s or guardian’s agreement if you are under 16. If a coach has made a page about you that you do not want, email us and we will remove it.'),
+      p('Legal basis: our legitimate interest in providing coaching tools, and the coach’s agreement with you.'),
+
+      h3('If you have a player account (thepadeldoc.com)'),
+      p('We keep your name, your email if you give one, and a hash of your key. Your email is used only to send you a new key, and a coach you link to never sees it. We keep the matches, stats and clips you save, which of the four players is you in a match you pick yourself in, and any coach link you make. A linked coach sees your saved matches and stats, not your clips. You must be 16 or over to open an account. You can unlink or delete your account at any time from your page; deleting removes everything.'),
+      p('Legal basis: providing the account you asked for.'),
+
+      h3('If you play in a Box League (thepadeldoc.com)'),
+      p('Your club runs its league with our tool. The club adds your name, playing level, gender (used only to decide which league you can enter, never shown), mobile number, membership number and availability. If you are under 18 the club marks you as a junior and adds a parent’s or guardian’s contact instead. If you join through the club’s public page you give your name, mobile, a self-assessed level and that you are 18 or over.'),
+      p('Phone numbers and guardian contacts are encrypted in our database. Who sees what: the club’s admins see everything they entered. Players in your box see your name, results, bookings and, for adults only while a round is live, your mobile number so matches can be arranged. Juniors’ numbers are never shown. The club’s public league page shows names (juniors as first name and initial), boxes, results, standings and booking times, so people can come and watch. Levels, phones and availability are never public.'),
+      p('Each club is responsible for its own members’ data and for telling you it uses this tool. We hold the data on the club’s behalf. If the club removes you, your contact details and level are wiped straight away; your name on past results becomes “Former member” unless the club keeps it.'),
+      p('Legal basis: the club’s agreement with you as a member, and our legitimate interest in providing the tool to the club.'),
+
+      h3('If you run a club account'),
+      p('We keep the club name, your name, your email, a hash of your key, your club logo and any sponsor logo you upload. Logos are public. A request for club access keeps the club name, contact name, email and note, as a record of who asked. If you agree to it, we may show your club’s name and logo on thepadeldoc.com as a club using the tools; you can withdraw that at any time.'),
+
+      h3('If you contribute a match video (thepadeldoc.com)'),
+      p('When you send a video to help train padel-vision, we store the video, your tags (which include the players’ names you typed), the four statements you ticked, the time you ticked them, and your email if you chose to give one, which is used only for updates on padel-vision. The original file name is not kept. The video is used to build a computer model that finds rallies and shots, which may be used in free and paid products. It is never published.'),
+      p('You can withdraw at any time with the remove link shown when the upload finished, or by emailing us with your contribution ID. Withdrawing deletes the video and tags. A record that a contribution existed and was withdrawn is kept, with no video, email or names.'),
+      p('Legal basis: your consent, which you can withdraw.'),
+
+      h3('If you sign up on padelpro.ie'),
+      p('To play in the PadelPro circuit you give your name, email, password, date of birth, gender, home club and mobile number, and optionally your county. Your date of birth decides your age band and your gender decides your category; neither is published. Your name, club, ranking, results and event history are public on padelpro.ie, which you agree to when you sign up. We record when you agreed. If you tick the box for circuit updates and sponsor offers, we email you those until you untick it.'),
+      p('When you enter an event with a partner, we hold your partner’s email to find or invite them. Host clubs give a contact name, email, phone and venue address; only the club name, town and county are public. Admin actions on the platform are written to a permanent log, so there is a record of who changed what.'),
+      p('Legal basis: providing the circuit you entered, your consent for public rankings and for marketing emails, and our legitimate interest in running fair, auditable competitions.'),
+
+      h3('Things we never ask for'),
+      p('We do not collect health or medical information, and the tools have no field for it. Please do not type injury or medical details into notes. We never see your password on padelpro.ie, and we never see your key on thepadeldoc.com; both are stored as one-way hashes.'),
+    ],
+  },
+  {
+    id: 'who-sees',
+    title: '3. Who we share it with',
+    blocks: [
+      p('We do not sell data and we do not share it with advertisers. The services that handle data on our behalf are:'),
+      list(
+        'Cloudflare: runs our backend and stores the database, clips, videos and logos. Cloudflare is a US company; transfers are covered by the EU-US Data Privacy Framework and standard contractual clauses in its data processing terms.',
+        'Netlify: hosts the websites. US company, covered the same way.',
+        'Plausible: cookie-free analytics for thepadeldoc.com, hosted in the EU.',
+        'Supabase: the database and login system for padelpro.ie, including the emails it sends to confirm your address or reset your password.',
+        'Apple, Google, Mozilla and Microsoft push services: deliver alerts to your device if you turn them on. They see where to deliver, not what; the message is encrypted so only your device can read it.',
+        'YouTube: when you press Load video on a YouTube link in the Match Tagger, the player loads from youtube-nocookie.com. From that moment YouTube receives your IP address and may store information on your device. See the cookie policy.',
+      ),
+      p('Beyond those, data is shared only as described above: with the coach, club or players you are connected to, and publicly where this policy says something is public.'),
+    ],
+  },
+  {
+    id: 'keep',
+    title: '4. How long we keep it',
+    blocks: [
+      list(
+        'Live scoreboards and Americanos: deleted 30 days after the last change.',
+        'Match view links: expire after 30 days. Player page links: after a year. Expired or revoked links are removed 30 days later.',
+        'Visit counts: the daily hash is kept 35 days. Rate-limit hashes: two days.',
+        'Contributions that never finished uploading: removed after 48 hours.',
+        'Everything else (accounts, tagged and Tracker matches, player pages, clips, notes, box league records, requests for access, padelpro.ie player and club records): kept until you or the person who created it deletes it, or until you ask us to. We do not delete active coaching data on a timer, because coaches rely on a player’s history staying put.',
+        'On padelpro.ie a closed player account is anonymised rather than deleted, so past results and rankings stay consistent. Your PadelPro number remains; your name and contact details do not.',
+      ),
+      p('Player accounts can delete themselves from their own page. Coaches and clubs: email us and we will delete your account and everything under it.'),
+    ],
+  },
+  {
+    id: 'rights',
+    title: '5. Your rights',
+    blocks: [
+      p('Under the GDPR you can ask us to:'),
+      list(
+        'tell you what we hold about you and give you a copy,',
+        'correct anything wrong,',
+        'delete it,',
+        'stop using it, or limit what we use it for,',
+        'give it to you in a form you can take elsewhere,',
+        'and you can withdraw any consent you gave, and object to processing based on our legitimate interests.',
+      ),
+      p('Email ' + CONTACT + '. We answer within a month. We may ask you to prove it is you, for example by replying from the email on the account. If you are unhappy with how we handle your data you can complain to the Data Protection Commission, Ireland’s regulator, at dataprotection.ie.'),
+    ],
+  },
+  {
+    id: 'children',
+    title: '6. Children',
+    blocks: [
+      list(
+        'You must be 16 or over to open a player account.',
+        'You must be 18 or over to join a Box League yourself. Under 18s are added by the club, with a parent or guardian contact, and their phone numbers are never shown.',
+        'Everyone in a contributed video must be 18 or over.',
+        'A coach who makes a page for a player under 16 is responsible for having a parent’s or guardian’s agreement first.',
+      ),
+      p('If you think we hold data about a child without the right agreement, email us and we will remove it.'),
+    ],
+  },
+  {
+    id: 'security',
+    title: '7. How we protect it',
+    blocks: [
+      p('Keys and passwords are stored as one-way hashes. Phone numbers and guardian contacts in the Box League are encrypted in the database. We never store raw IP addresses. Private links are long random codes, and we keep no logs of our own that record them. Admin actions on padelpro.ie need a second factor. Anything we send through a push service is encrypted so only your device can read it.'),
+      p('No system is perfect. If we ever have a breach that puts you at risk, we will tell you and the Data Protection Commission as the law requires.'),
+    ],
+  },
+  {
+    id: 'changes',
+    title: '8. Changes to this policy',
+    blocks: [
+      p('When we change how the sites handle data, we change this page and the version line below. If a change matters to you, for example a new way we contact you, we will say so on the site or by email before it starts.'),
+    ],
+  },
+]
