@@ -83,3 +83,10 @@
   [headers.values]
     Content-Type = "application/manifest+json"
     Cache-Control = "public, max-age=3600"
+
+# Preset avatars (padel-coach-src avatars-spec.md 2.1): copied to public/avatars/ by release.mjs, one file per id.
+# A file never changes (a new image would get a new id), so browsers keep them for a year without asking again.
+[[headers]]
+  for = "/avatars/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
