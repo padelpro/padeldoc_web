@@ -3,7 +3,7 @@
 // Written from an audit of what the code actually stores, not from a template. Version 1 is a first draft
 // for an expert to review, so every claim here should be true of the code on the day it is published.
 
-export const VERSION = 'Version 3, 18 October 2026'
+export const VERSION = 'Version 4, 24 October 2026'
 export const CONTACT = 'hello@padelpro.ie'
 
 export type Block =
@@ -50,17 +50,23 @@ export const sections: Section[] = [
       p('Legal basis: providing the live link you asked for.'),
 
       h3('If you are a coach'),
-      p('We hold your name, your email if you gave one, and a hashed copy of your key (we cannot see the key itself). When you sign up on thepadeldoc.com you give your name, email, club or area and, if you choose, a phone number. Only we see the phone number, we use it only to contact you about your account, and it is encrypted in our database. Your email is used to sign you in by link and, if you turn them on, for email alerts. A sign-up whose confirm link is never opened is deleted after seven days. A request for coach access made before sign-up was opened keeps your name, email, club and note. Everything you save, such as tagged matches, Tracker matches, player pages, clips, notes and Tactics Board plays with their voice-overs, is stored under your account until you delete it. A match you tag is saved to your account as soon as you add the first tag, and a play on the Tactics Board as you work on it; for each play we keep its last ten versions so you can go back to one.'),
+      p('We hold your name, your email if you gave one, and a hashed copy of your key (we cannot see the key itself). When you sign up on thepadeldoc.com you give your name, email, club or area and, if you choose, a phone number. Only we see the phone number, we use it only to contact you about your account, and it is encrypted in our database. Your email is used to sign you in by link and, if you turn them on, for email alerts. A sign-up whose confirm link is never opened is deleted after seven days. A request for coach access made before sign-up was opened keeps your name, email, club and note until your account is deleted. Everything you save, such as tagged matches, Tracker matches, player pages, clips, notes and Tactics Board plays with their voice-overs, is stored under your account until you delete it. A match you tag is saved to your account as soon as you add the first tag, and a play on the Tactics Board as you work on it; for each play we keep its last ten versions so you can go back to one.'),
+      p('You can delete your coach account yourself, from Your account on your dashboard. It removes your account and everything under it: every player page you keep, with its sessions, notes, clips, links and the alert devices on them; your tagged and Tracker matches; your Tactics Board plays and voice-overs; your photo; your device keys and any email alerts waiting to be sent; and your request for coach access. Players who linked their own account to you are unlinked and told once that you have left. They keep their own account, matches, stats and clips. The notes you left on their matches are deleted; their own replies stay. If you run a Box League club, your account can’t be deleted until the club is handed over or deleted: email us and we will help.'),
       p('Legal basis: providing the account and tools you asked for.'),
 
       h3('If a coach has made a page for you'),
       p('A coach can make a page for a player they coach. It can hold your name, session notes, homework, ratings, fitness test results, videos, photos, Tactics Board plays with voice-over, a racket report, questions you ask and the coach’s replies. The coach also has private notes you never see. You see your page through a private link that lasts a year, or through your own account if you link it. If you turn on alerts, your browser’s push subscription is stored so we can send them.'),
-      p('The coach is responsible for telling you that the page exists and for having your agreement, or a parent’s or guardian’s agreement if you are under 16. If a coach has made a page about you that you do not want, email us and we will remove it.'),
+      p('The coach is responsible for telling you that the page exists and for having your agreement, or a parent’s or guardian’s agreement if you are under 16. If a coach has made a page about you that you do not want, email us and we will remove it. If your coach deletes their account, the page they kept for you is deleted with it; if you linked your own account, you are told once and keep your own account, matches, stats and clips.'),
       p('Legal basis: our legitimate interest in providing coaching tools, and the coach’s agreement with you.'),
 
       h3('If you have a player account (thepadeldoc.com)'),
-      p('We keep your name, your email if you give one, and a hash of your key. Your email is used to sign you in by link and, if you turn them on, for email alerts; a coach you link to never sees it. We keep the matches, stats and clips you save, which of the four players is you in a match you pick yourself in, and any coach link you make. A linked coach sees your saved matches and stats, not your clips. You must be 16 or over to open an account. You can unlink or delete your account at any time from your page; deleting removes everything.'),
+      p('We keep your name, your email if you give one, and a hash of your key. Your email is used to sign you in by link and, if you turn them on, for email alerts; a coach you link to never sees it. We keep the matches, stats and clips you save, which of the four players is you in a match you pick yourself in, and any coach link you make. A linked coach sees your saved matches and stats, not your clips. You must be 16 or over to open an account. You can unlink or delete your account at any time from your page; deleting removes everything. If you run a Box League club, your account can’t be deleted until the club is handed over or deleted.'),
       p('Legal basis: providing the account you asked for.'),
+
+      h3('If you add a photo of yourself (thepadeldoc.com)'),
+      p('Coaches and players can each add a photo of themselves in place of an avatar. Nobody can upload a photo for someone else: a coach can’t add one for a player. Before it leaves your device, the photo is cropped to a square and resized to 256 pixels, which also removes its metadata, including any location. It is stored with Cloudflare R2. It is deleted when you choose Remove photo, when you pick an avatar or go back to your initials instead, or when you delete your account.'),
+      p('Who sees it: a player’s photo is seen by the player, their linked coach, and anyone with a link to their player page. A coach’s photo is seen by the coach and the players linked to them. It is never public, never shown on padelpro.ie, and never used for Contribute, for training any model, for face recognition or for marketing.'),
+      p('Legal basis: your consent, which you can withdraw at any time by removing the photo.'),
 
       h3('If you play in a Box League (thepadeldoc.com)'),
       p('Your club runs its league with our tool. The club adds your name, playing level, gender (used only to decide which league you can enter, never shown), mobile number, membership number, availability and, if it has it, your email. If you are under 18 the club marks you as a junior and adds a parent’s or guardian’s contact instead. If you join through the club’s public page you give your name, mobile, a self-assessed level and that you are 18 or over.'),
@@ -96,7 +102,7 @@ export const sections: Section[] = [
     blocks: [
       p('We do not sell data and we do not share it with advertisers. The services that handle data on our behalf are:'),
       list(
-        'Cloudflare: runs our backend and stores the database, clips, videos and logos. Cloudflare is a US company; transfers are covered by the EU-US Data Privacy Framework and standard contractual clauses in its data processing terms.',
+        'Cloudflare: runs our backend and stores the database, clips, videos, photos and logos. Cloudflare is a US company; transfers are covered by the EU-US Data Privacy Framework and standard contractual clauses in its data processing terms.',
         'Netlify: hosts the websites. US company, covered the same way.',
         'Resend: sends our emails (sign-in links, confirm links and alerts). It receives the address, the subject and the text of each email. US company, covered the same way.',
         'Plausible: cookie-free analytics for thepadeldoc.com, hosted in the EU.',
@@ -116,6 +122,8 @@ export const sections: Section[] = [
         'Match view links: expire after 30 days. Player page links: after a year. Expired or revoked links are removed 30 days later.',
         'Visit counts: the daily hash is kept 35 days. Rate-limit hashes: two days.',
         'Sign-in and confirm links: deleted a day after they expire. Device keys from an email sign-in: last 90 days, then removed 30 days later. Copies of alert emails: seven days.',
+        'Alerts waiting to be sent, such as telling linked players that their coach has left: deleted once sent, a few every ten minutes.',
+        'Your photo: kept until you remove it, pick an avatar instead, or delete your account.',
         'Tactics Board plays: the last ten versions of each play are kept; older versions are deleted as new ones are saved.',
         'Contributions that never finished uploading: removed after 48 hours.',
         'Coach and club sign-ups never confirmed: deleted after seven days.',
@@ -123,7 +131,7 @@ export const sections: Section[] = [
         'Everything else (accounts, tagged and Tracker matches, Tactics Board plays, player pages, clips, notes, box league records, requests for access, padelpro.ie player and club records): kept until you or the person who created it deletes it, or until you ask us to. We do not delete active coaching data on a timer, because coaches rely on a player’s history staying put.',
         'On padelpro.ie a closed player account is anonymised rather than deleted, so past results and rankings stay consistent. Your PadelPro number remains; your name and contact details do not.',
       ),
-      p('Player accounts can delete themselves from their own page. Coaches and clubs: email us and we will delete your account and everything under it.'),
+      p('Player accounts can delete themselves from their own page, and coaches from Your account on their dashboard. An account that runs a Box League club can’t be deleted until the club is handed over or deleted. Clubs: email us and we will delete your account and everything under it.'),
     ],
   },
   {
@@ -170,6 +178,7 @@ export const sections: Section[] = [
       p('When we change how the sites handle data, we change this page and the version line below. If a change matters to you, for example a new way we contact you, we will say so on the site or by email before it starts.'),
       p('Version 2 (18 October 2026) added signing in by email, email alerts, Resend, emails on Box League members, and Tactics Board plays saved to your account.'),
       p('Version 3 (18 October 2026) added open sign-up for coaches and clubs with an optional phone number, reviews, and the homepage count of coaches, players and clubs.'),
+      p('Version 4 (24 October 2026) added your own photo for coaches and players, coaches deleting their own account, what happens to linked players when they do, the Box League rule for deleting an account that runs a club, and queued alerts.'),
     ],
   },
 ]
