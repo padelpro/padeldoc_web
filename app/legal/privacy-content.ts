@@ -3,7 +3,7 @@
 // Written from an audit of what the code actually stores, not from a template. Version 1 is a first draft
 // for an expert to review, so every claim here should be true of the code on the day it is published.
 
-export const VERSION = 'Version 6, 25 October 2026'
+export const VERSION = 'Version 7, 25 October 2026'
 export const CONTACT = 'hello@padelpro.ie'
 
 export type Block =
@@ -55,7 +55,7 @@ export const sections: Section[] = [
       p('Legal basis: providing the account and tools you asked for.'),
 
       h3('If a coach has made a page for you'),
-      p('A coach can make a page for a player they coach. It can hold your name, session notes, homework, ratings, fitness test results, videos, photos, Tactics Board plays with voice-over, a racket report, questions you ask, clips you send the coach from your own account, and the coach’s replies. If your coach books your next session, your answer to it (coming or not) is stored on that page and deleted with it. The coach also has private notes you never see. You see your page through a private link that lasts a year, or through your own account if you link it. If you turn on alerts, your browser’s push subscription is stored so we can send them.'),
+      p('A coach can make a page for a player they coach. It can hold your name, session notes, homework, ratings, fitness test results, videos, photos, Tactics Board plays with voice-over, a racket report, questions you ask, clips you send the coach from your own account, and the coach’s replies. If your coach books your next session, your answer to it (coming or not) is stored on that page and deleted with it. The coach also has private notes you never see. You see your page through a private link that lasts a year, or through your own account if you link it. If you turn on alerts, your browser’s push subscription is stored so we can send them. We also note which new sessions, videos, bookings and replies on your page you have opened, so they stop showing as new.'),
       p('The coach is responsible for telling you that the page exists and for having your agreement, or a parent’s or guardian’s agreement if you are under 16. If a coach has made a page about you that you do not want, email us and we will remove it. If your coach deletes their account, the page they kept for you is deleted with it; if you linked your own account, you are told once and keep your own account, matches, stats and clips.'),
       p('Legal basis: our legitimate interest in providing coaching tools, and the coach’s agreement with you.'),
 
@@ -66,6 +66,12 @@ export const sections: Section[] = [
       h3('If you send a clip or a frame to your coach (thepadeldoc.com)'),
       p('If your player account is linked to a coach, you can send them a video, or a saved frame (a still picture from your video, with your drawings), from the Technique Analyser, with a note if you like. We store the video or frame, its title and your note (up to 500 characters) on the page your coach keeps for you, marked as sent by you, and it counts towards your coach’s clip storage. Your coach gets an alert that you sent it. Your coach sees it, with your note, on that page; anyone else only sees it if your coach adds it to your Videos, where it shows like any video or photo on your page, with your note as its note, which your coach can then edit.'),
       p('You or your coach can delete it at any time: you from My page, under Sent to coach, and your coach from your page. Your note is stored with it and deleted with it: deleting it removes the video or frame and its note for both of you. If you unlink, what you sent stays on your coach’s page, and you can still see and delete it from My page. If you delete your account, everything you sent is deleted with it, notes included. If your coach deletes the page they keep for you, or their account, what you sent goes with it.'),
+      p('Legal basis: providing the service you asked for.'),
+
+      h3('Messages between you and your coach (thepadeldoc.com)'),
+      p('A coach and each player they coach can send each other messages on the page the coach keeps for that player. We store what is sent: the text (up to 2,000 characters), links (and, for a YouTube or TikTok link, the title, author and thumbnail address we look up from YouTube or TikTok when it is sent), voice notes, and videos or pictures attached to a message, with who sent each one and when. Attached files and voice notes count towards your coach’s storage. We also note when each message has been read by the other side, so the unread counts work.'),
+      p('Your coach sees the thread on their page for you. You see it on My page if your player account is linked to them, and on your private page link. Anyone who has your private page link can read the messages and send messages as you, so keep the link to yourself; your coach can switch it off and make a new one at any time.'),
+      p('Each side can delete its own messages at any time, and a voice note or file sent with a message is deleted with it. Everything in the thread is deleted when your coach deletes the page they keep for you, or their account. If you delete your player account, the messages you sent from it are deleted; anything sent through your private page link stays with your coach’s page until it or your coach’s account is deleted. Unlinking keeps the thread on your coach’s page.'),
       p('Legal basis: providing the service you asked for.'),
 
       h3('If you add a photo of yourself (thepadeldoc.com)'),
@@ -130,6 +136,7 @@ export const sections: Section[] = [
         'Alerts waiting to be sent, such as telling linked players that their coach has left: deleted once sent, a few every ten minutes.',
         'Your photo: kept until you remove it, pick an avatar instead, or delete your account.',
         'Clips and frames you send your coach, with your note: kept until you or your coach deletes one, or until your account, your coach’s page for you or your coach’s account is deleted. An unlink does not delete them.',
+        'Messages between you and your coach, with their voice notes and attached files: kept until the side that sent one deletes it, or until your coach’s page for you or either account is deleted, as above.',
         'Tactics Board plays: the last ten versions of each play are kept; older versions are deleted as new ones are saved.',
         'Contributions that never finished uploading: removed after 48 hours.',
         'Coach and club sign-ups never confirmed: deleted after seven days.',
@@ -187,6 +194,7 @@ export const sections: Section[] = [
       p('Version 4 (24 October 2026) added your own photo for coaches and players, coaches deleting their own account, what happens to linked players when they do, the Box League rule for deleting an account that runs a club, and queued alerts.'),
       p('Version 5 (24 October 2026) added sending a clip, or a saved frame, with an optional note, to your linked coach from the Technique Analyser: where it and the note are stored, who can delete them, and what happens to them when you unlink or delete your account.'),
       p('Version 6 (25 October 2026) added your answer to your next session (coming or not).'),
+      p('Version 7 (25 October 2026) added messages between you and your coach: what is stored, who sees it, what anyone with your private page link can do, who can delete messages, and when they are deleted; and that we note which new things on your page you have opened.'),
     ],
   },
 ]

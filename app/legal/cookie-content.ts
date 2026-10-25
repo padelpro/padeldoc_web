@@ -7,7 +7,7 @@ export { VERSION, CONTACT }
 
 export const intro = [
   'Cookies are small files a website stores on your device. Browser storage (local storage, session storage and IndexedDB) does the same job and the same rules apply, so this page covers all of it.',
-  'Short version: our own pages set no cookies, and there is no banner because everything we store on your device is there to make a tool you opened work. The one outside service that can store things on your device is YouTube, in the Match Tagger, and only after you press Load video.',
+  'Short version: our own pages set no cookies, and there is no banner because everything we store on your device is there to make a tool you opened work. The outside services that can store things on your device are YouTube, in the Match Tagger and in Messages, and Instagram and TikTok in Messages, and only after you press to load their player.',
 ]
 
 export const sections: { title: string; text: string[] }[] = [
@@ -29,6 +29,20 @@ export const sections: { title: string; text: string[] }[] = [
     text: [
       'When you paste a YouTube link and press Load video, the Tagger loads YouTube’s player from youtube-nocookie.com, YouTube’s privacy-enhanced embed. From that point YouTube receives your IP address and may store information on your device; its privacy-enhanced mode holds back its cookies until you play the video. We load the player only because you asked for that video. If you would rather YouTube saw nothing, open a video file from your computer instead; files never leave your device.',
       'What YouTube stores is governed by Google’s privacy policy at policies.google.com/privacy.',
+    ],
+  },
+  {
+    title: 'YouTube in Messages',
+    text: [
+      'When a message thread with a YouTube link opens, the link card shows the video’s thumbnail, which loads from YouTube’s image server (i.ytimg.com). That sends YouTube your IP address, but sets no cookies.',
+      'The video player loads only when you tap the card, from youtube-nocookie.com, YouTube’s privacy-enhanced embed, and it never plays by itself. From that point YouTube receives your IP address and may store information on your device, as in the Match Tagger above, governed by Google’s privacy policy at policies.google.com/privacy.',
+    ],
+  },
+  {
+    title: 'Instagram and TikTok in Messages',
+    text: [
+      'An Instagram or TikTok link in a message shows as a card, and nothing loads from Instagram or TikTok until you tap it. A TikTok card may show a thumbnail from TikTok’s image server, which sends TikTok your IP address but sets no cookies.',
+      'When you tap the card, the post loads in Instagram’s or TikTok’s own embedded player, and from that point Instagram (Meta) or TikTok receives your IP address and may store information on your device. What they store is governed by their own privacy and cookie policies: Meta’s at privacycenter.instagram.com and TikTok’s at tiktok.com/legal.',
     ],
   },
   {
