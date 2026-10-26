@@ -2,6 +2,7 @@ import { Community, Footer, SiteHeader } from './site-parts'
 import UsageCounter from './usage-counter'
 import UsedByStrip from './used-by-strip'
 import ReviewsStrip from './reviews-strip'
+import { SignedInLine } from './signed-in-header'
 
 // The homepage (Kevin 26 Oct 2026): one question, a pill per role, then a section per role with its main tool, what it
 // does in a few ticks and one button, with the free line under it. Each role has its colour: player copper, coach
@@ -50,6 +51,7 @@ export default function Home() {
             a <span className="text-accent-3">club</span>?
           </h1>
           <p className="mt-5 text-xl text-muted">{FREE}</p>
+          <SignedInLine className="mt-6" />
           <nav aria-label="Pick your role" className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-3">
             {roles.map((r) => (
               <a key={r.id} href={`#${r.id}`}

@@ -1,3 +1,5 @@
+import { HeaderAccount } from './signed-in-header'
+
 // The top bar on every page: the band colour, full width, 54px like the tools' top bar.
 export function SiteHeader() {
   return (
@@ -7,8 +9,8 @@ export function SiteHeader() {
           <img src="/icon-192.png" alt="" className="h-8 w-auto" />
           <span className="font-bold tracking-tight">The Padel Doc</span>
         </a>
-        <a href="/signin" className="ml-auto text-sm text-text/75 hover:text-text">Sign in</a>
-        <a href="/signin#new" className="text-sm font-medium text-accent hover:underline">Set up account</a>
+        {/* Sign in and Set up account, or the signed-in visitor's one button (signed-in-header.tsx). */}
+        <HeaderAccount />
       </div>
     </header>
   )
