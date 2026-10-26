@@ -19,7 +19,7 @@ export default function Privacy() {
 
       <Blocks blocks={intro} />
 
-      <nav aria-label="Sections" className="my-8 rounded-lg border border-line bg-panel p-5 text-sm">
+      <nav aria-label="Sections" className="my-8 rounded-lg border border-edge bg-panel p-5 text-sm">
         <ul className="space-y-1.5">
           {sections.map((s) => <li key={s.id}><a className="text-accent-2 hover:underline" href={`#${s.id}`}>{s.title}</a></li>)}
         </ul>

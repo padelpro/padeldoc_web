@@ -31,9 +31,9 @@ export default function Cookies() {
       <section className="mt-10">
         <h2 className="text-2xl font-bold tracking-tight">What the tools store on your device</h2>
         <p className={para}>{tableIntro}</p>
-        <div className="mt-4 overflow-x-auto rounded-lg border border-line">
+        <div className="mt-4 overflow-x-auto rounded-lg border border-edge bg-panel">
           <table className="w-full text-sm">
-            <thead className="bg-panel text-left text-xs font-mono uppercase tracking-wider text-muted">
+            <thead className="bg-band text-left text-xs font-mono uppercase tracking-wider text-muted">
               <tr>
                 <th className="px-3 py-2.5 font-medium">Tool</th>
                 <th className="px-3 py-2.5 font-medium">Name</th>
@@ -43,7 +43,7 @@ export default function Cookies() {
             </thead>
             <tbody>
               {rows.map((r, i) => (
-                <tr key={i} className="border-t border-line align-top">
+                <tr key={i} className="border-t border-edge align-top">
                   <td className="px-3 py-2.5 whitespace-nowrap text-text">{r.tool}</td>
                   <td className="px-3 py-2.5 font-mono text-xs text-text/90 break-words">{r.name}</td>
                   <td className="px-3 py-2.5 text-text/85">{r.holds}</td>

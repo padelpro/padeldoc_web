@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Spline_Sans, IBM_Plex_Mono } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
@@ -46,6 +46,12 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     images: [{ url: '/og.png', alt: 'The Padel Doc — free padel tools' }],
   },
+}
+
+// The browser's bar colour: the tools' light band (padeldoc.js chromeLight).
+export const viewport: Viewport = {
+  themeColor: '#e9e4dc',
+  colorScheme: 'light',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

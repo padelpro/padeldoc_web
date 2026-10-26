@@ -1,20 +1,26 @@
 @import "tailwindcss";
 
 /* ============================================================
-   PADEL DOC DESIGN TOKENS (mirror src/brands/padeldoc.js).
+   PADEL DOC DESIGN TOKENS: the tools' light set (padel-coach-src
+   src/brands/padeldoc.js paletteLight), so the site matches the
+   tools' default. Every text colour reads 4.5:1 or better on the
+   page, the panels and the band.
    Map to Tailwind v4 utilities automatically: bg-bg, text-text,
-   text-accent, text-accent-2, border-line, etc.
+   text-accent, text-accent-2, border-edge, bg-band, text-on-accent, etc.
    Style D fonts: Spline Sans (body) + IBM Plex Mono (numbers).
    ============================================================ */
 @theme {
-  --color-bg:       #141517; /* anthracite base */
-  --color-panel:    #1c1e21; /* card / panel */
-  --color-panel-2:  #17191c; /* inset panel */
-  --color-line:     rgba(255, 255, 255, 0.08);
-  --color-accent:   #c1834e; /* warm copper — PRIMARY, used sparingly */
-  --color-accent-2: #2f9bff; /* electric technical blue — SECONDARY */
-  --color-text:     #ece7e1; /* off-white */
-  --color-muted:    #8a9ba3; /* petrol blue-grey */
+  --color-bg:        #f6f4f0; /* warm off-white page */
+  --color-panel:     #ffffff; /* card / panel */
+  --color-panel-2:   #efebe5; /* inset panel */
+  --color-band:      #e9e4dc; /* header band, darker than the page */
+  --color-edge:      rgba(20, 21, 23, 0.13); /* card borders and rules */
+  --color-accent:    #8c5021; /* copper, darkened for text and links on white: PRIMARY, used sparingly */
+  --color-accent-2:  #0865c2; /* technical blue: SECONDARY */
+  --color-text:      #1b1c1f;
+  --color-muted:     #56656d;
+  --color-on-accent: #ffffff; /* text on a filled accent (primary buttons) */
+  --color-shade:     #3d3a35; /* shadows */
 
   --font-sans: var(--font-spline-sans), system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-mono: var(--font-ibm-plex-mono), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -25,6 +31,7 @@
 html, body {
   background: var(--color-bg);
   color: var(--color-text);
+  color-scheme: light;
 }
 
 body {

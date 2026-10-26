@@ -41,9 +41,9 @@ export default function ReviewsStrip({ className = '' }: { className?: string })
       <p className="text-sm font-medium text-muted">What people say</p>
       <ul className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {reviews.map((r, i) => (
-          <li key={i} className="rounded-xl bg-panel border border-line p-5">
+          <li key={i} className="rounded-xl bg-panel border border-edge p-5">
             <div className="text-accent tracking-widest" aria-label={`${r.stars} out of 5`}>
-              {'★'.repeat(r.stars)}<span className="text-line">{'★'.repeat(5 - r.stars)}</span>
+              {'★'.repeat(r.stars)}<span className="text-muted">{'★'.repeat(5 - r.stars)}</span>
             </div>
             <p className="mt-3 text-text/90 leading-relaxed">{r.body}</p>
             <p className="mt-3 text-sm text-muted">{r.name}, {r.role}</p>

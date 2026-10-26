@@ -55,9 +55,9 @@ export default function Contribute() {
 
       <section>
         <h2 className={label}>How it works</h2>
-        <ol className="border-t border-line">
+        <ol className="border-t border-edge">
           {steps.map((s, i) => (
-            <li key={s.title} className="border-b border-line py-4 flex gap-4">
+            <li key={s.title} className="border-b border-edge py-4 flex gap-4">
               <span className="font-mono text-accent text-sm font-medium w-5 shrink-0">{i + 1}</span>
               <div className="flex flex-col gap-1">
                 <span className="font-medium">{s.title}</span>
@@ -69,7 +69,7 @@ export default function Contribute() {
         <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
           <a
             href="/tagger"
-            className="hidden sm:inline-block font-mono font-medium bg-accent text-bg rounded px-4 py-2 hover:opacity-90"
+            className="hidden sm:inline-block font-mono font-medium bg-accent text-on-accent rounded px-4 py-2 hover:opacity-90"
           >
             Open the tagger
           </a>
@@ -81,7 +81,7 @@ export default function Contribute() {
 
       <section className="mt-14">
         <h2 className={label}>What you send</h2>
-        <div className="border-t border-line pt-4 text-text/90 leading-relaxed max-w-prose space-y-3">
+        <div className="border-t border-edge pt-4 text-text/90 leading-relaxed max-w-prose space-y-3">
           <p>
             The video file, and a copy of your tags as they are when you press Upload. Changing the match
             afterwards doesn&rsquo;t change the copy.
@@ -99,9 +99,9 @@ export default function Contribute() {
 
       <section className="mt-14">
         <h2 className={label}>What you agree to</h2>
-        <ul className="border-t border-line">
+        <ul className="border-t border-edge">
           {ticks.map((t) => (
-            <li key={t} className="border-b border-line py-3 text-sm text-text/90 flex gap-3">
+            <li key={t} className="border-b border-edge py-3 text-sm text-text/90 flex gap-3">
               <span className="text-accent font-mono" aria-hidden="true">&#10003;</span>
               <span>{t}</span>
             </li>
@@ -112,7 +112,7 @@ export default function Contribute() {
 
       <section className="mt-14">
         <h2 className={label}>Changing your mind</h2>
-        <div className="border-t border-line pt-4 text-text/90 leading-relaxed max-w-prose space-y-3">
+        <div className="border-t border-edge pt-4 text-text/90 leading-relaxed max-w-prose space-y-3">
           <p>
             Open your remove link and press Remove it. The video and tags are deleted. That can&rsquo;t be
             undone.
