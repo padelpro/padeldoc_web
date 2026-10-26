@@ -4,15 +4,19 @@ import UsedByStrip from './used-by-strip'
 import ReviewsStrip from './reviews-strip'
 
 // The homepage (Kevin 26 Oct 2026): one question, a pill per role, then a section per role with its main tool, what it
-// does in a few ticks and one button. Each role has its colour: player copper, coach blue, club green. Class names are
-// written out in full so Tailwind finds them. Every tool is listed on /tools (the footer's All tools).
+// does in a few ticks and one button, with the free line under it. Each role has its colour: player copper, coach
+// blue, club green. Class names are written out in full so Tailwind finds them. Every tool is listed on /tools (the
+// footer's All tools).
+// Said once under the question, so it shows before any scrolling, and again under each role's button.
+const FREE = 'Free. Every feature included.'
+
 const roles = [
   {
     id: 'player', pill: 'Player', heading: 'For players',
     line: 'Keep your matches, see your stats and link up with your coach.',
     shot: '/shots/tagger.png', shotAlt: 'The Match Tagger',
     ticks: ['Watch your matches back', 'See where points are won and lost', 'Messages, clips and homework from your coach', 'Your stats over time', 'Set up your racket'],
-    cta: { label: 'Set up a player account', href: '/me/join' }, more: { label: 'Tag a match', href: '/tools/tagger' },
+    cta: { label: 'Set up a player account', href: '/me/join' },
     text: 'text-accent', fill: 'bg-accent', pillCls: 'border-accent text-accent hover:bg-accent',
   },
   {
@@ -20,7 +24,7 @@ const roles = [
     line: 'Give each player a private page with notes, homework, stats and clips.',
     shot: '/shots/player.png', shotAlt: 'The coach page',
     ticks: ['A private page per player', 'Video analysis and tagging', 'Messages, voice notes and clips', 'Lesson booking and RSVP', 'Daily lesson email'],
-    cta: { label: 'Set up a coach account', href: '/coach/join' }, more: null,
+    cta: { label: 'Set up a coach account', href: '/coach/join' },
     text: 'text-accent-2', fill: 'bg-accent-2', pillCls: 'border-accent-2 text-accent-2 hover:bg-accent-2',
   },
   {
@@ -28,7 +32,7 @@ const roles = [
     line: 'Run box leagues, Americanos and Mexicanos, and score matches people can follow live.',
     shot: '/shots/box-league.png', shotAlt: 'Box League',
     ticks: ['Box leagues drawn and scored for you', 'Americanos and Mexicanos', 'Live scoreboard links', 'Member import from a spreadsheet', 'Live results and tables online'],
-    cta: { label: 'Set up a club account', href: '/club/join' }, more: { label: 'Set up an Americano', href: '/americano' },
+    cta: { label: 'Set up a club account', href: '/club/join' },
     text: 'text-accent-3', fill: 'bg-accent-3', pillCls: 'border-accent-3 text-accent-3 hover:bg-accent-3',
   },
 ]
@@ -45,6 +49,7 @@ export default function Home() {
             Are you a <span className="text-accent">player</span>, a <span className="text-accent-2">coach</span> or
             a <span className="text-accent-3">club</span>?
           </h1>
+          <p className="mt-5 text-xl text-muted">{FREE}</p>
           <nav aria-label="Pick your role" className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-3">
             {roles.map((r) => (
               <a key={r.id} href={`#${r.id}`}
@@ -69,9 +74,9 @@ export default function Home() {
                 </li>
               ))}
             </ul>
-            <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <div className="mt-10">
               <a href={r.cta.href} className={`inline-block rounded-lg px-7 py-4 text-lg font-semibold text-on-accent hover:brightness-110 ${r.fill}`}>{r.cta.label}</a>
-              {r.more && <a href={r.more.href} className="text-text/85 underline underline-offset-4 hover:text-text">{r.more.label}</a>}
+              <p className="mt-3 text-muted">{FREE}</p>
             </div>
           </section>
         ))}
