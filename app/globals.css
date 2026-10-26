@@ -17,6 +17,7 @@
   --color-edge:      rgba(20, 21, 23, 0.13); /* card borders and rules */
   --color-accent:    #8c5021; /* copper, darkened for text and links on white: PRIMARY, used sparingly */
   --color-accent-2:  #0865c2; /* technical blue: SECONDARY */
+  --color-accent-3:  #11683f; /* green, the tools' light "win": the home page's club colour */
   --color-text:      #1b1c1f;
   --color-muted:     #56656d;
   --color-on-accent: #ffffff; /* text on a filled accent (primary buttons) */
@@ -32,6 +33,11 @@ html, body {
   background: var(--color-bg);
   color: var(--color-text);
   color-scheme: light;
+}
+
+/* The home page's role pills scroll to their sections; no animation for anyone who asked for less motion. */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
 }
 
 body {

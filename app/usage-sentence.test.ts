@@ -5,7 +5,7 @@
 // why tsconfig sets allowImportingTsExtensions.
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { usageSentence } from './usage-sentence.ts'
+import { usageSentence, usageLine } from './usage-sentence.ts'
 
 test('both keys render the full sentence', () => {
   assert.equal(usageSentence({ matches: 54, americanos: 8 }), '54 matches and 8 americanos tracked')
@@ -46,4 +46,16 @@ test('zero renders nothing — it can only mean a missing or reset row', () => {
   assert.equal(usageSentence({ matches: 0 }), null)
   // And a zero on one key falls back to the other, per §7 rule 2.
   assert.equal(usageSentence({ matches: 54, americanos: 0 }), '54 matches tracked')
+})
+
+test('usageLine: people then tracking, one line, each half a sentence', () => {
+  assert.equal(usageLine({ coaches: 2, players: 8, clubs: 2, matches: 72, americanos: 10 }),
+    '2 coaches, 8 players and 2 clubs use thepadeldoc.com. 72 matches and 10 americanos tracked.')
+})
+
+test('usageLine: either half alone, or nothing', () => {
+  assert.equal(usageLine({ matches: 72, americanos: 10 }), '72 matches and 10 americanos tracked.')
+  assert.equal(usageLine({ coaches: 2, players: 8, clubs: 2 }), '2 coaches, 8 players and 2 clubs use thepadeldoc.com.')
+  assert.equal(usageLine({ coaches: 0, players: 8, clubs: 2, matches: 0 }), null)
+  assert.equal(usageLine(null), null)
 })

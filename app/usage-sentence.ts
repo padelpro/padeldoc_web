@@ -47,3 +47,11 @@ export function usageSentence(data: unknown): string | null {
   if (a) return `${a} tracked`
   return null
 }
+
+// The home page's one usage line (Kevin 26 Oct 2026): who uses the site, then what's been tracked, each a sentence:
+// "2 coaches, 8 players and 2 clubs use thepadeldoc.com. 72 matches and 10 americanos tracked." Either half alone when
+// only it has something to say; null when neither does.
+export function usageLine(data: unknown): string | null {
+  const parts = [accountsSentence(data), usageSentence(data)].filter((s): s is string => !!s)
+  return parts.length ? parts.map((s) => `${s}.`).join(' ') : null
+}

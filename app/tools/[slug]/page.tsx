@@ -28,7 +28,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
       <div className="min-h-screen mx-auto max-w-6xl px-6">
 
         <section className="pt-10 pb-12 max-w-3xl">
-          <a href="/" className="text-sm text-muted hover:text-text">All the tools</a>
+          <a href="/tools" className="text-sm text-muted hover:text-text">All the tools</a>
           <h1 className="mt-3 text-5xl sm:text-6xl font-bold tracking-tight leading-[1.02]">{t.name}</h1>
           <p className="mt-5 text-xl text-text/85 leading-relaxed max-w-prose">{t.line}</p>
           <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">

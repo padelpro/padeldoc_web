@@ -2,80 +2,82 @@ import { Community, Footer, SiteHeader } from './site-parts'
 import UsageCounter from './usage-counter'
 import UsedByStrip from './used-by-strip'
 import ReviewsStrip from './reviews-strip'
-import { tools, byWho, type Tool } from './tools-data'
 
-// The homepage: the visitor picks player, coach or club organiser, and each panel lists the tools
-// for that job. Every tool links to its own page under /tools/<slug>.
-const sides = [
-  { key: 'play' as const, title: 'I’m a player', line: 'Watch your matches back, see where points are won and lost, and set up your racket.', ctas: [{ label: 'Sign up free', href: '/me/join' }, { label: 'Tag a match', href: '/tools/tagger' }], note: 'Keep your matches, see your stats and link up with your coach.' },
-  { key: 'coach' as const, title: 'I’m a coach', line: 'Give each player a private page with notes, homework, stats and clips.', ctas: [{ label: 'Set up free', href: '/coach/join' }] },
-  { key: 'club' as const, title: 'I’m a club organiser', line: 'Run box leagues, Americanos and Mexicanos, and score matches people can follow live.', ctas: [{ label: 'Run a box league', href: '/tools/box-league' }, { label: 'Set up an Americano', href: '/americano' }] },
+// The homepage (Kevin 26 Oct 2026): one question, a pill per role, then a section per role with its main tool, what it
+// does in a few ticks and one button. Each role has its colour: player copper, coach blue, club green. Class names are
+// written out in full so Tailwind finds them. Every tool is listed on /tools (the footer's All tools).
+const roles = [
+  {
+    id: 'player', pill: 'Player', heading: 'For players',
+    line: 'Keep your matches, see your stats and link up with your coach.',
+    shot: '/shots/tagger.png', shotAlt: 'The Match Tagger',
+    ticks: ['Watch your matches back', 'See where points are won and lost', 'Messages, clips and homework from your coach', 'Your stats over time', 'Set up your racket'],
+    cta: { label: 'Set up a player account', href: '/me/join' }, more: { label: 'Tag a match', href: '/tools/tagger' },
+    text: 'text-accent', fill: 'bg-accent', pillCls: 'border-accent text-accent hover:bg-accent',
+  },
+  {
+    id: 'coach', pill: 'Coach', heading: 'For coaches',
+    line: 'Give each player a private page with notes, homework, stats and clips.',
+    shot: '/shots/player.png', shotAlt: 'The coach page',
+    ticks: ['A private page per player', 'Video analysis and tagging', 'Messages, voice notes and clips', 'Lesson booking and RSVP', 'Daily lesson email'],
+    cta: { label: 'Set up a coach account', href: '/coach/join' }, more: null,
+    text: 'text-accent-2', fill: 'bg-accent-2', pillCls: 'border-accent-2 text-accent-2 hover:bg-accent-2',
+  },
+  {
+    id: 'club', pill: 'Club', heading: 'For clubs',
+    line: 'Run box leagues, Americanos and Mexicanos, and score matches people can follow live.',
+    shot: '/shots/box-league.png', shotAlt: 'Box League',
+    ticks: ['Box leagues drawn and scored for you', 'Americanos and Mexicanos', 'Live scoreboard links', 'Member import from a spreadsheet', 'Live results and tables online'],
+    cta: { label: 'Set up a club account', href: '/club/join' }, more: { label: 'Set up an Americano', href: '/americano' },
+    text: 'text-accent-3', fill: 'bg-accent-3', pillCls: 'border-accent-3 text-accent-3 hover:bg-accent-3',
+  },
 ]
-
-function Mini({ t }: { t: Tool }) {
-  return (
-    <a href={`/tools/${t.slug}`} className="group flex items-center gap-4 py-3 border-t border-edge">
-      <img src={t.shot} alt="" className="h-12 w-20 shrink-0 rounded object-cover object-top border border-edge" />
-      <span>
-        <span className="block font-medium group-hover:text-accent">{t.name}</span>
-        <span className="block text-sm text-muted leading-snug">{t.line}</span>
-      </span>
-    </a>
-  )
-}
 
 export default function Home() {
   return (
     <>
       <SiteHeader />
       <div className="min-h-screen mx-auto max-w-6xl px-6">
+        <UsageCounter className="pt-4" />
 
-        <section className="pt-12 pb-14 max-w-3xl">
-          <h1 className="text-5xl sm:text-6xl font-bold tracking-tight leading-[1.02]">Free padel tools to help the game grow.</h1>
-          <p className="mt-6 text-lg text-text/80 leading-relaxed max-w-prose">
-            Start with what you do. Everything here is free to use.
-          </p>
-          <div className="mt-6"><UsageCounter /></div>
-        </section>
-
-        <section className="grid gap-6 lg:grid-cols-3">
-          {sides.map((s) => (
-            <div key={s.key} className="rounded-xl bg-panel border border-edge p-6 flex flex-col">
-              <h2 className="text-3xl font-bold tracking-tight">{s.title}</h2>
-              <p className="mt-3 text-text/80 leading-relaxed">{s.line}</p>
-              <div className="mt-6 flex-1">
-                {byWho(s.key).map((t) => (
-                  <Mini key={t.slug} t={t} />
-                ))}
-              </div>
-              <div className="mt-6 flex flex-wrap gap-3">
-                {s.ctas.map((c, i) => (
-                  <a key={c.href} href={c.href} className={i === 0
-                    ? 'font-medium bg-accent text-on-accent rounded px-4 py-2 hover:brightness-110'
-                    : 'font-medium border border-accent/60 text-accent rounded px-4 py-2 hover:bg-accent/10'}>{c.label}</a>
-                ))}
-              </div>
-              {s.note && <p className="mt-4 text-sm text-accent-2">{s.note}</p>}
-            </div>
-          ))}
-        </section>
-
-        <UsedByStrip className="mt-16" />
-        <ReviewsStrip className="mt-16" />
-
-        <section className="mt-24">
-          <h2 className="text-3xl font-bold tracking-tight">All the tools</h2>
-          <div className="mt-8 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-            {tools.map((t) => (
-              <a key={t.slug} href={`/tools/${t.slug}`} className="group block">
-                <img src={t.shot} alt="" className="aspect-[4/3] w-full rounded-lg object-cover object-top border border-edge" />
-                <h3 className="mt-4 font-bold group-hover:text-accent">{t.name}</h3>
-                <p className="mt-1 text-sm text-muted leading-snug">{t.line}</p>
-              </a>
+        <section className="pt-12 pb-4">
+          <h1 className="text-5xl sm:text-6xl font-bold tracking-tight leading-[1.02] max-w-4xl">
+            Are you a <span className="text-accent">player</span>, a <span className="text-accent-2">coach</span> or
+            a <span className="text-accent-3">club</span>?
+          </h1>
+          <nav aria-label="Pick your role" className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {roles.map((r) => (
+              <a key={r.id} href={`#${r.id}`}
+                className={`rounded-full border-2 bg-panel px-6 py-3 text-center text-lg font-semibold hover:text-on-accent ${r.pillCls}`}>{r.pill}</a>
             ))}
-          </div>
+          </nav>
         </section>
 
+        {roles.map((r) => (
+          <section key={r.id} id={r.id} aria-labelledby={`${r.id}-heading`} className="mt-20 pt-16 border-t border-edge scroll-mt-6">
+            <h2 id={`${r.id}-heading`} className={`text-4xl sm:text-5xl font-bold tracking-tight ${r.text}`}>{r.heading}</h2>
+            <p className="mt-4 text-xl text-text/85 leading-relaxed max-w-prose">{r.line}</p>
+            <div className="mt-10 rounded-xl border border-edge bg-panel-2 overflow-hidden shadow-[0_40px_80px_-40px_color-mix(in_srgb,var(--color-shade)_45%,transparent)]">
+              {/* The shots are all 1440 x 900: the size reserves the space, so a pill's jump lands before they load. */}
+              <img src={r.shot} alt={r.shotAlt} width={1440} height={900} className="w-full h-auto" />
+            </div>
+            <ul className="mt-10 grid gap-x-10 gap-y-3 sm:grid-cols-2">
+              {r.ticks.map((t) => (
+                <li key={t} className="flex gap-3 text-lg">
+                  <span className={`font-mono font-bold ${r.text}`} aria-hidden="true">&#10003;</span>
+                  <span>{t}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
+              <a href={r.cta.href} className={`inline-block rounded-lg px-7 py-4 text-lg font-semibold text-on-accent hover:brightness-110 ${r.fill}`}>{r.cta.label}</a>
+              {r.more && <a href={r.more.href} className="text-text/85 underline underline-offset-4 hover:text-text">{r.more.label}</a>}
+            </div>
+          </section>
+        ))}
+
+        <UsedByStrip className="mt-24" />
+        <ReviewsStrip className="mt-16" />
         <Community />
         <Footer />
       </div>
