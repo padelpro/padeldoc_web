@@ -1,3 +1,19 @@
+// The top bar on every page: the band colour, full width, 54px like the tools' top bar.
+export function SiteHeader() {
+  return (
+    <header className="bg-band border-b border-edge">
+      <div className="mx-auto max-w-6xl px-6 h-[54px] flex items-center gap-3">
+        <a href="/" className="flex items-center gap-3">
+          <img src="/icon-192.png" alt="" className="h-8 w-auto" />
+          <span className="font-bold tracking-tight">The Padel Doc</span>
+        </a>
+        <a href="/signin" className="ml-auto text-sm text-text/75 hover:text-text">Sign in</a>
+        <a href="/signin#new" className="text-sm font-medium text-accent hover:underline">Set up account</a>
+      </div>
+    </header>
+  )
+}
+
 export function Community() {
   return (
     <section className="mt-24 rounded-xl border border-accent/40 bg-[linear-gradient(135deg,color-mix(in_srgb,var(--color-accent)_10%,transparent),color-mix(in_srgb,var(--color-accent)_2%,transparent))] p-8 sm:p-10">

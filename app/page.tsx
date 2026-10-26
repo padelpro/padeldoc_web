@@ -1,4 +1,4 @@
-import { Community, Footer } from './site-parts'
+import { Community, Footer, SiteHeader } from './site-parts'
 import UsageCounter from './usage-counter'
 import UsedByStrip from './used-by-strip'
 import ReviewsStrip from './reviews-strip'
@@ -27,14 +27,7 @@ function Mini({ t }: { t: Tool }) {
 export default function Home() {
   return (
     <>
-      <header className="bg-band border-b border-edge">
-        <div className="mx-auto max-w-6xl px-6 flex items-center gap-3 py-6">
-          <img src="/icon-192.png" alt="" className="h-8 w-auto" />
-          <span className="font-bold tracking-tight">The Padel Doc</span>
-          <a href="/signin" className="ml-auto text-sm text-text/75 hover:text-text">Sign in</a>
-          <a href="/signin#new" className="text-sm font-medium text-accent hover:underline">Set up account</a>
-        </div>
-      </header>
+      <SiteHeader />
       <div className="min-h-screen mx-auto max-w-6xl px-6">
 
         <section className="pt-12 pb-14 max-w-3xl">

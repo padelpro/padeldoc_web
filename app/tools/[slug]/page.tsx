@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { tools } from '../../tools-data'
-import { Footer } from '../../site-parts'
+import { Footer, SiteHeader } from '../../site-parts'
 import UsedByStrip from '../../used-by-strip'
 
 export function generateStaticParams() {
@@ -24,16 +24,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
 
   return (
     <>
-      <header className="bg-band border-b border-edge">
-        <div className="mx-auto max-w-6xl px-6 flex items-center gap-3 py-6">
-          <a href="/" className="flex items-center gap-3">
-            <img src="/icon-192.png" alt="" className="h-8 w-auto" />
-            <span className="font-bold tracking-tight">The Padel Doc</span>
-          </a>
-          <a href="/signin" className="ml-auto text-sm text-text/75 hover:text-text">Sign in</a>
-          <a href="/signin#new" className="text-sm font-medium text-accent hover:underline">Set up account</a>
-        </div>
-      </header>
+      <SiteHeader />
       <div className="min-h-screen mx-auto max-w-6xl px-6">
 
         <section className="pt-10 pb-12 max-w-3xl">
