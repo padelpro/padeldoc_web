@@ -56,6 +56,16 @@
   to = "/player/index.html"
   status = 200
 
+# Community (padel-coach-src Community part 1): the feed, a zone and a post, in the player bundle for every account.
+[[redirects]]
+  from = "/community"
+  to = "/player/index.html"
+  status = 200
+[[redirects]]
+  from = "/community/*"
+  to = "/player/index.html"
+  status = 200
+
 # Box League (padel-coach-src box-league-spec.md): one page serves the club dashboard (/club), the club request
 # form (/club/join), a player's private link (/league/me#token) and a league's public page (/league/CODE).
 [[redirects]]

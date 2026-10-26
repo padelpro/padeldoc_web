@@ -28,6 +28,7 @@ const nextConfig: NextConfig = {
       { source: '/me', destination: '/player/index.html' },
       { source: '/me/join', destination: '/player/index.html' },
       { source: '/me/link', destination: '/player/index.html' },
+      { source: '/community', destination: '/player/index.html' },
     ]
   },
 }
