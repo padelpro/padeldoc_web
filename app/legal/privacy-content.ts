@@ -3,7 +3,7 @@
 // Written from an audit of what the code actually stores, not from a template. Version 1 is a first draft
 // for an expert to review, so every claim here should be true of the code on the day it is published.
 
-export const VERSION = 'Version 7, 25 October 2026'
+export const VERSION = 'Version 8, 26 October 2026'
 export const CONTACT = 'hello@padelpro.ie'
 
 export type Block =
@@ -78,6 +78,12 @@ export const sections: Section[] = [
       p('Coaches and players can each add a photo of themselves in place of an avatar. Nobody can upload a photo for someone else: a coach can’t add one for a player. Before it leaves your device, the photo is cropped to a square and resized to 256 pixels, which also removes its metadata, including any location. It is stored with Cloudflare R2. It is deleted when you choose Remove photo, when you pick an avatar or go back to your initials instead, or when you delete your account.'),
       p('Who sees it: a player’s photo is seen by the player, their linked coach, and anyone with a link to their player page. A coach’s photo is seen by the coach and the players linked to them. It is never public, never shown on padelpro.ie, and never used for Contribute, for training any model, for face recognition or for marketing.'),
       p('Legal basis: your consent, which you can withdraw at any time by removing the photo.'),
+
+      h3('If you add links to your profiles elsewhere (thepadeldoc.com)'),
+      p('In your settings you can add, if you want to, your handle on Instagram, TikTok, YouTube, X, Facebook, Strava or Playtomic. We keep the handle only, not the rest of the address, and show each as a link to that profile.'),
+      p('Who sees them: a player’s links are seen by the player and their linked coach; a coach’s links by the coach and the players linked to them. They are never on a public page or a private page link. We do not visit those profiles or take anything from them.'),
+      p('To remove one, empty its field. Deleting your account removes them all.'),
+      p('Legal basis: your consent, which you can withdraw at any time by emptying the fields.'),
 
       h3('If you play in a Box League (thepadeldoc.com)'),
       p('Your club runs its league with our tool. The club adds your name, playing level, gender (used only to decide which league you can enter, never shown), mobile number, membership number, availability and, if it has it, your email. If you are under 18 the club marks you as a junior and adds a parent’s or guardian’s contact instead. If you join through the club’s public page you give your name, mobile, a self-assessed level and that you are 18 or over.'),
@@ -195,6 +201,7 @@ export const sections: Section[] = [
       p('Version 5 (24 October 2026) added sending a clip, or a saved frame, with an optional note, to your linked coach from the Technique Analyser: where it and the note are stored, who can delete them, and what happens to them when you unlink or delete your account.'),
       p('Version 6 (25 October 2026) added your answer to your next session (coming or not).'),
       p('Version 7 (25 October 2026) added messages between you and your coach: what is stored, who sees it, what anyone with your private page link can do, who can delete messages, and when they are deleted; and that we note which new things on your page you have opened.'),
+      p('Version 8 (26 October 2026) added optional links to your profiles elsewhere: what is kept, who sees them, and how to remove them.'),
     ],
   },
 ]
