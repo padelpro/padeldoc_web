@@ -61,8 +61,8 @@ export function HeaderAccount() {
   }
   return (
     <>
-      <a href="/signin" className="ml-auto text-sm text-text/75 hover:text-text">Sign in</a>
-      <a href="/signin#new" className="text-sm font-medium text-accent hover:underline">Set up account</a>
+      <a href="/signin" className="ml-auto inline-flex items-center min-h-11 sm:min-h-0 text-sm text-text/75 hover:text-text">Sign in</a>
+      <a href="/signin#new" className="inline-flex items-center min-h-11 sm:min-h-0 text-sm font-medium text-accent hover:underline">Set up account</a>
     </>
   )
 }

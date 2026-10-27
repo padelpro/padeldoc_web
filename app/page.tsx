@@ -15,7 +15,7 @@ const roles = [
   {
     id: 'player', pill: 'Player', heading: 'For players',
     line: 'Keep your matches, see your stats and link up with your coach.',
-    shot: '/shots/tagger.png', shotAlt: 'The Match Tagger',
+    shot: '/shots/tagger.png', phoneShot: '/shots/phone-player.png', shotAlt: "The Match Tagger, and a player's My page on a phone",
     ticks: ['Watch your matches back', 'See where points are won and lost', 'Messages, clips and homework from your coach', 'Your stats over time', 'Set up your racket'],
     cta: { label: 'Set up a player account', href: '/me/join' },
     text: 'text-accent', fill: 'bg-accent', pillCls: 'border-accent text-accent hover:bg-accent',
@@ -23,7 +23,7 @@ const roles = [
   {
     id: 'coach', pill: 'Coach', heading: 'For coaches',
     line: 'Give each player a private page with notes, homework, stats and clips.',
-    shot: '/shots/player.png', shotAlt: 'The coach page',
+    shot: '/shots/player.png', phoneShot: '/shots/phone-coach.png', shotAlt: 'The coach page',
     ticks: ['A private page per player', 'Video analysis and tagging', 'Messages, voice notes and clips', 'Lesson booking and RSVP', 'Daily lesson email'],
     cta: { label: 'Set up a coach account', href: '/coach/join' },
     text: 'text-accent-2', fill: 'bg-accent-2', pillCls: 'border-accent-2 text-accent-2 hover:bg-accent-2',
@@ -31,7 +31,7 @@ const roles = [
   {
     id: 'club', pill: 'Club', heading: 'For clubs',
     line: 'Run box leagues, Americanos and Mexicanos, and score matches people can follow live.',
-    shot: '/shots/box-league.png', shotAlt: 'Box League',
+    shot: '/shots/box-league.png', phoneShot: '/shots/phone-club.png', shotAlt: 'Box League',
     ticks: ['Box leagues drawn and scored for you', 'Americanos and Mexicanos', 'Live scoreboard links', 'Member import from a spreadsheet', 'Live results and tables online'],
     cta: { label: 'Set up a club account', href: '/club/join' },
     text: 'text-accent-3', fill: 'bg-accent-3', pillCls: 'border-accent-3 text-accent-3 hover:bg-accent-3',
@@ -52,7 +52,7 @@ export default function Home() {
           </h1>
           <p className="mt-5 text-xl text-muted">{FREE}</p>
           <SignedInLine className="mt-6" />
-          <nav aria-label="Pick your role" className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <nav aria-label="Pick your role" className="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-3 gap-3">
             {roles.map((r) => (
               <a key={r.id} href={`#${r.id}`}
                 className={`rounded-full border-2 bg-panel px-6 py-3 text-center text-lg font-semibold hover:text-on-accent ${r.pillCls}`}>{r.pill}</a>
@@ -61,14 +61,19 @@ export default function Home() {
         </section>
 
         {roles.map((r) => (
-          <section key={r.id} id={r.id} aria-labelledby={`${r.id}-heading`} className="mt-20 pt-16 border-t border-edge scroll-mt-6">
+          <section key={r.id} id={r.id} aria-labelledby={`${r.id}-heading`} className="mt-12 pt-10 sm:mt-20 sm:pt-16 border-t border-edge scroll-mt-6">
             <h2 id={`${r.id}-heading`} className={`text-4xl sm:text-5xl font-bold tracking-tight ${r.text}`}>{r.heading}</h2>
             <p className="mt-4 text-xl text-text/85 leading-relaxed max-w-prose">{r.line}</p>
-            <div className="mt-10 rounded-xl border border-edge bg-panel-2 overflow-hidden shadow-[0_40px_80px_-40px_color-mix(in_srgb,var(--color-shade)_45%,transparent)]">
-              {/* The shots are all 1440 x 900: the size reserves the space, so a pill's jump lands before they load. */}
-              <img src={r.shot} alt={r.shotAlt} width={1440} height={900} className="w-full h-auto" />
+            <div className="mt-6 sm:mt-10 rounded-xl border border-edge bg-panel-2 overflow-hidden shadow-[0_40px_80px_-40px_color-mix(in_srgb,var(--color-shade)_45%,transparent)]">
+              {/* The desktop shots are all 1440 x 900: the size reserves the space, so a pill's jump lands before they load.
+                  Under 640px a light phone shot (780 x 1400, a 390px-wide phone at 2x) takes its place, capped at 70vh. */}
+              <picture>
+                <source media="(max-width: 639px)" srcSet={r.phoneShot} width={780} height={1400} />
+                <img src={r.shot} alt={r.shotAlt} width={1440} height={900}
+                  className="w-full h-auto max-sm:max-h-[70vh] max-sm:object-cover max-sm:object-top" />
+              </picture>
             </div>
-            <ul className="mt-10 grid gap-x-10 gap-y-3 sm:grid-cols-2">
+            <ul className="mt-6 sm:mt-10 grid gap-x-10 gap-y-3 sm:grid-cols-2">
               {r.ticks.map((t) => (
                 <li key={t} className="flex gap-3 text-lg">
                   <span className={`font-mono font-bold ${r.text}`} aria-hidden="true">&#10003;</span>
@@ -76,15 +81,15 @@ export default function Home() {
                 </li>
               ))}
             </ul>
-            <div className="mt-10">
+            <div className="mt-6 sm:mt-10">
               <a href={r.cta.href} className={`inline-block rounded-lg px-7 py-4 text-lg font-semibold text-on-accent hover:brightness-110 ${r.fill}`}>{r.cta.label}</a>
               <p className="mt-3 text-muted">{FREE}</p>
             </div>
           </section>
         ))}
 
-        <UsedByStrip className="mt-24" />
-        <ReviewsStrip className="mt-16" />
+        <UsedByStrip className="mt-12 sm:mt-24" />
+        <ReviewsStrip className="mt-10 sm:mt-16" />
         <Community />
         <Footer />
       </div>
