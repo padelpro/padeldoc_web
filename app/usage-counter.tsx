@@ -14,8 +14,10 @@ const STATS_URL = 'https://padel-share.padel-coach.workers.dev/v1/stats'
 // so the abort and a network error deliberately land in the same catch.
 const TIMEOUT_MS = 4000
 
-export default function UsageCounter({ className = '' }: { className?: string }) {
-  const [line, setLine] = useState<string | null>(null)
+// The fetch, shared with the home page's numbers strip (usage-numbers.tsx): the parsed body, or null while waiting and
+// on any failure, so both render nothing when the Worker doesn't answer.
+export function useStats(): unknown {
+  const [data, setData] = useState<unknown>(null)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -26,8 +28,8 @@ export default function UsageCounter({ className = '' }: { className?: string })
       try {
         const res = await fetch(STATS_URL, { signal: controller.signal })
         if (!res.ok) return                      // any non-200: nothing to say
-        const data: unknown = await res.json()   // a malformed body throws, and is caught below
-        if (live) setLine(usageLine(data))
+        const body: unknown = await res.json()   // a malformed body throws, and is caught below
+        if (live) setData(body)
       } catch {
         // Fetch failed, timed out, was aborted, or the body was not JSON. Render nothing and say
         // nothing — a console error on a marketing page helps nobody. State stays null.
@@ -42,6 +44,13 @@ export default function UsageCounter({ className = '' }: { className?: string })
       clearTimeout(timer)
     }
   }, [])
+
+  return data
+}
+
+export default function UsageCounter({ className = '' }: { className?: string }) {
+  const data = useStats()
+  const line = data === null ? null : usageLine(data)
 
   // Nothing to show means no element at all, rather than an empty <p> whose margins would still
   // occupy space. That is the whole of §7's reservation rule: absent, the DOM is untouched and the
