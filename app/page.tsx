@@ -15,7 +15,7 @@ const roles = [
   {
     id: 'player', pill: 'Player', heading: 'For players',
     line: 'Keep your matches, see your stats and link up with your coach.',
-    shot: '/shots/tagger.png', phoneShot: '/shots/phone-player.png', shotAlt: 'The Match Tagger',
+    shot: '/shots/tagger.png', phoneShot: '/shots/phone-player.png', shotAlt: "The Match Tagger, and a player's My page on a phone",
     ticks: ['Watch your matches back', 'See where points are won and lost', 'Messages, clips and homework from your coach', 'Your stats over time', 'Set up your racket'],
     cta: { label: 'Set up a player account', href: '/me/join' },
     text: 'text-accent', fill: 'bg-accent', pillCls: 'border-accent text-accent hover:bg-accent',
