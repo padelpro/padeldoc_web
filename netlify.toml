@@ -56,6 +56,9 @@
   to = "/player/index.html"
   status = 200
 
+# Public profile pages (Kevin 28 Oct 2026), thepadeldoc.com/<name>: served by netlify/edge-functions/profile.ts, which
+# also moves /@name to /name. app/profile-path.ts has the rule.
+
 # Community (padel-coach-src Community part 1): the feed, a zone and a post, in the player bundle for every account.
 [[redirects]]
   from = "/community"
