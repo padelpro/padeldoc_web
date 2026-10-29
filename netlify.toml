@@ -56,6 +56,12 @@
   to = "/player/index.html"
   status = 200
 
+# The admin's usage dashboard (Kevin 29 Oct 2026), in the player bundle.
+[[redirects]]
+  from = "/admin"
+  to = "/player/index.html"
+  status = 200
+
 # Public profile pages (Kevin 28 Oct 2026), thepadeldoc.com/<name>: served by netlify/edge-functions/profile.ts, which
 # also moves /@name to /name. app/profile-path.ts has the rule.
 
