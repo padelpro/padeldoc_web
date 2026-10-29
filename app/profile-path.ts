@@ -11,7 +11,8 @@ export const SITE_PATHS = new Set([
   't', 'tactics', 'tagger', 'tools', 'tracker', 'unsubscribe', 'v',
 ])
 
-const NAME = /^[a-z0-9]+(-[a-z0-9]+)*$/
+// Letters and numbers, with single hyphens or underscores between them (Kevin 29 Oct 2026: _ and - are different names).
+const NAME = /^[a-z0-9]+([-_][a-z0-9]+)*$/
 
 // What the edge does with a path: { kind: 'profile' } to serve the profile page, { kind: 'move', to } for the old /@name
 // form, or null to leave it to the site.

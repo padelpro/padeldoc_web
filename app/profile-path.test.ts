@@ -29,3 +29,10 @@ test("every top-level page, folder and route the site has is in SITE_PATHS", () 
   for (const m of next.matchAll(/source: '\/([^/':]+)/g)) firsts.add(m[1])
   for (const f of firsts) if (profilePath(`/${f}`)) assert.ok(SITE_PATHS.has(f), `${f} is a site path, add it to SITE_PATHS (and the Worker's RESERVED)`)
 })
+
+test("underscores are their own names, not hyphens (Kevin 29 Oct 2026)", () => {
+  assert.deepEqual(profilePath('/anna_zuka'), { kind: 'profile' })
+  assert.deepEqual(profilePath('/anna-zuka'), { kind: 'profile' })
+  assert.deepEqual(profilePath('/@anna_zuka'), { kind: 'move', to: '/anna_zuka' })
+  for (const p of ['/_anna', '/anna_', '/anna__zuka', '/anna_-zuka']) assert.equal(profilePath(p), null, p)
+})
