@@ -53,9 +53,8 @@
       "heading": "Ask a coach and your public profile",
       "body": "Answer players' questions in the Community, from your own area and club first. Answers they mark as helping show on your public profile, with a button for players to ask to join you.",
       "shot": {
-        "src": "/shots/community.png",
-        "alt": "The Community, with players' questions for coaches",
-        "todo": "New shot: a coach's public profile (npm run shots -- --only coach-profile), once the profile page takes ?api= for the local Worker (padel-coach-src src/profile). community.png until then."
+        "src": "/shots/coach-profile.png",
+        "alt": "A coach's public profile: players helped in Ask a coach, and a button to ask them to coach you"
       }
     }
   ],

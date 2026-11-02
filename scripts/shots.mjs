@@ -104,6 +104,15 @@ const server = createServer(async (req, res) => {
 
 // --- each shot ------------------------------------------------------------------------------------------------------
 const P = D.players;
+// Kevin's profile name, as the local Worker has it: not always kevin-obrien, since an older local account can hold that
+// name first and the demo account then gets another (GET /v1/me profileName).
+async function profileName(key) {
+  try {
+    const r = await fetch(`${API}/v1/me`, { headers: { "X-Coach-Key": key, Origin: SITE } });
+    const me = r.ok ? await r.json() : null;
+    return (me && me.profileName && me.profileName.name) || null;
+  } catch { return null; }
+}
 const desk = (w, h) => ({ viewport: { width: w, height: h }, scale: 1, dark: DARK_DESK });
 const phone = { viewport: { width: 390, height: 760 }, scale: 2, dark: true, mobile: true };
 const coach = { key: D.kevin.key };
@@ -239,9 +248,9 @@ const SHOTS = [
     await page.getByRole("button", { name: /^Messages/ }).first().click();
   } },
   { name: "coach-booking", ...phone, ...coach, path: `/coach?open=${P.aoife.page}`, tab: "Next" },
-  // Kevin's public profile, with the answer a player marked as helping. Not usable yet: the profile page reads the live
-  // Worker whatever ?api= says (padel-coach-src src/profile/profileName.js profilePageApi), so this shows the live profile.
-  { name: "coach-profile", ...desk(1440, 900), ...coach, path: "/kevin-obrien" },
+  // Kevin's public profile, with the players his answers helped (its path is filled in below, once the Worker
+  // has said what his profile name is).
+  { name: "coach-profile", ...desk(1440, 900), path: null },   // as a visitor sees it, signed out
   // The club's own group in the Community (Naas LTC members), as a member sees it.
   { name: "community-group", ...desk(1440, 900), key: P.aoife.key, path: `/community/g/${D.community.clubGroup}` },
 ];
@@ -335,9 +344,15 @@ await new Promise((r) => {
   server.listen(PORT, "127.0.0.1", r);
 });
 const browser = await chromium.launch();
+{
+  const s = SHOTS.find((x) => x.name === "coach-profile");
+  const name = await profileName(D.kevin.key);
+  if (name) s.path = `/${name}`;
+}
 const known = new Set(readdirSync(join(PUBLIC, "shots")).map((f) => f.replace(/\.png$/, "")));
 try {
   for (const s of SHOTS.filter((x) => !ONLY.length || ONLY.includes(x.name))) {
+    if (!s.path) { console.log(`${s.name}.png  kept as it is (no profile name from the Worker)`); continue; }
     if (s.video && !CLIP) { console.log(`${s.name}.png  kept as it is (needs a match video: SHOTS_VIDEO=<file>, or --test-video)`); continue; }
     const file = await shoot(browser, s);
     const bytes = squeeze(file);
