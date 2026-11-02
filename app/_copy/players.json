@@ -21,9 +21,8 @@
       "heading": "Your coach",
       "body": "Link your account to your coach and their sessions, homework, ratings and clips land on your page. Message them, send a voice note, or send a clip of your own and ask what they think.",
       "shot": {
-        "src": "/shots/player.png",
-        "alt": "A player's page from their coach, with sessions, homework and clips",
-        "todo": "New shot: a player's own My page (npm run shots -- --only my-page). player.png until then."
+        "src": "/shots/my-page.png",
+        "alt": "A player's own My page: shots sent to the coach, plays and tagged matches"
       }
     },
     {

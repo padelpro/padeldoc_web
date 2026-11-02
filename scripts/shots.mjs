@@ -22,7 +22,7 @@
 // dark theme (phones are always dark). --test-video: the Tagger and Analyser with the small test clip (to check their
 // set-up). --serve: just serve the site, to look around. Two extra shots for later, not used on any page yet:
 // community.png and marketplace.png. Six more for the role pages: my-page, club-members, coach-messages, coach-booking,
-// coach-profile and community-group.
+// coach-profile and community-group (coach-booking is spare).
 import { createServer } from "node:http";
 import { readFile, stat, writeFile, mkdir } from "node:fs/promises";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
@@ -239,10 +239,11 @@ const SHOTS = [
     await page.getByRole("button", { name: /^Messages/ }).first().click();
   } },
   { name: "coach-booking", ...phone, ...coach, path: `/coach?open=${P.aoife.page}`, tab: "Next" },
-  // Kevin's public profile, with the answer a player marked as helping.
+  // Kevin's public profile, with the answer a player marked as helping. Not usable yet: the profile page reads the live
+  // Worker whatever ?api= says (padel-coach-src src/profile/profileName.js profilePageApi), so this shows the live profile.
   { name: "coach-profile", ...desk(1440, 900), ...coach, path: "/kevin-obrien" },
-  // A group in the Community (the demo's is a players' group, Tuesday crew; a club's own group needs adding to the seed).
-  { name: "community-group", ...desk(1440, 900), ...coach, path: "/community/g/tuesday-crew" },
+  // The club's own group in the Community (Naas LTC members), as a member sees it.
+  { name: "community-group", ...desk(1440, 900), key: P.aoife.key, path: `/community/g/${D.community.clubGroup}` },
 ];
 
 const HIDE = `

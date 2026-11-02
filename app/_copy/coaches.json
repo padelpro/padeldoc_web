@@ -27,7 +27,7 @@
     },
     {
       "heading": "Technique Analyser",
-      "body": "In the Technique Analyser, step through a stroke frame by frame, draw on it and send the frame to your player.",
+      "body": "Step through a stroke frame by frame, draw on it and send the frame to your player.",
       "shot": {
         "src": "/shots/analyse.png",
         "alt": "The Technique Analyser stepping through a stroke"
@@ -45,8 +45,8 @@
       "heading": "Messages, homework and booking",
       "body": "Message each player with text, voice notes, links and clips, and set homework they tick off as they go. Book their next lesson, see who is coming, and get a morning email with the day's lessons.",
       "shot": {
-        "src": "/shots/phone-dark-coach.png",
-        "alt": "A player's ratings on the coach page, on a phone"
+        "src": "/shots/coach-messages.png",
+        "alt": "Messages with a player on the coach page, on a phone"
       }
     },
     {
@@ -54,7 +54,8 @@
       "body": "Answer players' questions in the Community, from your own area and club first. Answers they mark as helping show on your public profile, with a button for players to ask to join you.",
       "shot": {
         "src": "/shots/community.png",
-        "alt": "The Community, with players' questions for coaches"
+        "alt": "The Community, with players' questions for coaches",
+        "todo": "New shot: a coach's public profile (npm run shots -- --only coach-profile), once the profile page takes ?api= for the local Worker (padel-coach-src src/profile). community.png until then."
       }
     }
   ],

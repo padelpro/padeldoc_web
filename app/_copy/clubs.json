@@ -37,18 +37,16 @@
       "heading": "Members and import",
       "body": "Bring your members in from a spreadsheet, whatever system it came from: the columns are matched and you see every change before it is saved. Each member gets a private link to their box, and new players can join from your club's public page.",
       "shot": {
-        "src": "/shots/box-league.png",
-        "alt": "A box league's live round, box by box",
-        "position": "bottom",
-        "todo": "New shot: the import screen or the members list (npm run shots -- --only club-members). The bottom of box-league.png until then."
+        "src": "/shots/club-members.png",
+        "alt": "A club's Members tab: upload from a spreadsheet, private links and the members list"
       }
     },
     {
       "heading": "A club group in the Community",
       "body": "Start a group for your members to post results, find a game and hear your news. Send the invite link and they join in one tap.",
       "shot": {
-        "src": "/shots/community.png",
-        "alt": "The Community, with a members' group under Your groups"
+        "src": "/shots/community-group.png",
+        "alt": "The club's own group in the Community, with a result, a game wanted and club news"
       }
     }
   ],
