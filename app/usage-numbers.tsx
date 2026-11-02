@@ -1,13 +1,15 @@
 'use client'
 
 import { useStats } from './usage-counter'
-import { usageFigures } from './usage-figures'
+import { showUsage, usageFigures } from './usage-figures'
 import { accountsSentence } from './usage-sentence'
 
 // The usage numbers as big mono figures under the hero (preview-mobile-layout, Kevin 27 Oct 2026). Same fetch and the
-// same rule as the one-line counter: nothing to show, or no answer from the Worker, means no element at all.
+// same rule as the one-line counter: nothing to show, or no answer from the Worker, means no element at all. Hidden
+// altogether below 50 players (Kevin 2 Nov 2026).
 export default function UsageNumbers({ className = '' }: { className?: string }) {
   const data = useStats()
+  if (!showUsage(data)) return null   // hidden until there are 50 players (usage-figures.ts MIN_PLAYERS)
   const figures = data === null ? [] : usageFigures(data)
   const who = data === null ? null : accountsSentence(data)
   if (!figures.length && !who) return null

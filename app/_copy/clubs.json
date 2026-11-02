@@ -1,0 +1,81 @@
+{
+  "title": "For clubs",
+  "description": "Box leagues drawn and scored for you, Americanos and Mexicanos, live scoreboards, member import from a spreadsheet and a members' group in the community.",
+  "heading": "For clubs",
+  "line": "Run box leagues, Americanos and Mexicanos, and give your members a home online.",
+  "cta": "Set up a club account",
+  "heroShot": {
+    "src": "/shots/phone-dark-club.png",
+    "alt": "A member's box in a box league, on a phone"
+  },
+  "features": [
+    {
+      "heading": "Box League",
+      "body": "Add your members and the draw sets the boxes by level each round, with promotion and relegation. Players book their matches, each box's captain enters the scores, and the tables update as results come in.",
+      "shot": {
+        "src": "/shots/box-league.png",
+        "alt": "A box league's live round, box by box"
+      }
+    },
+    {
+      "heading": "Americano and Mexicano",
+      "body": "Type in the names, set the courts and your court time, and get a fair draw before you start. Enter the scores each round and everyone follows the standings on their phone.",
+      "shot": {
+        "src": "/shots/americano.png",
+        "alt": "The Americano Organizer with a schedule for twelve players on three courts"
+      }
+    },
+    {
+      "heading": "Live scoreboards",
+      "body": "Score a match point by point on a phone and share the link. Anyone with it follows the score live, and you can show it on your club's website.",
+      "shot": {
+        "src": "/shots/scoreboard.png",
+        "alt": "The Scoreboard during a match"
+      }
+    },
+    {
+      "heading": "Members and import",
+      "body": "Bring your members in from a spreadsheet, whatever system it came from: the columns are matched and you see every change before it is saved. Each member gets a private link to their box, and new players can join from your club's public page.",
+      "shot": {
+        "src": "/shots/box-league.png",
+        "alt": "A box league's live round, box by box",
+        "position": "bottom",
+        "todo": "New shot: the import screen or the members list (npm run shots -- --only club-members). The bottom of box-league.png until then."
+      }
+    },
+    {
+      "heading": "A club group in the Community",
+      "body": "Start a group for your members to post results, find a game and hear your news. Send the invite link and they join in one tap.",
+      "shot": {
+        "src": "/shots/community.png",
+        "alt": "The Community, with a members' group under Your groups"
+      }
+    }
+  ],
+  "faqTitle": "Common questions",
+  "faq": [
+    {
+      "q": "Is it free?",
+      "a": "Yes. A club account is free, box leagues, Americanos and scoreboards included. You collect any league fees yourself."
+    },
+    {
+      "q": "Do members need an account?",
+      "a": "No. Each member gets a private link to their own box, with no password or app. Members who want their stats or a coach can set up a free player account."
+    },
+    {
+      "q": "Does it work on a phone?",
+      "a": "Yes. Members see their box, book matches and check the table on a phone, and you can run the league from a phone or a computer. There is nothing to install."
+    },
+    {
+      "q": "Who sees our members' details?",
+      "a": "Your club's admins see what they entered. Players in a box see each other's names and results, and adults' mobile numbers while a round is live so matches can be arranged; juniors' numbers are never shown. The public league page shows names, boxes, results and tables, never levels, phone numbers or emails."
+    },
+    {
+      "q": "How do I get my members on?",
+      "a": "Import them from a spreadsheet, add them one at a time, or share your club's public join page."
+    }
+  ],
+  "closing": {
+    "heading": "Get your members playing"
+  }
+}

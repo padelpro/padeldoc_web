@@ -1,0 +1,88 @@
+{
+  "title": "For players",
+  "description": "Watch your matches back, follow your stats, work with your coach, ask coaches about your game and buy and sell padel gear. Free, on any phone or computer.",
+  "heading": "For players",
+  "line": "Your matches, your coach and your padel community in one place.",
+  "cta": "Set up a player account",
+  "heroShot": {
+    "src": "/shots/phone-dark-player.png",
+    "alt": "A player's home page on a phone: shots, plays and tagged matches"
+  },
+  "features": [
+    {
+      "heading": "Your matches and stats",
+      "body": "Tag a match from the video, or track it from the side of the court, and see where points were won and lost. Every match you save adds to your stats, so you can see what is changing over time.",
+      "shot": {
+        "src": "/shots/tagger.png",
+        "alt": "The Match Tagger with a tagged match and its report"
+      }
+    },
+    {
+      "heading": "Your coach",
+      "body": "Link your account to your coach and their sessions, homework, ratings and clips land on your page. Message them, send a voice note, or send a clip of your own and ask what they think.",
+      "shot": {
+        "src": "/shots/player.png",
+        "alt": "A player's page from their coach, with sessions, homework and clips",
+        "todo": "New shot: a player's own My page (npm run shots -- --only my-page). player.png until then."
+      }
+    },
+    {
+      "heading": "Ask a coach, and the Community",
+      "body": "Post a question about your game, add a clip if you have one, and coaches answer. You can ask anonymously, and in the Community you can share a result, find a game and join groups with the people you play with.",
+      "shot": {
+        "src": "/shots/community.png",
+        "alt": "The Community: questions, results and a tagged match"
+      }
+    },
+    {
+      "heading": "My rackets and Balance",
+      "body": "Add the rackets you play with and keep their real weight and balance. The Balance Calculator shows what a strip of tape will do before you stick it on.",
+      "shot": {
+        "src": "/shots/balance.png",
+        "alt": "The Balance Calculator with tape on a racket"
+      }
+    },
+    {
+      "heading": "Marketplace",
+      "body": "Buy and sell rackets, bags and shoes with other players and coaches. Rackets come with the seller's real weighing, every sale gets a review, and you can star a listing to hear when the price drops.",
+      "shot": {
+        "src": "/shots/marketplace.png",
+        "alt": "The Marketplace with rackets and gear for sale"
+      }
+    },
+    {
+      "heading": "Box League on your phone",
+      "body": "If your club runs its box league here, your box, your matches and the table are on your phone. Book each match with the other three, and watch the results come in as they are played.",
+      "shot": {
+        "src": "/shots/phone-dark-club.png",
+        "alt": "A player's box in a box league, on a phone"
+      }
+    }
+  ],
+  "faqTitle": "Common questions",
+  "faq": [
+    {
+      "q": "Is it free?",
+      "a": "Yes. A player account is free, and so are the tools."
+    },
+    {
+      "q": "Do I need an account?",
+      "a": "Not for the tools: the Match Tracker, Scoreboard, Tactics Board and Balance Calculator all work without one. An account keeps your matches and stats in one place, links you to your coach and lets you post in the Community."
+    },
+    {
+      "q": "Does it work on a phone?",
+      "a": "Yes. It runs in the browser on a phone, tablet or computer, so there is nothing to install. The Match Tagger is the exception: it needs a laptop or computer."
+    },
+    {
+      "q": "Who sees my videos?",
+      "a": "A video you tag from a file never leaves your device. A coach you link to sees your saved matches and stats, and only the clips you choose to send them. Nothing goes in the Community unless you post it."
+    },
+    {
+      "q": "How do I link up with my coach?",
+      "a": "Ask your coach for their invite link and set up your account from it, or open the link to the page your coach keeps for you and link your account from there."
+    }
+  ],
+  "closing": {
+    "heading": "Your next match starts here"
+  }
+}

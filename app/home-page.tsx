@@ -2,12 +2,12 @@ import { Community, Footer, SiteHeader } from './site-parts'
 import UsageNumbers from './usage-numbers'
 import UsedByStrip from './used-by-strip'
 import ReviewsStrip from './reviews-strip'
-import { SignedInLine } from './signed-in-header'
 import PhoneFrame from './phone-frame'
 import Reveal from './reveal'
+import copy from './_copy/home.json'
 
 // The homepage (Kevin 26 Oct 2026): one question, a pill per role, then a section per role with its main tool, what it
-// does in a few ticks and one button, with the free line under it. Each role has its colour: player copper, coach
+// does in a few ticks, its button and Learn more (its own page, /players, /coaches or /clubs). Each role has its colour: player copper, coach
 // blue, club green. Class names are written out in full so Tailwind finds them. Every tool is listed on /tools (the
 // footer's All tools).
 //
@@ -15,41 +15,36 @@ import Reveal from './reveal'
 // dark phone shots in a phone frame on phones, a soft band of each role's colour behind its section and a gentle reveal
 // on scroll.
 
-// Said once under the question, so it shows before any scrolling, and again under each role's button.
-const FREE = 'Free. Every feature included.'
-
-const roles = [
-  {
-    id: 'player', pill: 'Player', heading: 'For players',
-    line: 'Keep your matches, see your stats and link up with your coach.',
+// The words are in _copy/home.json (Kevin 2 Nov 2026: the free line and "Signed in as" went, a line about the community
+// went under the question, each role got a Learn more link to its own page and new ticks). The shots and colours are here.
+const looks = {
+  player: {
     shot: '/shots/tagger.png', phoneShot: '/shots/phone-dark-player.png',
-    shotAlt: 'The Match Tagger', phoneAlt: "A player's My page on a phone",
-    ticks: ['Watch your matches back', 'See where points are won and lost', 'Messages, clips and homework from your coach', 'Your stats over time', 'Set up your racket'],
-    cta: { label: 'Set up a player account', href: '/me/join' },
+    shotAlt: 'The Match Tagger', phoneAlt: "A player's home page on a phone",
+    href: '/me/join', more: '/players',
     text: 'text-accent', fill: 'bg-accent', pillCls: 'border-accent text-accent hover:bg-accent',
+    outline: 'border-accent text-accent hover:bg-accent',
     band: 'bg-[color-mix(in_srgb,var(--color-accent)_6%,var(--color-bg))]',
   },
-  {
-    id: 'coach', pill: 'Coach', heading: 'For coaches',
-    line: 'Give each player a private page with notes, homework, stats and clips.',
+  coach: {
     shot: '/shots/player.png', phoneShot: '/shots/phone-dark-coach.png',
     shotAlt: 'The coach page', phoneAlt: "A player's ratings on the coach page, on a phone",
-    ticks: ['A private page per player', 'Video analysis and tagging', 'Messages, voice notes and clips', 'Lesson booking and RSVP', 'Daily lesson email'],
-    cta: { label: 'Set up a coach account', href: '/coach/join' },
+    href: '/coach/join', more: '/coaches',
     text: 'text-accent-2', fill: 'bg-accent-2', pillCls: 'border-accent-2 text-accent-2 hover:bg-accent-2',
+    outline: 'border-accent-2 text-accent-2 hover:bg-accent-2',
     band: 'bg-[color-mix(in_srgb,var(--color-accent-2)_5%,var(--color-bg))]',
   },
-  {
-    id: 'club', pill: 'Club', heading: 'For clubs',
-    line: 'Run box leagues, Americanos and Mexicanos, and score matches people can follow live.',
+  club: {
     shot: '/shots/box-league.png', phoneShot: '/shots/phone-dark-club.png',
     shotAlt: 'Box League', phoneAlt: 'A box league on a phone',
-    ticks: ['Box leagues drawn and scored for you', 'Americanos and Mexicanos', 'Live scoreboard links', 'Member import from a spreadsheet', 'Live results and tables online'],
-    cta: { label: 'Set up a club account', href: '/club/join' },
+    href: '/club/join', more: '/clubs',
     text: 'text-accent-3', fill: 'bg-accent-3', pillCls: 'border-accent-3 text-accent-3 hover:bg-accent-3',
+    outline: 'border-accent-3 text-accent-3 hover:bg-accent-3',
     band: 'bg-[color-mix(in_srgb,var(--color-accent-3)_6%,var(--color-bg))]',
   },
-]
+}
+
+const roles = (['player', 'coach', 'club'] as const).map((id) => ({ id, ...copy.roles[id], ...looks[id] }))
 
 export default function HomePage() {
   return (
@@ -63,8 +58,7 @@ export default function HomePage() {
                 Are you a <span className="text-accent">player</span>, a <span className="text-accent-2">coach</span> or
                 a <span className="text-accent-3">club</span>?
               </h1>
-              <p className="mt-5 text-xl text-muted">{FREE}</p>
-              <SignedInLine className="mt-6" />
+              <p className="mt-5 text-xl text-text/85 leading-relaxed max-w-2xl">{copy.subline}</p>
               <nav aria-label="Pick your role" className="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {roles.map((r) => (
                   <a key={r.id} href={`#${r.id}`}
@@ -101,9 +95,9 @@ export default function HomePage() {
                     </li>
                   ))}
                 </ul>
-                <div className="mt-6 sm:mt-10">
-                  <a href={r.cta.href} className={`inline-block rounded-lg px-7 py-4 text-lg font-semibold text-on-accent hover:brightness-110 ${r.fill}`}>{r.cta.label}</a>
-                  <p className="mt-3 text-muted">{FREE}</p>
+                <div className="mt-6 sm:mt-10 flex flex-wrap gap-3">
+                  <a href={r.href} className={`inline-block rounded-lg border-2 border-transparent px-7 py-[14px] text-lg font-semibold text-on-accent hover:brightness-110 ${r.fill}`}>{r.cta}</a>
+                  <a href={r.more} className={`inline-block rounded-lg border-2 bg-transparent px-7 py-[14px] text-lg font-semibold hover:text-on-accent ${r.outline}`}>{copy.learnMore}</a>
                 </div>
               </div>
             </div>

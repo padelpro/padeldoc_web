@@ -17,3 +17,13 @@ export function usageFigures(data: unknown): Figure[] {
     return [{ value: v.toLocaleString(), label: v === 1 ? single : plural }]
   })
 }
+
+// The home page shows its numbers only once there are at least this many players (Kevin 2 Nov 2026): below it, the
+// whole block stays hidden. Counted from /v1/stats' players.
+export const MIN_PLAYERS = 50
+
+export function showUsage(data: unknown): boolean {
+  if (typeof data !== 'object' || data === null) return false
+  const v = (data as { players?: unknown }).players
+  return typeof v === 'number' && Number.isInteger(v) && v >= MIN_PLAYERS
+}

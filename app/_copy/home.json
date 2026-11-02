@@ -1,0 +1,48 @@
+{
+  "subline": "A community where padel players come together, learn from each other and help the game grow.",
+  "learnMore": "Learn more",
+  "roles": {
+    "player": {
+      "pill": "Player",
+      "heading": "For players",
+      "line": "Your matches, your coach and your padel community in one place.",
+      "ticks": [
+        "Watch your matches back and see where points are won and lost",
+        "Your stats over time",
+        "Sessions, homework, clips and messages from your coach",
+        "Ask a coach about your clip",
+        "Your rackets, weighed and set up",
+        "Buy and sell padel gear"
+      ],
+      "cta": "Set up a player account"
+    },
+    "coach": {
+      "pill": "Coach",
+      "heading": "For coaches",
+      "line": "A private page for every player, the tools to coach them, and a community where players find you.",
+      "ticks": [
+        "A private page per player",
+        "Video tagging and analysis",
+        "Tactics boards with your players' faces",
+        "Messages, voice notes and clips",
+        "Lesson booking and a daily lesson email",
+        "Answer questions and build your name"
+      ],
+      "cta": "Set up a coach account"
+    },
+    "club": {
+      "pill": "Club",
+      "heading": "For clubs",
+      "line": "Run box leagues, Americanos and Mexicanos, and give your members a home online.",
+      "ticks": [
+        "Box leagues drawn and scored for you",
+        "Americanos and Mexicanos",
+        "Live scoreboard links",
+        "Member import from a spreadsheet",
+        "A members' group in the community",
+        "Live results and tables online"
+      ],
+      "cta": "Set up a club account"
+    }
+  }
+}

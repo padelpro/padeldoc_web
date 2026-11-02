@@ -21,7 +21,8 @@
 // --out <dir>: write somewhere else (to compare before replacing). --only: some shots. --dark: desktop shots in the
 // dark theme (phones are always dark). --test-video: the Tagger and Analyser with the small test clip (to check their
 // set-up). --serve: just serve the site, to look around. Two extra shots for later, not used on any page yet:
-// community.png and marketplace.png.
+// community.png and marketplace.png. Six more for the role pages: my-page, club-members, coach-messages, coach-booking,
+// coach-profile and community-group.
 import { createServer } from "node:http";
 import { readFile, stat, writeFile, mkdir } from "node:fs/promises";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
@@ -29,6 +30,7 @@ import { createRequire } from "node:module";
 import { join, extname, normalize, resolve } from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { profilePath } from "../app/profile-path.ts";
 
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
 const PUBLIC = join(ROOT, "public");
@@ -88,6 +90,8 @@ async function fileFor(path) {
     const hit = r.from.endsWith("/*") ? path === r.from.slice(0, -2) || path.startsWith(r.from.slice(0, -1)) : path === r.from;
     if (hit) return join(PUBLIC, r.to);
   }
+  // A public profile, thepadeldoc.com/<name>: the player bundle, as the edge function serves it (netlify/edge-functions/profile.ts).
+  if (profilePath(path)?.kind === "profile") return join(PUBLIC, "player", "index.html");
   return null;
 }
 const server = createServer(async (req, res) => {
@@ -225,6 +229,20 @@ const SHOTS = [
   // For later (not on any page yet).
   { name: "community", ...desk(1440, 900), ...coach, path: "/community" },
   { name: "marketplace", ...desk(1440, 900), ...coach, path: "/community/market" },
+  // For the role pages (padel-coach-src Claude outputs/site-shots/TODO.md), not on any page until Kevin picks them.
+  // A player's own My page, as they see it.
+  { name: "my-page", ...desk(1440, 900), key: P.aoife.key, path: "/me" },
+  // The club's Members tab: the list, with Import beside it.
+  { name: "club-members", ...desk(1440, 900), club: D.club.key, path: "/club", before: (page) => tap(page, "Members") },
+  // The Messages tab on a player's page, and the next lesson booked, on a phone.
+  { name: "coach-messages", ...phone, ...coach, path: `/coach?open=${P.aoife.page}`, before: async (page) => {
+    await page.getByRole("button", { name: /^Messages/ }).first().click();
+  } },
+  { name: "coach-booking", ...phone, ...coach, path: `/coach?open=${P.aoife.page}`, tab: "Next" },
+  // Kevin's public profile, with the answer a player marked as helping.
+  { name: "coach-profile", ...desk(1440, 900), ...coach, path: "/kevin-obrien" },
+  // A group in the Community (the demo's is a players' group, Tuesday crew; a club's own group needs adding to the seed).
+  { name: "community-group", ...desk(1440, 900), ...coach, path: "/community/g/tuesday-crew" },
 ];
 
 const HIDE = `

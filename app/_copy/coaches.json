@@ -1,0 +1,87 @@
+{
+  "title": "For coaches",
+  "description": "A private page for every player, video tagging and analysis, a tactics board with your players' faces, messages and lesson booking, and a community where players find you.",
+  "heading": "For coaches",
+  "line": "A private page for every player, the tools to coach them, and a community where players find you.",
+  "cta": "Set up a coach account",
+  "heroShot": {
+    "src": "/shots/phone-dark-hero.png",
+    "alt": "The coach dashboard on a phone, one card per player"
+  },
+  "features": [
+    {
+      "heading": "A page for every player",
+      "body": "Each player gets a private page with your session notes, homework, ratings, fitness tests and clips. Your own notes stay private, and your dashboard shows who has been active and what is new.",
+      "shot": {
+        "src": "/shots/player.png",
+        "alt": "A player's page on the coach dashboard, Sessions tab"
+      }
+    },
+    {
+      "heading": "Match Tagger",
+      "body": "Tag a match from the video as you watch and the score, winners and errors build as you go, ready to filter by player, shot or game.",
+      "shot": {
+        "src": "/shots/tagger.png",
+        "alt": "The Match Tagger with a tagged match and its report"
+      }
+    },
+    {
+      "heading": "Technique Analyser",
+      "body": "In the Technique Analyser, step through a stroke frame by frame, draw on it and send the frame to your player.",
+      "shot": {
+        "src": "/shots/analyse.png",
+        "alt": "The Technique Analyser stepping through a stroke"
+      }
+    },
+    {
+      "heading": "Tactics Board",
+      "body": "Draw a play with your players' faces on the court, add text and a voice-over, and share it to their page. Each play keeps its last ten versions, so you can always go back.",
+      "shot": {
+        "src": "/shots/tactics.png",
+        "alt": "The Tactics Board with a play drawn on the court"
+      }
+    },
+    {
+      "heading": "Messages, homework and booking",
+      "body": "Message each player with text, voice notes, links and clips, and set homework they tick off as they go. Book their next lesson, see who is coming, and get a morning email with the day's lessons.",
+      "shot": {
+        "src": "/shots/phone-dark-coach.png",
+        "alt": "A player's ratings on the coach page, on a phone"
+      }
+    },
+    {
+      "heading": "Ask a coach and your public profile",
+      "body": "Answer players' questions in the Community, from your own area and club first. Answers they mark as helping show on your public profile, with a button for players to ask to join you.",
+      "shot": {
+        "src": "/shots/community.png",
+        "alt": "The Community, with players' questions for coaches"
+      }
+    }
+  ],
+  "faqTitle": "Common questions",
+  "faq": [
+    {
+      "q": "Is it free?",
+      "a": "Yes. A coach account is free. It comes with a set number of player spots and clip storage, and you can ask for more from Your plan in Settings."
+    },
+    {
+      "q": "Do my players need an account?",
+      "a": "No. Each player's page opens from a private link, with nothing to sign up for. Players who set up a free account can link it to you, send you clips and keep their own stats."
+    },
+    {
+      "q": "Does it work on a phone?",
+      "a": "Yes. It runs in the browser on a phone, tablet or computer, so there is nothing to install. The Match Tagger is the exception: it needs a laptop or computer."
+    },
+    {
+      "q": "Who sees my videos?",
+      "a": "Videos and clips on a player's page are seen by you, that player and anyone they share their private link with. Nothing is public unless you post it in the Community. A video you tag from a file on your computer never leaves it."
+    },
+    {
+      "q": "How do I get my players on?",
+      "a": "Add a player and send them the link to their page, or share your invite link so they set up their own account already linked to you."
+    }
+  ],
+  "closing": {
+    "heading": "Bring your players with you"
+  }
+}

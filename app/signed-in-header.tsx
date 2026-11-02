@@ -9,7 +9,7 @@ const TIMEOUT_MS = 6000
 
 type Who = { phase: 'out' } | { phase: 'checking' } | { phase: 'in'; role: Role; name: string }
 
-// One read per page load, shared by the header and the hero line.
+// One read per page load.
 let pending: Promise<Who> | null = null
 function whoIsIn(): Promise<Who> {
   if (pending) return pending
@@ -51,31 +51,24 @@ function useWho(): Who {
 
 const buttonCls = 'inline-block rounded-lg bg-accent px-3 py-1.5 text-sm font-semibold text-on-accent hover:brightness-110'
 
-// The header's right side: Sign in and Set up account, or the signed-in visitor's one button.
+// The header's right side: Sign in and Set up account, or the signed-in visitor's first name and their one button
+// (the home page's "Signed in as" line went, Kevin 2 Nov 2026).
 export function HeaderAccount() {
   const who = useWho()
   if (who.phase === 'checking') return <span className="ml-auto" />
   if (who.phase === 'in') {
     const home = HOME[who.role]
-    return <a href={home.href} className={`ml-auto ${buttonCls}`}>{home.label}</a>
+    return (
+      <>
+        {who.name && <span className="ml-auto text-sm font-medium">{who.name}</span>}
+        <a href={home.href} className={`${who.name ? '' : 'ml-auto '}${buttonCls}`}>{home.label}</a>
+      </>
+    )
   }
   return (
     <>
       <a href="/signin" className="ml-auto inline-flex items-center min-h-11 sm:min-h-0 text-sm text-text/75 hover:text-text">Sign in</a>
       <a href="/signin#new" className="inline-flex items-center min-h-11 sm:min-h-0 text-sm font-medium text-accent hover:underline">Set up account</a>
     </>
-  )
-}
-
-// Under the home page's hero: "Signed in as {first name}" and the same button. Nothing for a visitor.
-export function SignedInLine({ className = '' }: { className?: string }) {
-  const who = useWho()
-  if (who.phase !== 'in') return null
-  const home = HOME[who.role]
-  return (
-    <p className={`flex flex-wrap items-center gap-x-4 gap-y-2 text-lg ${className}`}>
-      <span>Signed in as <b>{who.name}</b></span>
-      <a href={home.href} className={buttonCls}>{home.label}</a>
-    </p>
   )
 }
