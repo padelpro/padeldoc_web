@@ -1,8 +1,22 @@
 import { HeaderAccount } from './signed-in-header'
 
 // The top bar on every page: the band colour, full width. The logo at 40px and the name at 20px (Kevin 2 Nov 2026), with
-// the tagline beside them from md up.
-export function SiteHeader() {
+// the tagline beside them from md up. The home page passes big: its text at twice the size, Sign in and Set up account as
+// real buttons (people said the text was too small, Kevin 3 Nov 2026); on phones the wordmark at 28px and the two
+// buttons on a row of their own. Every other page keeps the header as it was.
+export function SiteHeader({ big = false }: { big?: boolean }) {
+  if (big) return (
+    <header className="bg-band border-b border-edge">
+      <div className="mx-auto max-w-6xl px-4 md:px-6 py-3 md:py-4 flex flex-wrap md:flex-nowrap items-center gap-x-3 gap-y-3">
+        <a href="/" className="flex items-center gap-3">
+          <img src="/icon-192.png" alt="" className="h-10 w-10" />
+          <span className="whitespace-nowrap text-[28px] md:text-[40px] leading-tight font-bold tracking-tight">The Padel Doc</span>
+        </a>
+        <span className="hidden lg:inline whitespace-nowrap text-[28px] text-muted">Play. Tag. Talk.</span>
+        <HeaderAccount big />
+      </div>
+    </header>
+  )
   return (
     <header className="bg-band border-b border-edge">
       <div className="mx-auto max-w-6xl px-6 h-16 flex items-center gap-3">

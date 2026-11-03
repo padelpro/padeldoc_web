@@ -51,10 +51,34 @@ function useWho(): Who {
 
 const buttonCls = 'inline-block rounded-lg bg-accent px-3 py-1.5 text-sm font-semibold text-on-accent hover:brightness-110'
 
+// The home page's big header (site-parts.tsx SiteHeader big): 28px text and twice the padding, a row of their own
+// below md. At 375px Sign in and Set up account measure 324px together; the row wraps rather than scrolls.
+const bigBtn = 'inline-flex items-center justify-center min-h-11 whitespace-nowrap rounded-xl border-2 px-2 py-2.5 md:px-6 md:py-3 text-[28px] leading-tight font-semibold'
+const bigRow = 'w-full md:w-auto md:ml-auto flex flex-wrap items-center gap-2 md:gap-3'
+const bigFill = `${bigBtn} border-accent bg-accent text-on-accent hover:brightness-110`
+
 // The header's right side: Sign in and Set up account, or the signed-in visitor's first name and their one button
 // (the home page's "Signed in as" line went, Kevin 2 Nov 2026).
-export function HeaderAccount() {
+export function HeaderAccount({ big = false }: { big?: boolean }) {
   const who = useWho()
+  if (big) {
+    if (who.phase === 'checking') return <div className={bigRow} />
+    if (who.phase === 'in') {
+      const home = HOME[who.role]
+      return (
+        <div className={bigRow}>
+          {who.name && <span className="text-[28px] leading-tight font-medium">{who.name}</span>}
+          <a href={home.href} className={bigFill}>{home.label}</a>
+        </div>
+      )
+    }
+    return (
+      <div className={bigRow}>
+        <a href="/signin" className={`${bigBtn} border-text/30 text-text hover:border-text/70`}>Sign in</a>
+        <a href="/signin#new" className={bigFill}>Set up account</a>
+      </div>
+    )
+  }
   if (who.phase === 'checking') return <span className="ml-auto" />
   if (who.phase === 'in') {
     const home = HOME[who.role]

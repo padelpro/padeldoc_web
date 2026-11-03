@@ -49,7 +49,7 @@ const roles = (['player', 'coach', 'club'] as const).map((id) => ({ id, ...copy.
 export default function HomePage() {
   return (
     <>
-      <SiteHeader />
+      <SiteHeader big />
       <div className="min-h-screen">
         <div className="mx-auto max-w-6xl px-6">
           <section className="pt-12 pb-4 md:grid md:grid-cols-[minmax(0,1fr)_auto] md:items-center md:gap-12">
