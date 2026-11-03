@@ -52,9 +52,9 @@ function useWho(): Who {
 const buttonCls = 'inline-block rounded-lg bg-accent px-3 py-1.5 text-sm font-semibold text-on-accent hover:brightness-110'
 
 // The home page's big header (site-parts.tsx SiteHeader big): 28px text and twice the padding, a row of their own
-// below md. At 375px Sign in and Set up account measure 324px together; the row wraps rather than scrolls.
-const bigBtn = 'inline-flex items-center justify-center min-h-11 whitespace-nowrap rounded-xl border-2 px-2 py-2.5 md:px-6 md:py-3 text-[28px] leading-tight font-semibold'
-const bigRow = 'w-full md:w-auto md:ml-auto flex flex-wrap items-center gap-2 md:gap-3'
+// below lg. At 375px Sign in and Set up account measure 324px together; the row wraps rather than scrolls.
+const bigBtn = 'inline-flex items-center justify-center min-h-11 whitespace-nowrap rounded-xl border-2 px-2 py-2.5 lg:px-6 lg:py-3 text-[28px] leading-tight font-semibold'
+const bigRow = 'w-full lg:w-auto lg:ml-auto flex flex-wrap items-center gap-2 lg:gap-3'
 const bigFill = `${bigBtn} border-accent bg-accent text-on-accent hover:brightness-110`
 
 // The header's right side: Sign in and Set up account, or the signed-in visitor's first name and their one button
