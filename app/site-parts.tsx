@@ -9,7 +9,7 @@ export function SiteHeader({ big = false }: { big?: boolean }) {
     <header className="bg-band border-b border-edge">
       <div className="mx-auto max-w-6xl px-4 md:px-6 py-3 md:py-4 flex flex-wrap md:flex-nowrap items-center gap-x-3 gap-y-3">
         <a href="/" className="flex items-center gap-3">
-          <img src="/icon-192.png" alt="" className="h-10 w-10" />
+          <img src="/icon-192.png" alt="" className="h-10 w-10 lg:h-14 lg:w-14" />
           <span className="whitespace-nowrap text-[28px] md:text-[40px] leading-tight font-bold tracking-tight">The Padel Doc</span>
         </a>
         <span className="hidden lg:inline whitespace-nowrap text-[28px] text-muted">Play. Tag. Talk.</span>
