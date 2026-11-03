@@ -5,7 +5,7 @@ import { listingIdOf, cardTags, metaTags, withTags, readCard, WORKER, type Card 
 import edge, { config } from '../netlify/edge-functions/market-listing.ts'
 
 const CARD: Card = { id: 'ABC234', title: 'StarVie Radar 2024', kind: 'racket', wanted: false, price: { cents: 8000, currency: 'EUR' },
-  condition: 'good', county: 'Dublin', country: 'IE', status: 'active', photos: ['/v1/market/photos/abcdefghijk1', '/v1/market/photos/abcdefghijk2'] }
+  condition: 'good', region: 'Dublin', county: 'Dublin', country: 'IE', status: 'active', photos: ['/v1/market/photos/abcdefghijk1', '/v1/market/photos/abcdefghijk2'] }
 const PAGE = '<!doctype html><html><head><meta charset="utf-8" /><title>Padel Doc Coach</title></head><body><div id="root"></div></body></html>'
 const content = (html: string, key: string) => {
   const m = new RegExp(`<meta (?:property|name)="${key.replace(/[:.]/g, '\\$&')}" content="([^"]*)" />`).exec(html)
@@ -22,8 +22,15 @@ test('the listing path: /community/market/l/<id> only, a real listing id', () =>
 
 test('what the preview says: title and price, condition and town, the first photo', () => {
   assert.deepEqual(cardTags(CARD), { title: 'StarVie Radar 2024 · €80', description: 'Good · Dublin, Ireland', image: `${WORKER}/v1/market/photos/abcdefghijk1` })
-  assert.equal(cardTags({ ...CARD, price: { cents: 9550, currency: 'GBP' }, country: 'UK', county: null }).title, 'StarVie Radar 2024 · £95.50')
-  assert.equal(cardTags({ ...CARD, county: null }).description, 'Good · Ireland')
+  assert.equal(cardTags({ ...CARD, price: { cents: 9550, currency: 'GBP' }, country: 'GB', region: null, county: null }).title, 'StarVie Radar 2024 · £95.50')
+  assert.equal(cardTags({ ...CARD, region: null, county: null }).description, 'Good · Ireland')
+  // any country and currency (0055)
+  assert.equal(cardTags({ ...CARD, region: 'Madrid', country: 'ES' }).description, 'Good · Madrid, Spain')
+  assert.equal(cardTags({ ...CARD, region: null, county: null, country: 'GB' }).description, 'Good · United Kingdom')
+  assert.equal(cardTags({ ...CARD, region: null, county: null, country: 'UK' }).description, 'Good · United Kingdom', 'a Worker before 0055')
+  assert.equal(cardTags({ ...CARD, region: null, county: 'Kildare' }).description, 'Good · Kildare, Ireland', "a Worker before 0055's county")
+  assert.equal(cardTags({ ...CARD, price: { cents: 150000, currency: 'SEK' } }).title, 'StarVie Radar 2024 · SEK 1,500')
+  assert.equal(cardTags({ ...CARD, price: { cents: 350000, currency: 'MXN' } }).title, 'StarVie Radar 2024 · MX$3,500')
   const sold = cardTags({ ...CARD, status: 'sold', price: null })
   assert.deepEqual([sold.title, sold.description], ['StarVie Radar 2024 · Sold', 'This item has sold.'])
   assert.equal(cardTags({ ...CARD, wanted: true, condition: null, price: null }).title, 'Wanted: StarVie Radar 2024')

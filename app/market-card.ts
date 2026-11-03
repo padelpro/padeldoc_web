@@ -1,6 +1,6 @@
 // Shared Marketplace links (Kevin 1 Nov 2026): thepadeldoc.com/community/market/l/<id> shows a preview in WhatsApp and
 // Facebook. The edge function (netlify/edge-functions/market-listing.ts) asks the Worker for the listing's card
-// (padel-share-api market.js listingCard: title, kind, price, condition, county, country, status and photos, nothing
+// (padel-share-api market.js listingCard: title, kind, price, condition, region, country, status and photos, nothing
 // about the seller) and puts og: and twitter: tags into the player bundle's page. These are the pure parts. The page's
 // own copy is padel-coach-src data/market_copy.json; these few lines are for the preview only.
 
@@ -14,15 +14,14 @@ export type Card = {
   wanted: boolean
   price: { cents: number; currency: string } | null
   condition: string | null
-  county: string | null
+  region?: string | null   // 0055: the seller's region or city
+  county?: string | null   // the same, as a Worker from before 0055 calls it
   country: string
   status: string
   photos: string[]
 }
 
 const CONDITIONS: Record<string, string> = { new: 'New', like_new: 'Like new', good: 'Good', fair: 'Fair' }
-const COUNTRIES: Record<string, string> = { IE: 'Ireland', UK: 'UK' }
-const SYMBOL: Record<string, string> = { EUR: '€', GBP: '£' }
 const SITE = 'Padel Doc Marketplace'
 
 // The listing id in a /community/market/l/<id> path, or null.
@@ -31,21 +30,34 @@ export function listingIdOf(pathname: string): string | null {
   return m && ID_RE.test(m[1]) ? m[1] : null
 }
 
-// "€80", "£95.50", "" with no price.
+// Any country and any currency (0055, Kevin 2 Nov 2026). A preview is read by WhatsApp's or Facebook's crawler, whose
+// reader isn't known, so it's in English like the rest of its words: the country's English name, the price in the
+// seller's currency.
+
+// "€80", "£95.50", "SEK 1,500", "" with no price.
 export function priceText(p: Card['price']): string {
   if (!p || typeof p.cents !== 'number') return ''
-  const whole = p.cents % 100 === 0
-  return `${SYMBOL[p.currency] || ''}${whole ? String(p.cents / 100) : (p.cents / 100).toFixed(2)}`
+  const n = p.cents / 100
+  try {
+    return new Intl.NumberFormat('en', { style: 'currency', currency: p.currency, currencyDisplay: 'symbol',
+      minimumFractionDigits: n % 1 === 0 ? 0 : 2, maximumFractionDigits: 2 }).format(n)
+  } catch { return `${p.currency || ''} ${n}`.trim() }
 }
 
-// What the preview says: { title, description, image }. "StarVie Radar 2024 · €80" and "Good · Dublin, Ireland".
+// "Ireland", "United Kingdom" (UK from a Worker before 0055 too), the code itself if it can't be named.
+export function countryName(code: string): string {
+  const c = code === 'UK' ? 'GB' : code
+  try { return new Intl.DisplayNames(['en'], { type: 'region' }).of(c) || c } catch { return c }
+}
+
+// What the preview says: { title, description, image }. "StarVie Radar 2024 · €80" and "Good · Madrid, Spain".
 export function cardTags(c: Card): { title: string; description: string; image: string | null } {
   const price = priceText(c.price)
   const sold = c.status === 'sold'
   const title = c.wanted
     ? ['Wanted: ' + c.title, price ? 'up to ' + price : ''].filter(Boolean).join(' · ')
     : [c.title, sold ? 'Sold' : price].filter(Boolean).join(' · ')
-  const place = [c.county, COUNTRIES[c.country] || c.country].filter(Boolean).join(', ')
+  const place = [c.region || c.county, c.country ? countryName(c.country) : ''].filter(Boolean).join(', ')
   const description = sold ? 'This item has sold.' : [c.condition ? CONDITIONS[c.condition] || '' : '', place].filter(Boolean).join(' · ') || SITE
   const first = c.photos && c.photos[0]
   return { title, description, image: first ? WORKER + first : null }
