@@ -56,6 +56,10 @@ const buttonCls = 'inline-block rounded-lg bg-accent px-3 py-1.5 text-sm font-se
 const bigBtn = 'inline-flex items-center justify-center min-h-11 whitespace-nowrap rounded-xl border-2 px-2 py-2.5 lg:px-6 lg:py-3 text-[28px] leading-tight font-semibold'
 const bigRow = 'w-full lg:w-auto lg:ml-auto flex flex-wrap items-center gap-2 lg:gap-3'
 const bigFill = `${bigBtn} border-accent bg-accent text-on-accent hover:brightness-110`
+// Signed in (Kevin 4 Nov 2026): the visitor's name and their one button a step down from Sign in's 28px, to 24px, one
+// clear step above the hero line (text-xl, 20px). Padding scaled with it (lg 24x12 -> 20x10); still at least 44px tall.
+const inText = 'text-[24px] leading-tight'
+const inFill = `inline-flex items-center justify-center min-h-11 whitespace-nowrap rounded-xl border-2 px-2 py-2 lg:px-5 lg:py-2.5 ${inText} font-semibold border-accent bg-accent text-on-accent hover:brightness-110`
 
 // The header's right side: Sign in and Set up account, or the signed-in visitor's first name and their one button
 // (the home page's "Signed in as" line went, Kevin 2 Nov 2026).
@@ -67,8 +71,8 @@ export function HeaderAccount({ big = false }: { big?: boolean }) {
       const home = HOME[who.role]
       return (
         <div className={bigRow}>
-          {who.name && <span className="text-[28px] leading-tight font-medium">{who.name}</span>}
-          <a href={home.href} className={bigFill}>{home.label}</a>
+          {who.name && <span className={`${inText} font-medium`}>{who.name}</span>}
+          <a href={home.href} className={inFill}>{home.label}</a>
         </div>
       )
     }
