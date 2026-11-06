@@ -115,3 +115,12 @@
   to = "https://padel-share.padel-coach.workers.dev/v1/signin/unsubscribe"
   status = 200
   force = true
+
+# The private calendar feed (padel-share-api 0076, padel-coach-src specs/calendar-feed-spec.md 1.2): the link people paste
+# into Google, Apple or Outlook is thepadeldoc.com/cal/<token>.ics, proxied to the Worker's /v1/cal/<token>.ics, which
+# answers with its own Cache-Control (private, 15 minutes) and ETag.
+[[redirects]]
+  from = "/cal/*"
+  to = "https://padel-share.padel-coach.workers.dev/v1/cal/:splat"
+  status = 200
+  force = true

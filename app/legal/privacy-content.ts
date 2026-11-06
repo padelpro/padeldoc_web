@@ -3,6 +3,10 @@
 // Written from an audit of what the code actually stores, not from a template. Version 1 is a first draft
 // for an expert to review, so every claim here should be true of the code on the day it is published.
 //
+// Version 10.3 (Kevin, 6 Nov 2026) adds the player calendar (padel-share-api 0076): events a player or their coach adds,
+// venues typed in, the coach's access levels, the private calendar link for Google, Apple and Outlook, "This is me" for box
+// league matches, and the after-session load prompt. DRAFT FOR EXPERT REVIEW: an injury entry (health-related, kept to
+// "Unavailable: injury" and dates), other people's first names on a player's own events, and the feed as a secret link.
 // Version 10.2 (Kevin, 6 Nov 2026) adds the wellness check-in and training load (padel-share-api 0075): health information,
 // on its own consent and the 18 and over rule, trialled with listed accounts first. DRAFT FOR EXPERT REVIEW: the legal basis
 // (explicit consent for the check-in; logged load as part of the service), the sharing levels' wording, and retention.
@@ -15,7 +19,7 @@
 // - Anthropic as a processor for draw reading: its retention period under the API terms, and the US transfer wording;
 // - anonymous posts: the admin can see the author.
 
-export const VERSION = 'Version 10.2, 6 November 2026'
+export const VERSION = 'Version 10.3, 6 November 2026'
 export const CONTACT = 'hello@padelpro.ie'
 
 export type Block =
@@ -189,8 +193,17 @@ export const sections: Section[] = [
       p('You can withdraw at any time with the remove link shown when the upload finished, or by emailing us with your contribution ID. Withdrawing deletes the video and tags. A record that a contribution existed and was withdrawn is kept, with no video, email or names.'),
       p('Legal basis: your consent, which you can withdraw.'),
 
-      h3('If you add a session to your calendar'),
-      p('Add to calendar makes a calendar file on your own device; we keep nothing. If you choose Google Calendar instead, the session’s title, time and place go to Google in the link you open.'),
+      // The player calendar (Kevin, 6 Nov 2026, padel-share-api 0076). DRAFT FOR EXPERT REVIEW.
+      h3('Your calendar (thepadeldoc.com)'),
+      p('Your calendar shows your coach’s booking, your tournaments, your gym sessions and your box league matches, and the events you or your coach add: matches, training, social games and times you can’t play, with the date, time, place, your time zone and, if you add them, a partner’s and opponents’ first names and a note. We use it to show your calendar, to ask how hard a session was, and to let your coach plan your training around it.'),
+      p('Places: when you type where you play, we save it to a shared list of venues so others can pick it later. A new venue shows only to you until it has been checked. If you choose “Not a venue”, the words stay on your event only.'),
+      p('Times you can’t play: if the reason is an injury, we store only “Not available: injury” and the dates, with a note if you add one. If you mark an entry private, your coach sees only “Not available”, never the reason or the note, and it never goes out in your calendar link.'),
+      p('Your coach: if you are linked to a coach, you choose what they can do with your calendar: nothing, view it, view and add (the default), or full edit. You are told when they add or change something, and you can delete what they add. Other people’s names on your events are seen only by you and, if you let them see your calendar, your coach.'),
+      p('Your calendar link: if you open it in Settings, you get a private link to subscribe to in Google, Apple or Outlook. We build it from your calendar each time your calendar app asks. It holds titles, times and places only: never other people’s names, notes or anything about your health. Anyone with the link can see it, so keep it to yourself; Reset link makes a new one and the old one stops at once. A coach’s link shows their bookings as “Coaching”, with player first names only if they choose. Google, Apple and Microsoft receive what the link holds when you subscribe, under their own privacy terms.'),
+      p('Box league matches: on your league page you can tap “This is me” to tie your league link to your account, so your matches show in your calendar. We never match people by name.'),
+      p('After a session: if you use training load (above), your calendar can ask how long and how hard a match or session was, once, by an alert that says only “How was it?”. Your answer is saved in your training load.'),
+      p('Add to calendar on a single booking makes a calendar file on your own device; we keep nothing. If you choose Google Calendar instead, the session’s title, time and place go to Google in the link you open.'),
+      p('Legal basis: providing the service you asked for; for an injury entry, your explicit choice to add it, which you can undo by deleting it.'),
 
       h3('If you sign up on padelpro.ie'),
       p('To play in the PadelPro circuit you give your name, email, password, date of birth, gender, home club and mobile number, and optionally your county. Your date of birth decides your age band and your gender decides your category; neither is published. Your name, club, ranking, results and event history are public on padelpro.ie, which you agree to when you sign up. We record when you agreed. If you tick the box for circuit updates and sponsor offers, we email you those until you untick it.'),
@@ -222,6 +235,7 @@ export const sections: Section[] = [
         'YouTube and TikTok link details: when a link is sent in a message or posted in Community, our server asks YouTube or TikTok for its title, author and thumbnail. They see the link, not you.',
         'jsDelivr and Google: when you switch on Pose in the Technique Analyser, the pose model downloads from cdn.jsdelivr.net and storage.googleapis.com. Your video stays on your device.',
       ),
+      p('If you subscribe to your calendar link in Google Calendar, Apple Calendar or Outlook, that company receives the titles, times and places the link holds, each time it checks the link.'),
       p('Beyond those, data is shared only as described above: with the coach, club or players you are connected to, with other members where you post in Community or the Marketplace, and publicly where this policy says something is public.'),
     ],
   },
@@ -247,6 +261,7 @@ export const sections: Section[] = [
         'Tournaments: kept until you delete them or your account. Draw readings: until you confirm or cancel them, 24 hours at most; the record of each reading, without names or pictures, until your account is deleted.',
         'Niggles: a niggle you mark as gone, or one untouched for six months, is cleared, and cleared niggles are deleted 12 months later. Withdrawing your consent deletes every niggle, its history and any tournament pain score at once.',
         'Wellness check-ins, readiness lights and the training load you log: deleted after 24 months. The record of coaches looking: 12 months. The record of your consents: as long as your account.',
+        'Calendar events: kept until you delete them or your account, and past events for 24 months. A deleted event is kept 30 days so your calendar app can remove it too. Your calendar link: until you reset it or delete your account. Venues you added stay on the shared list without your name.',
         'Community: pictures and clips never posted are deleted after a day; invite links last seven days. Deleted posts and replies are erased at once, leaving only an empty placeholder.',
         'Marketplace: a removed listing’s photos are deleted that night; the listing and its messages stay until either account is deleted. Reviews you wrote keep their scores, without your name or comment, after your account is deleted.',
         'Everything else (accounts, tagged and Tracker matches, Tactics Board plays, player pages, clips, notes, gym records, rackets, what you watch, box league records, approved requests for access, padelpro.ie player and club records): kept until you or the person who created it deletes it, or until you ask us to. We do not delete active coaching data on a timer, because coaches rely on a player’s history staying put.',
@@ -308,6 +323,7 @@ export const sections: Section[] = [
       p('Version 9 (6 November 2026) added niggles, which are health information: what is stored, why, who sees it, the 18 and over and consent rules, how long it is kept and how to delete it. This section is a draft for expert review.'),
       p('Version 10 (6 November 2026) comes from a fresh check of everything the tools store. It adds public profile pages, the gym health check and the gym details a coach records, Tournaments and reading draws with Anthropic, My rackets, Community (including anonymous posts and sharing from the tools), Watching and the daily summary email, the Marketplace and its reviews, trimming long videos, adding a session to your calendar, Box League entry fees and level suggestions, the count of tool use on both sites, and the services that load when you open YouTube, TikTok, Instagram or the pose model. It corrects who can see your photo and your social links, how long requests for coach access are kept, what padelpro.ie counts, and what deleting an account leaves behind. The whole policy is a draft for expert review.'),
       p('Version 10.1 (6 November 2026): deleted Community posts and replies are now erased at once, not kept until the account is deleted; the hash used for rate limits is now keyed with a secret and changes every day; and videos on the trimming machine are deleted when the job ends. This version is a draft for expert review.'),
+      p('Version 10.3 (6 November 2026) adds the player calendar: the events you or your coach add, venues, your coach’s access, the private calendar link for Google, Apple and Outlook, “This is me” for box league matches, and the after-session prompt. This section is a draft for expert review.'),
       p('Version 10.2 (6 November 2026) adds the wellness check-in and training load, which are health information: what is stored, why, who sees it and at what level, reminders, the 18 and over and consent rules, how long it is kept and how to delete it. This section is a draft for expert review.'),
     ],
   },
