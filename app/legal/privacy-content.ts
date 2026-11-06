@@ -3,7 +3,7 @@
 // Written from an audit of what the code actually stores, not from a template. Version 1 is a first draft
 // for an expert to review, so every claim here should be true of the code on the day it is published.
 
-export const VERSION = 'Version 8, 26 October 2026'
+export const VERSION = 'Version 9, 6 November 2026'
 export const CONTACT = 'hello@padelpro.ie'
 
 export type Block =
@@ -109,8 +109,19 @@ export const sections: Section[] = [
       p('When you enter an event with a partner, we hold your partner’s email to find or invite them. Host clubs give a contact name, email, phone and venue address; only the club name, town and county are public. Admin actions on the platform are written to a permanent log, so there is a record of who changed what.'),
       p('Legal basis: providing the circuit you entered, your consent for public rankings and for marketing emails, and our legitimate interest in running fair, auditable competitions.'),
 
+      // Niggles (Kevin, 6 Nov 2026): health information. DRAFT FOR EXPERT REVIEW, like the rest of this policy: the legal
+      // basis (explicit consent for health data) and the wording of this section in particular.
+      h3('Niggles (health information, thepadeldoc.com)'),
+      p('If you are 18 or over and choose to, you can flag a niggle: an ache or pain you want to keep an eye on. Because this is information about your health, we keep it only after you tick a separate consent for it, and you can withdraw that consent at any time.'),
+      p('What we store for each niggle: where it hurts (one of a fixed list of areas, picked on a body map or from the list, and the muscle area you tapped on the map), the side, how bad it is from 0 to 10, when it started if you say, what makes it worse (chosen from a fixed list, never free text), when you flagged and last changed it, and the quick updates you add (better, same or worse, with a new score). We also keep when you gave the consent and that you said you are 18 or over. If you add a pain score to a tournament check-in, it is stored under the same consent.'),
+      p('Why: so you can track your niggles over time, and so a coach you have linked to can see them and plan your training and tournaments around them.'),
+      p('Who sees it: you, and a coach you have linked your account to, who can read your niggles and their history but cannot change them. Nobody else, and it is never sent to the AI assistant or used to train anything. If you unlink from your coach, they stop seeing it at once.'),
+      p('How long we keep it: a niggle you mark as gone, or one untouched for six months, is cleared; cleared niggles are deleted 12 months later. When you withdraw your consent, everything is deleted at once: every niggle, its history, the consent itself, and any pain score on your tournament check-ins.'),
+      p('How to delete it: delete one niggle, or all of them, from the Niggles card on your page or in Settings, or withdraw your consent in Settings, which deletes everything. Deleting your account deletes it too.'),
+      p('Legal basis: your explicit consent, which you can withdraw.'),
+
       h3('Things we never ask for'),
-      p('We do not collect health or medical information, and the tools have no field for it. Please do not type injury or medical details into notes. We never see your password on padelpro.ie, and we never see your key on thepadeldoc.com; both are stored as one-way hashes.'),
+      p('Apart from niggles (above), which you add yourself under their own consent, the tools have no field for health or medical information. Please do not type injury or medical details into notes. We never see your password on padelpro.ie, and we never see your key on thepadeldoc.com; both are stored as one-way hashes.'),
     ],
   },
   {
@@ -147,6 +158,7 @@ export const sections: Section[] = [
         'Contributions that never finished uploading: removed after 48 hours.',
         'Coach and club sign-ups never confirmed: deleted after seven days.',
         'Reviews: kept until the account is deleted or you ask us to remove one.',
+        'Niggles: a niggle you mark as gone, or one untouched for six months, is cleared, and cleared niggles are deleted 12 months later. Withdrawing your consent deletes every niggle, its history and any tournament pain score at once.',
         'Everything else (accounts, tagged and Tracker matches, Tactics Board plays, player pages, clips, notes, box league records, requests for access, padelpro.ie player and club records): kept until you or the person who created it deletes it, or until you ask us to. We do not delete active coaching data on a timer, because coaches rely on a player’s history staying put.',
         'On padelpro.ie a closed player account is anonymised rather than deleted, so past results and rankings stay consistent. Your PadelPro number remains; your name and contact details do not.',
       ),
@@ -177,6 +189,7 @@ export const sections: Section[] = [
         'You must be 16 or over to open a player account.',
         'You must be 18 or over to join a Box League yourself. Under 18s are added by the club, with a parent or guardian contact, and their phone numbers are never shown.',
         'Everyone in a contributed video must be 18 or over.',
+        'You must be 18 or over to flag niggles, and you confirm it when you give the consent.',
         'A coach who makes a page for a player under 16 is responsible for having a parent’s or guardian’s agreement first.',
       ),
       p('If you think we hold data about a child without the right agreement, email us and we will remove it.'),
@@ -202,6 +215,7 @@ export const sections: Section[] = [
       p('Version 6 (25 October 2026) added your answer to your next session (coming or not).'),
       p('Version 7 (25 October 2026) added messages between you and your coach: what is stored, who sees it, what anyone with your private page link can do, who can delete messages, and when they are deleted; and that we note which new things on your page you have opened.'),
       p('Version 8 (26 October 2026) added optional links to your profiles elsewhere: what is kept, who sees them, and how to remove them.'),
+      p('Version 9 (6 November 2026) added niggles, which are health information: what is stored, why, who sees it, the 18 and over and consent rules, how long it is kept and how to delete it. This section is a draft for expert review.'),
     ],
   },
 ]
