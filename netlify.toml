@@ -47,13 +47,16 @@
   from = "/signin"
   to = "/player/index.html"
   status = 200
+# My page has its own copy of the player bundle (padel-coach-src build target "me"), linking /me.webmanifest: installed
+# from My page, the app is Padel Doc with Android's Share menu target, /me/add-booking (calendar-feed-spec 2.1, 2.13). The
+# player page's manifest and icons are unchanged.
 [[redirects]]
   from = "/me"
-  to = "/player/index.html"
+  to = "/me/index.html"
   status = 200
 [[redirects]]
   from = "/me/*"
-  to = "/player/index.html"
+  to = "/me/index.html"
   status = 200
 
 # The admin's usage dashboard (Kevin 29 Oct 2026), in the player bundle.
@@ -99,6 +102,11 @@
     Cache-Control = "no-cache"
 [[headers]]
   for = "/player.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json"
+    Cache-Control = "public, max-age=3600"
+[[headers]]
+  for = "/me.webmanifest"
   [headers.values]
     Content-Type = "application/manifest+json"
     Cache-Control = "public, max-age=3600"
