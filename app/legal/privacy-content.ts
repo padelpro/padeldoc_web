@@ -3,15 +3,16 @@
 // Written from an audit of what the code actually stores, not from a template. Version 1 is a first draft
 // for an expert to review, so every claim here should be true of the code on the day it is published.
 //
+// Version 10.1 (Kevin, 6 Nov 2026) follows three code fixes (padel-share-api 0072, padel-jobs): deleted Community items
+// erased at once, rate-limit IP hashes keyed and changed daily, trimming videos off the runner within a day.
 // Version 10 (Kevin, 6 Nov 2026) is a full re-audit of the Worker, the tools and the site. DRAFT FOR EXPERT REVIEW, like
 // every version. Points for the reviewer in particular:
 // - health information: the gym health check, and the heart rates and impact note a coach records on a player's page
 //   (the legal basis for coach-entered health data);
 // - Anthropic as a processor for draw reading: its retention period under the API terms, and the US transfer wording;
-// - Community posts and replies are hidden on delete but their text is kept until the account is deleted;
 // - anonymous posts: the admin can see the author.
 
-export const VERSION = 'Version 10, 6 November 2026'
+export const VERSION = 'Version 10.1, 6 November 2026'
 export const CONTACT = 'hello@padelpro.ie'
 
 export type Block =
@@ -45,7 +46,7 @@ export const sections: Section[] = [
       p('Most of the tools work with nothing stored anywhere but your own browser. Data reaches us only when you save, share, sign up or send something. This section goes through it by who you are.'),
 
       h3('If you just visit'),
-      p('We do not store your IP address. Pages on thepadeldoc.com use Plausible, an analytics service that counts visits without cookies and without identifying anyone. On both sites, the tools count how often each tool is opened and used. To count each visitor only once a day, we keep a one-way hash of your IP address, browser and the tool, which changes every day and is deleted after three days; the daily totals have no hash in them. When you open a live scoreboard, Americano or shared match, we count the open the same way, with a daily hash kept for 35 days. Neither hash can be turned back into you. To stop abuse, some actions are rate limited using a hash of the IP address, and sign-in emails also by a hash of the email address; both are kept for two days.'),
+      p('We do not store your IP address. Pages on thepadeldoc.com use Plausible, an analytics service that counts visits without cookies and without identifying anyone. On both sites, the tools count how often each tool is opened and used. To count each visitor only once a day, we keep a one-way hash of your IP address, browser and the tool, which changes every day and is deleted after three days; the daily totals have no hash in them. When you open a live scoreboard, Americano or shared match, we count the open the same way, with a daily hash kept for 35 days. Neither hash can be turned back into you. To stop abuse, some actions are rate limited using a one-way hash of the IP address that is keyed with a secret and changes every day, so it can’t be turned back into an address or matched from one day to the next; sign-in emails are also limited by a hash of the email address. Both are kept for two days.'),
       p('Legal basis: our legitimate interest in running the sites securely and knowing roughly how many people use them.'),
 
       h3('If you sign in by email or get email alerts'),
@@ -83,7 +84,7 @@ export const sections: Section[] = [
       p('Legal basis: providing the service you asked for.'),
 
       h3('If you trim a long video (thepadeldoc.com)'),
-      p('To cut clips from a long video, such as a whole match, the full video is uploaded to our storage with Cloudflare R2 and cut on a trimming machine we run ourselves. The full video is deleted within seven days. The clips it makes are kept like any other clip: on the player page you chose, or, for one you keep just for yourself, until you delete it or your account.'),
+      p('To cut clips from a long video, such as a whole match, the full video is uploaded to our storage with Cloudflare R2 and cut on a trimming machine we run ourselves. The full video is deleted from our storage within seven days. On the trimming machine, the full video and the clips are deleted as soon as the job ends, and anything left behind by a fault within a day. The clips it makes are kept like any other clip: on the player page you chose, or, for one you keep just for yourself, until you delete it or your account.'),
       p('Legal basis: providing the service you asked for.'),
 
       h3('Messages between you and your coach (thepadeldoc.com)'),
@@ -138,7 +139,7 @@ export const sections: Section[] = [
       p('Tagging: other members can find you and tag you with @ in a post, which sends you an alert. This is on unless you turn it off in your settings.'),
       p('Posting anonymously: players can post in a zone anonymously. Other members then see “A player” in place of your name, avatar and photo, on the post and your replies under it. We can still see who wrote it, so we can deal with reports.'),
       p('Sharing from a tool: when you share something from a tool to Community, such as a match, a Tracker match, a Tactics Board play, a Balance result or a clip, we keep a copy of what the tool showed, which can include the players’ names in it. Whoever can see the post can open the copy.'),
-      p('Deleting: when you delete a post or reply it disappears for everyone and its pictures and clips are deleted, but its text, and the copy from a tool shared with it, stay in our database until your account is deleted, so the conversation and any reports about it stay consistent. When you delete your account, your posts and replies are deleted, except a post others have replied to, which stays with your name shown as “Former member”. Pictures and clips you upload but never post are deleted after a day.'),
+      p('Deleting: when you delete a post or reply, or we remove one, it disappears for everyone and is erased at once: its text, any @mentions in it, its link, its pictures and clips, and the copy from a tool shared with it. Only an empty placeholder marked as deleted stays, so the conversation around it holds together. When you delete your account, your posts and replies are deleted, except a post others have replied to, which stays with your name shown as “Former member”. Pictures and clips you upload but never post are deleted after a day.'),
       p('Legal basis: providing the service you asked for, and our legitimate interest in keeping Community safe.'),
 
       h3('Watching (thepadeldoc.com)'),
@@ -221,7 +222,7 @@ export const sections: Section[] = [
         'Your photo: kept until you remove it, pick an avatar instead, or delete your account.',
         'Clips and frames you send your coach, with your note: kept until you or your coach deletes one, or until your account, your coach’s page for you or your coach’s account is deleted. An unlink does not delete them.',
         'Messages between you and your coach, with their voice notes and attached files: kept until the side that sent one deletes it, or until your coach’s page for you or either account is deleted, as above.',
-        'Full videos uploaded for trimming: deleted within seven days.',
+        'Full videos uploaded for trimming: deleted from our storage within seven days, and from the trimming machine when the job ends (within a day if something goes wrong).',
         'Tactics Board plays: the last ten versions of each play are kept; older versions are deleted as new ones are saved.',
         'Contributions that never finished uploading: removed after 48 hours.',
         'Coach and club sign-ups never confirmed: deleted after seven days. Requests for coach access: declined ones overnight, ones still waiting after 90 days.',
@@ -229,7 +230,7 @@ export const sections: Section[] = [
         'Gym health check: kept until you delete it, do it again, or delete your account.',
         'Tournaments: kept until you delete them or your account. Draw readings: until you confirm or cancel them, 24 hours at most; the record of each reading, without names or pictures, until your account is deleted.',
         'Niggles: a niggle you mark as gone, or one untouched for six months, is cleared, and cleared niggles are deleted 12 months later. Withdrawing your consent deletes every niggle, its history and any tournament pain score at once.',
-        'Community: pictures and clips never posted are deleted after a day; invite links last seven days. Deleted posts and replies are hidden at once, and their text is deleted with your account.',
+        'Community: pictures and clips never posted are deleted after a day; invite links last seven days. Deleted posts and replies are erased at once, leaving only an empty placeholder.',
         'Marketplace: a removed listing’s photos are deleted that night; the listing and its messages stay until either account is deleted. Reviews you wrote keep their scores, without your name or comment, after your account is deleted.',
         'Everything else (accounts, tagged and Tracker matches, Tactics Board plays, player pages, clips, notes, gym records, rackets, what you watch, box league records, approved requests for access, padelpro.ie player and club records): kept until you or the person who created it deletes it, or until you ask us to. We do not delete active coaching data on a timer, because coaches rely on a player’s history staying put.',
         'On padelpro.ie a closed player account is anonymised rather than deleted, so past results and rankings stay consistent. Your PadelPro number remains; your name and contact details do not.',
@@ -289,6 +290,7 @@ export const sections: Section[] = [
       p('Version 8 (26 October 2026) added optional links to your profiles elsewhere: what is kept, who sees them, and how to remove them.'),
       p('Version 9 (6 November 2026) added niggles, which are health information: what is stored, why, who sees it, the 18 and over and consent rules, how long it is kept and how to delete it. This section is a draft for expert review.'),
       p('Version 10 (6 November 2026) comes from a fresh check of everything the tools store. It adds public profile pages, the gym health check and the gym details a coach records, Tournaments and reading draws with Anthropic, My rackets, Community (including anonymous posts and sharing from the tools), Watching and the daily summary email, the Marketplace and its reviews, trimming long videos, adding a session to your calendar, Box League entry fees and level suggestions, the count of tool use on both sites, and the services that load when you open YouTube, TikTok, Instagram or the pose model. It corrects who can see your photo and your social links, how long requests for coach access are kept, what padelpro.ie counts, and what deleting an account leaves behind. The whole policy is a draft for expert review.'),
+      p('Version 10.1 (6 November 2026): deleted Community posts and replies are now erased at once, not kept until the account is deleted; the hash used for rate limits is now keyed with a secret and changes every day; and videos on the trimming machine are deleted when the job ends. This version is a draft for expert review.'),
     ],
   },
 ]
