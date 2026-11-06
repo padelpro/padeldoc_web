@@ -1,0 +1,19 @@
+{
+  "id": "/me",
+  "name": "Padel Doc",
+  "short_name": "Padel Doc",
+  "start_url": "/me",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#141517",
+  "theme_color": "#141517",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "share_target": {
+    "action": "/me/add-booking",
+    "method": "GET",
+    "params": { "title": "title", "text": "text", "url": "url" }
+  }
+}

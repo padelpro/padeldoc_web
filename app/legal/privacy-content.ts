@@ -3,6 +3,9 @@
 // Written from an audit of what the code actually stores, not from a template. Version 1 is a first draft
 // for an expert to review, so every claim here should be true of the code on the day it is published.
 //
+// Version 10.4 (Kevin, 6 Nov 2026) adds Add a booking (padel-share-api 0077): a Playtomic or MatchPoint share pasted or sent
+// to the calendar, with the other players' names and levels kept on the player's own event. DRAFT FOR EXPERT REVIEW: other
+// people's names (shown to the linked coach unless the player turns it off) and the legal basis for keeping them.
 // Version 10.3 (Kevin, 6 Nov 2026) adds the player calendar (padel-share-api 0076): events a player or their coach adds,
 // venues typed in, the coach's access levels, the private calendar link for Google, Apple and Outlook, "This is me" for box
 // league matches, and the after-session load prompt. DRAFT FOR EXPERT REVIEW: an injury entry (health-related, kept to
@@ -19,7 +22,7 @@
 // - Anthropic as a processor for draw reading: its retention period under the API terms, and the US transfer wording;
 // - anonymous posts: the admin can see the author.
 
-export const VERSION = 'Version 10.3, 6 November 2026'
+export const VERSION = 'Version 10.4, 6 November 2026'
 export const CONTACT = 'hello@padelpro.ie'
 
 export type Block =
@@ -202,6 +205,8 @@ export const sections: Section[] = [
       p('Your calendar link: if you open it in Settings, you get a private link to subscribe to in Google, Apple or Outlook. We build it from your calendar each time your calendar app asks. It holds titles, times and places only: never other people’s names, notes or anything about your health. Anyone with the link can see it, so keep it to yourself; Reset link makes a new one and the old one stops at once. A coach’s link shows their bookings as “Coaching”, with player first names only if they choose. Google, Apple and Microsoft receive what the link holds when you subscribe, under their own privacy terms.'),
       p('Box league matches: on your league page you can tap “This is me” to tie your league link to your account, so your matches show in your calendar. We never match people by name.'),
       p('After a session: if you use training load (above), your calendar can ask how long and how hard a match or session was, once, by an alert that says only “How was it?”. Your answer is saved in your training load.'),
+      // Add a booking (Kevin, 6 Nov 2026, padel-share-api 0077). DRAFT FOR EXPERT REVIEW.
+      p('Bookings from Playtomic or MatchPoint: if you paste a booking you shared from Playtomic or MatchPoint, or share it to us from your phone, we read the text on your device and keep what you save on your calendar: the venue, date, time, court, level, the link, and the other players’ names and levels as shared. Those names are seen by you and your linked coach, unless you turn that off for your bookings or for one booking; they never go to your calendar app, to anyone else or to an AI service, and they are deleted as soon as you delete the booking (the rest of it goes 30 days later). If you choose to, we suggest who a player might be, but only from your coach, your groups and the names in your own past matches, and only you can confirm it. We never contact Playtomic or MatchPoint; the link is kept only so you can open it. This paragraph is a draft for expert review.'),
       p('Add to calendar on a single booking makes a calendar file on your own device; we keep nothing. If you choose Google Calendar instead, the session’s title, time and place go to Google in the link you open.'),
       p('Legal basis: providing the service you asked for; for an injury entry, your explicit choice to add it, which you can undo by deleting it.'),
 
@@ -323,6 +328,7 @@ export const sections: Section[] = [
       p('Version 9 (6 November 2026) added niggles, which are health information: what is stored, why, who sees it, the 18 and over and consent rules, how long it is kept and how to delete it. This section is a draft for expert review.'),
       p('Version 10 (6 November 2026) comes from a fresh check of everything the tools store. It adds public profile pages, the gym health check and the gym details a coach records, Tournaments and reading draws with Anthropic, My rackets, Community (including anonymous posts and sharing from the tools), Watching and the daily summary email, the Marketplace and its reviews, trimming long videos, adding a session to your calendar, Box League entry fees and level suggestions, the count of tool use on both sites, and the services that load when you open YouTube, TikTok, Instagram or the pose model. It corrects who can see your photo and your social links, how long requests for coach access are kept, what padelpro.ie counts, and what deleting an account leaves behind. The whole policy is a draft for expert review.'),
       p('Version 10.1 (6 November 2026): deleted Community posts and replies are now erased at once, not kept until the account is deleted; the hash used for rate limits is now keyed with a secret and changes every day; and videos on the trimming machine are deleted when the job ends. This version is a draft for expert review.'),
+      p('Version 10.4 (6 November 2026) adds bookings pasted or shared from Playtomic or MatchPoint: the other players’ names and levels on your own booking, who sees them, and that we never contact the booking sites. This section is a draft for expert review.'),
       p('Version 10.3 (6 November 2026) adds the player calendar: the events you or your coach add, venues, your coach’s access, the private calendar link for Google, Apple and Outlook, “This is me” for box league matches, and the after-session prompt. This section is a draft for expert review.'),
       p('Version 10.2 (6 November 2026) adds the wellness check-in and training load, which are health information: what is stored, why, who sees it and at what level, reminders, the 18 and over and consent rules, how long it is kept and how to delete it. This section is a draft for expert review.'),
     ],
