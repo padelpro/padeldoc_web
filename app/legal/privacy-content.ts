@@ -2,8 +2,16 @@
 // The same text is published on padelpro.ie: keep the two copies identical, and bump VERSION on any change.
 // Written from an audit of what the code actually stores, not from a template. Version 1 is a first draft
 // for an expert to review, so every claim here should be true of the code on the day it is published.
+//
+// Version 10 (Kevin, 6 Nov 2026) is a full re-audit of the Worker, the tools and the site. DRAFT FOR EXPERT REVIEW, like
+// every version. Points for the reviewer in particular:
+// - health information: the gym health check, and the heart rates and impact note a coach records on a player's page
+//   (the legal basis for coach-entered health data);
+// - Anthropic as a processor for draw reading: its retention period under the API terms, and the US transfer wording;
+// - Community posts and replies are hidden on delete but their text is kept until the account is deleted;
+// - anonymous posts: the admin can see the author.
 
-export const VERSION = 'Version 9, 6 November 2026'
+export const VERSION = 'Version 10, 6 November 2026'
 export const CONTACT = 'hello@padelpro.ie'
 
 export type Block =
@@ -18,7 +26,7 @@ const list = (...items: string[]): Block => ({ kind: 'list', items })
 const h3 = (text: string): Block => ({ kind: 'h3', text })
 
 export const intro: Block[] = [
-  p('This policy covers thepadeldoc.com and padelpro.ie, and the coaching tools that run on both: the Match Tracker, Americano Organiser, Scoreboard, Technique Analyser, Tactics Board, Balance Calculator, Match Tagger, coach and player pages, and the Box League. The two sites share one backend, so one policy covers both.'),
+  p('This policy covers thepadeldoc.com and padelpro.ie, and the coaching tools that run on both: the Match Tracker, Americano Organiser, Scoreboard, Technique Analyser, Tactics Board, Balance Calculator, Match Tagger, coach and player pages, public profile pages, Gym plans, Tournaments, Niggles, My rackets, Community, the Marketplace and the Box League. The two sites share one backend, so one policy covers both.'),
   p('It is written in plain language on purpose. If anything here is unclear, email us and we will answer in plain language too.'),
 ]
 
@@ -37,12 +45,12 @@ export const sections: Section[] = [
       p('Most of the tools work with nothing stored anywhere but your own browser. Data reaches us only when you save, share, sign up or send something. This section goes through it by who you are.'),
 
       h3('If you just visit'),
-      p('We do not store your IP address. Pages on thepadeldoc.com use Plausible, an analytics service that counts visits without cookies and without identifying anyone. padelpro.ie has no analytics. When you open a live scoreboard, Americano or shared match, we count the open using a one-way hash of your IP address and browser that changes every day and is kept for 35 days; it cannot be turned back into you. To stop abuse, some actions are rate limited using a hash of the IP address, and sign-in emails also by a hash of the email address; both are kept for two days.'),
+      p('We do not store your IP address. Pages on thepadeldoc.com use Plausible, an analytics service that counts visits without cookies and without identifying anyone. On both sites, the tools count how often each tool is opened and used. To count each visitor only once a day, we keep a one-way hash of your IP address, browser and the tool, which changes every day and is deleted after three days; the daily totals have no hash in them. When you open a live scoreboard, Americano or shared match, we count the open the same way, with a daily hash kept for 35 days. Neither hash can be turned back into you. To stop abuse, some actions are rate limited using a hash of the IP address, and sign-in emails also by a hash of the email address; both are kept for two days.'),
       p('Legal basis: our legitimate interest in running the sites securely and knowing roughly how many people use them.'),
 
       h3('If you sign in by email or get email alerts'),
       p('If your account has an email address you can sign in with it: we email you a link that works once and for 15 minutes, and opening it gives that device its own key for 90 days. We keep a one-way hash of each device key, a short label such as “Chrome on Windows” (worked out from your browser, never stored in full), and when it was last used. Signing out on a device cancels its key. An address you add or change is confirmed by a link before it is used.'),
-      p('If you turn on email alerts, the same things you would get as a phone alert also come by email: one email at most every ten minutes, listing everything since the last. Each email has a link that turns them off. We keep a copy of what we sent for seven days, in case it needs to be sent again.'),
+      p('If you turn on email alerts, the same things you would get as a phone alert also come by email: one email at most every ten minutes, listing everything since the last. If you watch anything in Community or the Marketplace, a daily summary email is also on unless you turn it off. Each email has a link that turns them off. We keep a copy of what we sent for seven days, in case it needs to be sent again.'),
       p('Legal basis: providing the sign-in and the alerts you asked for.'),
 
       h3('If you run a live scoreboard or Americano'),
@@ -50,51 +58,111 @@ export const sections: Section[] = [
       p('Legal basis: providing the live link you asked for.'),
 
       h3('If you are a coach'),
-      p('We hold your name, your email if you gave one, and a hashed copy of your key (we cannot see the key itself). When you sign up on thepadeldoc.com you give your name, email, club or area and, if you choose, a phone number. Only we see the phone number, we use it only to contact you about your account, and it is encrypted in our database. Your email is used to sign you in by link and, if you turn them on, for email alerts. A sign-up whose confirm link is never opened is deleted after seven days. A request for coach access made before sign-up was opened keeps your name, email, club and note until your account is deleted. Everything you save, such as tagged matches, Tracker matches, player pages, clips, notes and Tactics Board plays with their voice-overs, is stored under your account until you delete it. A match you tag is saved to your account as soon as you add the first tag, and a play on the Tactics Board as you work on it; for each play we keep its last ten versions so you can go back to one.'),
-      p('You can delete your coach account yourself, from Your account on your dashboard. It removes your account and everything under it: every player page you keep, with its sessions, notes, clips, links and the alert devices on them; your tagged and Tracker matches; your Tactics Board plays and voice-overs; your photo; your device keys and any email alerts waiting to be sent; and your request for coach access. Players who linked their own account to you are unlinked and told once that you have left. They keep their own account, matches, stats and clips; clips they sent you are on your pages, so they go with them. The notes you left on their matches are deleted; their own replies stay. If you run a Box League club, your account can’t be deleted until the club is handed over or deleted: email us and we will help.'),
+      p('We hold your name, your email if you gave one, and a hashed copy of your key (we cannot see the key itself). When you sign up on thepadeldoc.com you give your name, email, club or area and, if you choose, a phone number. Only we see the phone number, we use it only to contact you about your account, and it is encrypted in our database. Your email is used to sign you in by link and, if you turn them on, for email alerts. A sign-up whose confirm link is never opened is deleted after seven days. A request for coach access made before sign-up was opened keeps your name, email, club and note: a declined request is deleted overnight, one still waiting after 90 days is deleted, and an approved one is kept until your account is deleted. If you ask us for room for more players or storage, we keep your note until your account is deleted. Everything you save, such as tagged matches, Tracker matches, player pages, clips, notes and Tactics Board plays with their voice-overs, is stored under your account until you delete it. A match you tag is saved to your account as soon as you add the first tag, and a play on the Tactics Board as you work on it; for each play we keep its last ten versions so you can go back to one.'),
+      p('You can delete your coach account yourself, from Your account on your dashboard. It removes your account and everything under it: every player page you keep, with its sessions, notes, clips, links, gym records and the alert devices on them; your tagged and Tracker matches; your Tactics Board plays and voice-overs; your photo; your device keys and any email alerts waiting to be sent; and your request for coach access. Players who linked their own account to you are unlinked and told once that you have left. They keep their own account, matches, stats and clips; clips they sent you are on your pages, so they go with them. The notes you left on their matches are deleted; their own replies stay. What you posted in Community and the Marketplace goes as described under those headings. If you run a Box League club, your account can’t be deleted until the club is handed over or deleted: email us and we will help.'),
       p('Legal basis: providing the account and tools you asked for.'),
 
       h3('If a coach has made a page for you'),
       p('A coach can make a page for a player they coach. It can hold your name, session notes, homework, ratings, fitness test results, videos, photos, Tactics Board plays with voice-over, a racket report, questions you ask, clips you send the coach from your own account, and the coach’s replies. If your coach books your next session, your answer to it (coming or not) is stored on that page and deleted with it. The coach also has private notes you never see. You see your page through a private link that lasts a year, or through your own account if you link it. If you turn on alerts, your browser’s push subscription is stored so we can send them. We also note which new sessions, videos, bookings and replies on your page you have opened, so they stop showing as new.'),
+      p('If your coach uses Gym plans for you, the page also holds your gym plans and their results, and what the coach records to plan them safely: your resting and maximum heart rate, a short note about impact, and whether to avoid impact work or treat you as over 45. Heart rates and the impact note are information about your health; they are seen only by you and your coach, and go with the page.'),
       p('The coach is responsible for telling you that the page exists and for having your agreement, or a parent’s or guardian’s agreement if you are under 16. If a coach has made a page about you that you do not want, email us and we will remove it. If your coach deletes their account, the page they kept for you is deleted with it; if you linked your own account, you are told once and keep your own account, matches, stats and clips.'),
-      p('Legal basis: our legitimate interest in providing coaching tools, and the coach’s agreement with you.'),
+      p('Legal basis: our legitimate interest in providing coaching tools, and the coach’s agreement with you. For the gym health details, your agreement with your coach to plan your training with them.'),
 
       h3('If you have a player account (thepadeldoc.com)'),
-      p('We keep your name, your email if you give one, and a hash of your key. Your email is used to sign you in by link and, if you turn them on, for email alerts; a coach you link to never sees it. We keep the matches, stats and clips you save, which of the four players is you in a match you pick yourself in, and any coach link you make. A linked coach sees your saved matches and stats, not your clips, except the ones you send them (below). You must be 16 or over to open an account. You can unlink or delete your account at any time from your page; deleting removes everything, including the clips you sent your coach. If you run a Box League club, your account can’t be deleted until the club is handed over or deleted.'),
+      p('We keep your name, your email if you give one, and a hash of your key. Your email is used to sign you in by link and, if you turn them on, for email alerts; a coach you link to never sees it. We keep the matches, stats and clips you save, which of the four players is you in a match you pick yourself in, and any coach link you make. A linked coach sees your saved matches and stats, not your clips, except the ones you send them (below). You can also give your year of birth, which your coach never sees; it is used only for age rules, such as the 18 and over features below. You must be 16 or over to open an account. You can unlink or delete your account at any time from your page. Deleting removes everything, including the clips you sent your coach, with the exceptions explained under Community and the Marketplace. If you run a Box League club, your account can’t be deleted until the club is handed over or deleted.'),
       p('Legal basis: providing the account you asked for.'),
+
+      h3('Your public profile page (thepadeldoc.com)'),
+      p('Every coach, player and club account has a public profile page at thepadeldoc.com/your-name, made the first time you use your account. A player’s name there starts from their first name, and a coach’s from their full name; you can change it. Anyone can see on it: your first name (coaches: full name; clubs: the club’s name), whether you are a player, coach or club, your avatar, the country, region and home club you give in your settings if you give them, and, for coaches, your photo, the clubs you run and how many players your answers in Community have helped. Your social links show there only if you choose Everyone for them (below). Nothing else about you is on it.'),
+      p('A player can ask a coach to coach them from the coach’s profile, with a short message (up to 280 characters). The coach sees the request and the message. A declined request is kept so the same player can only ask again after 14 days; requests are deleted with either account.'),
+      p('Legal basis: providing the account you asked for, and our legitimate interest in letting players find coaches and clubs.'),
 
       h3('If you send a clip or a frame to your coach (thepadeldoc.com)'),
       p('If your player account is linked to a coach, you can send them a video, or a saved frame (a still picture from your video, with your drawings), from the Technique Analyser, with a note if you like. We store the video or frame, its title and your note (up to 500 characters) on the page your coach keeps for you, marked as sent by you, and it counts towards your coach’s clip storage. Your coach gets an alert that you sent it. Your coach sees it, with your note, on that page; anyone else only sees it if your coach adds it to your Videos, where it shows like any video or photo on your page, with your note as its note, which your coach can then edit.'),
       p('You or your coach can delete it at any time: you from My page, under Sent to coach, and your coach from your page. Your note is stored with it and deleted with it: deleting it removes the video or frame and its note for both of you. If you unlink, what you sent stays on your coach’s page, and you can still see and delete it from My page. If you delete your account, everything you sent is deleted with it, notes included. If your coach deletes the page they keep for you, or their account, what you sent goes with it.'),
       p('Legal basis: providing the service you asked for.'),
 
+      h3('If you trim a long video (thepadeldoc.com)'),
+      p('To cut clips from a long video, such as a whole match, the full video is uploaded to our storage with Cloudflare R2 and cut on a trimming machine we run ourselves. The full video is deleted within seven days. The clips it makes are kept like any other clip: on the player page you chose, or, for one you keep just for yourself, until you delete it or your account.'),
+      p('Legal basis: providing the service you asked for.'),
+
       h3('Messages between you and your coach (thepadeldoc.com)'),
-      p('A coach and each player they coach can send each other messages on the page the coach keeps for that player. We store what is sent: the text (up to 2,000 characters), links (and, for a YouTube or TikTok link, the title, author and thumbnail address we look up from YouTube or TikTok when it is sent), voice notes, and videos or pictures attached to a message, with who sent each one and when. Attached files and voice notes count towards your coach’s storage. We also note when each message has been read by the other side, so the unread counts work.'),
+      p('A coach and each player they coach can send each other messages on the page the coach keeps for that player. We store what is sent: the text (up to 2,000 characters), links (and, for a YouTube or TikTok link, the title, author and thumbnail address we look up from YouTube or TikTok when it is sent), voice notes, and videos or pictures attached to a message, with who sent each one and when. Attached files and voice notes count towards your coach’s storage. We also note when each message has been read by the other side, so the unread counts work; you can choose not to show the other side when you have read their messages, but we still note it for the counts.'),
       p('Your coach sees the thread on their page for you. You see it on My page if your player account is linked to them, and on your private page link. Anyone who has your private page link can read the messages and send messages as you, so keep the link to yourself; your coach can switch it off and make a new one at any time.'),
       p('Each side can delete its own messages at any time, and a voice note or file sent with a message is deleted with it. Everything in the thread is deleted when your coach deletes the page they keep for you, or their account. If you delete your player account, the messages you sent from it are deleted; anything sent through your private page link stays with your coach’s page until it or your coach’s account is deleted. Unlinking keeps the thread on your coach’s page.'),
       p('Legal basis: providing the service you asked for.'),
 
       h3('If you add a photo of yourself (thepadeldoc.com)'),
       p('Coaches and players can each add a photo of themselves in place of an avatar. Nobody can upload a photo for someone else: a coach can’t add one for a player. Before it leaves your device, the photo is cropped to a square and resized to 256 pixels, which also removes its metadata, including any location. It is stored with Cloudflare R2. It is deleted when you choose Remove photo, when you pick an avatar or go back to your initials instead, or when you delete your account.'),
-      p('Who sees it: a player’s photo is seen by the player, their linked coach, and anyone with a link to their player page. A coach’s photo is seen by the coach and the players linked to them. It is never public, never shown on padelpro.ie, and never used for Contribute, for training any model, for face recognition or for marketing.'),
+      p('Who sees it: a player’s photo is seen by the player, their linked coach, and anyone with a link to their player page. A coach’s photo is seen by the coach and the players linked to them, and is shown on the coach’s public profile page. Once you post, reply, join a group or list something in Community or the Marketplace, your photo is also shown there to other signed-in members. It is never shown on padelpro.ie, and never used for Contribute, for training any model, for face recognition or for marketing.'),
       p('Legal basis: your consent, which you can withdraw at any time by removing the photo.'),
 
       h3('If you add links to your profiles elsewhere (thepadeldoc.com)'),
       p('In your settings you can add, if you want to, your handle on Instagram, TikTok, YouTube, X, Facebook, Strava or Playtomic. We keep the handle only, not the rest of the address, and show each as a link to that profile.'),
-      p('Who sees them: a player’s links are seen by the player and their linked coach; a coach’s links by the coach and the players linked to them. They are never on a public page or a private page link. We do not visit those profiles or take anything from them.'),
+      p('Who sees them is your choice: only you; you and your coach (or, for a coach, the players linked to you), which is the setting unless you change it; or everyone, which also puts them on your public profile page and your private page link. We do not visit those profiles or take anything from them.'),
       p('To remove one, empty its field. Deleting your account removes them all.'),
       p('Legal basis: your consent, which you can withdraw at any time by emptying the fields.'),
 
+      // DRAFT FOR EXPERT REVIEW: health information (Kevin, 4 Nov 2026 health check; migrations 0063 and 0065).
+      h3('Gym plans and the health check (health information, thepadeldoc.com)'),
+      p('Before your first gym plan you do a short health check, and again once a year. If you are 18 or over and agree to it, we keep: which of the questions you answered yes to (only their names, never your No answers and never anything you write), your ticks for being 18 or over, for your doctor having cleared you to train (needed after any yes), for the disclaimer and for the consent, and the date. Because this is information about your health, we keep it only with that consent.'),
+      p('Who sees it: you, and a coach you have linked to, who sees only whether the check is done, whether anything was answered yes and whether you ticked that your doctor cleared you, never which question. If you answer yes, your coach gets an alert saying so, by email too if they turned email alerts on. We send you a reminder two weeks before the check is due again.'),
+      p('How long we keep it: until you choose Delete my health check, do the check again (the new one replaces the old, so no history is kept), or delete your account. An out-of-date check is not deleted on its own.'),
+      p('Legal basis: your explicit consent, which you can withdraw by deleting the check.'),
+
+      h3('Tournaments (thepadeldoc.com)'),
+      p('If you are 18 or over you can plan the tournaments you play. We keep what you enter or confirm: the event (name, category, level, dates, venue), your partner’s and opponents’ names as text, your matches with their times and courts, up to three keys and three plans for each event (your goals), your checklist, warm-up and travel times, notes on opponents, a recovery plan, the lessons from your review and a highlight reel. Names you enter stay as text on your tournament and are never linked to anyone’s account.'),
+      p('After a match you can check in with the result, score, how hard it felt and two short notes on what worked and what to fix. On a match morning you can check in on any pain. Pain is health information: it is kept only if you have given the niggles consent (below); otherwise you see the advice and nothing is stored.'),
+      p('Who sees it: you, and your linked coach, who sees your tournaments and, unless you turn it off, your check-ins (never pain without the niggles consent), can add keys, plans, a review and a reel, and can get alerts with your results, one by one or as one summary on a match day.'),
+      p('Reading a draw: if you upload screenshots of a draw (up to three), we send the pictures to Anthropic, our AI provider, to read the event, your matches and the names in them, so you only have to check them. Before they leave your device the pictures are redrawn and resized, which removes their location and camera details, and our server removes any that are left. We don’t send your name or account. We never store the pictures. What was read, including every name in the draw, is kept until you confirm or cancel it, and for 24 hours at most; after that we keep only a record of the reading for your account (when, how long it took, its cost, and how many of the details you had to correct, with no names or pictures). Anthropic keeps what we send only for a limited period under its commercial terms and does not use it to train its models. No other part of the tools sends your data to an AI service.'),
+      p('How long we keep it: until you delete a tournament, choose Delete my tournaments, or delete your account. The records of draw readings are kept until your account is deleted.'),
+      p('Legal basis: providing the service you asked for, and your explicit consent for pain scores.'),
+
+      // Niggles (Kevin, 6 Nov 2026): health information. DRAFT FOR EXPERT REVIEW, like the rest of this policy: the legal
+      // basis (explicit consent for health data) and the wording of this section in particular.
+      h3('Niggles (health information, thepadeldoc.com)'),
+      p('If you are 18 or over and choose to, you can flag a niggle: an ache or pain you want to keep an eye on. Because this is information about your health, we keep it only after you tick a separate consent for it, and you can withdraw that consent at any time.'),
+      p('What we store for each niggle: where it hurts (one of a fixed list of areas, picked on a body map or from the list, and the muscle area you tapped on the map), the side, how bad it is from 0 to 10, when it started if you say, what makes it worse (chosen from a fixed list, never free text), when you flagged and last changed it, and the quick updates you add (better, same or worse, with a new score). We also keep when you gave the consent and that you said you are 18 or over. If you add a pain score to a tournament check-in, it is stored under the same consent.'),
+      p('Why: so you can track your niggles over time, and so a coach you have linked to can see them and plan your training and tournaments around them.'),
+      p('Who sees it: you, and a coach you have linked your account to, who can read your niggles and their history but cannot change them. Nobody else, and it is never sent to an AI service or used to train anything. If you unlink from your coach, they stop seeing it at once.'),
+      p('How long we keep it: a niggle you mark as gone, or one untouched for six months, is cleared; cleared niggles are deleted 12 months later. When you withdraw your consent, everything is deleted at once: every niggle, its history, the consent itself, and any pain score on your tournament check-ins.'),
+      p('How to delete it: delete one niggle, or all of them, from the Niggles card on your page or in Settings, or withdraw your consent in Settings, which deletes everything. Deleting your account deletes it too.'),
+      p('Legal basis: your explicit consent, which you can withdraw.'),
+
+      h3('My rackets (thepadeldoc.com)'),
+      p('You can keep a list of your rackets, with the weight, balance, grips and extras of each weighing, and choose who sees it. Your coach can add a racket to your list. Racket pages show summaries across everyone’s weighings: how many there are, and averages only once there are at least three rackets, never a single weighing or a name. Your rackets are deleted with your account.'),
+      p('Legal basis: providing the service you asked for.'),
+
+      h3('Community (thepadeldoc.com)'),
+      p('Community is for signed-in members only. We keep what you post there: posts, replies, reactions, pictures and clips, groups you make or join, invites (an invite link lasts seven days), people you block, and reports you make about a post, with your reason and note, which only we see. Other members see your posts with your first name (a club: the club’s name), whether you are a player, coach or club, and your avatar or photo. Ask a coach uses the country, region and home club in your settings to show your question to the right coaches.'),
+      p('Tagging: other members can find you and tag you with @ in a post, which sends you an alert. This is on unless you turn it off in your settings.'),
+      p('Posting anonymously: players can post in a zone anonymously. Other members then see “A player” in place of your name, avatar and photo, on the post and your replies under it. We can still see who wrote it, so we can deal with reports.'),
+      p('Sharing from a tool: when you share something from a tool to Community, such as a match, a Tracker match, a Tactics Board play, a Balance result or a clip, we keep a copy of what the tool showed, which can include the players’ names in it. Whoever can see the post can open the copy.'),
+      p('Deleting: when you delete a post or reply it disappears for everyone and its pictures and clips are deleted, but its text, and the copy from a tool shared with it, stay in our database until your account is deleted, so the conversation and any reports about it stay consistent. When you delete your account, your posts and replies are deleted, except a post others have replied to, which stays with your name shown as “Former member”. Pictures and clips you upload but never post are deleted after a day.'),
+      p('Legal basis: providing the service you asked for, and our legitimate interest in keeping Community safe.'),
+
+      h3('Watching (thepadeldoc.com)'),
+      p('You can watch posts, Marketplace listings, zones and groups, and save up to ten searches, to hear when something changes or something new matches. Your own posts, posts you reply to and listings you save are watched for you. We may also suggest zones, with the reason why. Alerts come in your bell, by push if you turned it on, and in the daily summary email, which is on unless you turn it off. We keep what you watch and your saved searches until you remove them or delete your account.'),
+      p('Legal basis: providing the service you asked for.'),
+
+      h3('The Marketplace (thepadeldoc.com)'),
+      p('If you list something, we keep the title, description, price, condition, country, any racket details and weighing, and up to eight photos. Our pages redraw each photo before it leaves your device, which removes its metadata, including any location. Signed-in members see your listing with your first name, whether you are a player or coach, your avatar or photo, the country, region and home club in your settings, the month you joined and how many listings you have up. The photos, and a preview card with the title, price, condition, region and photos but not your name, can be seen by anyone with the link, so the listing can be shared.'),
+      p('Buyers and sellers can message each other about a listing; we keep those messages, with when each was read, and which buyer a seller picked when it sold. Members can save listings and report them to us.'),
+      p('Reviews of a sale: within 30 days of a sale, the buyer and seller can each give the other star scores and a comment (up to 300 characters). Reviews stay hidden until both have reviewed or 14 days have passed, and the other side can reply. You can also send us private feedback about a sale. We prompt you the day after a sale.'),
+      p('Deleting: when you remove a listing its photos are deleted that night; the listing record and its messages stay until your account or the other person’s is deleted. When you delete your account your listings, messages and saves go, and the other side loses the conversations they had with you. Reviews you wrote keep their star scores, so sellers’ ratings stay fair, but your name and comment are removed.'),
+      p('Legal basis: providing the service you asked for, and our legitimate interest in keeping the Marketplace fair and safe.'),
+
       h3('If you play in a Box League (thepadeldoc.com)'),
-      p('Your club runs its league with our tool. The club adds your name, playing level, gender (used only to decide which league you can enter, never shown), mobile number, membership number, availability and, if it has it, your email. If you are under 18 the club marks you as a junior and adds a parent’s or guardian’s contact instead. If you join through the club’s public page you give your name, mobile, a self-assessed level and that you are 18 or over.'),
+      p('Your club runs its league with our tool. The club adds your name, playing level, gender (used only to decide which league you can enter, never shown), mobile number, membership number, availability and, if it has it, your email. If you are under 18 the club marks you as a junior and adds a parent’s or guardian’s contact instead. If you join through the club’s public page you give your name, mobile, a self-assessed level, your answers to any questions the club asks about when you can play, and that you are 18 or over.'),
       p('Your email is used for box league alerts by email, which you can turn off from your page, and to send you your private link again if you lose it. You can add, change or remove it yourself on your page. Phone numbers, emails and guardian contacts are encrypted in our database. Who sees what: the club’s admins see everything they entered. Players in your box see your name, results, bookings and, for adults only while a round is live, your mobile number so matches can be arranged. Juniors’ numbers are never shown. The club’s public league page shows names (juniors as first name and initial), boxes, results, standings and booking times, so people can come and watch. Levels, phones, emails and availability are never public, and other players never see your email.'),
+      p('If your club charges an entry fee, we keep whether you said you have paid and whether the club confirmed it; the payment itself happens on the club’s own payment link, never with us. From results, the tool suggests to the club’s admins when a player might move level; only the admins see these suggestions.'),
       p('Each club is responsible for its own members’ data and for telling you it uses this tool. We hold the data on the club’s behalf. If the club removes you, your contact details and level are wiped straight away; your name on past results becomes “Former member” unless the club keeps it.'),
       p('Legal basis: the club’s agreement with you as a member, and our legitimate interest in providing the tool to the club.'),
 
       h3('If you run a club account'),
       p('We keep the club name, your name, your email (used to sign you in by link and for email alerts if you turn them on), the town or area and phone number you gave at sign-up if you gave them (the phone number is encrypted, only we see it, and we use it only to contact you about the account), a hash of your key, your club logo and any sponsor logo you upload. Logos are public. A sign-up whose confirm link is never opened is deleted after seven days, with the club it set up. A request for club access made before sign-up was opened keeps the club name, contact name, email and note, as a record of who asked. If you agree to it, we may show your club’s name and logo on thepadeldoc.com as a club using the tools; you can withdraw that at any time.'),
 
-      h3('If you leave a review (thepadeldoc.com)'),
+      h3('If you leave a review of the site (thepadeldoc.com)'),
       p('After you have used your account on a few different days, or reached a milestone such as ten matches saved, we may ask for a review on your page. To know when to ask, we count how many different days your account is used and keep the last one, how many times we have asked, and when you said Not now. We never ask more than twice. A review is your star rating, anything you write, your first name, whether you are a coach, player or club organiser, and whether you ticked OK to show. We read every review. Only reviews we approve and that you ticked OK to show appear on the thepadeldoc.com homepage, with your first name and role; never your full name, email or anything else. Email us to have yours taken down at any time.'),
       p('The homepage also shows how many coaches, players and clubs use thepadeldoc.com. It is a count only: no names and nothing that points to anyone.'),
       p('Legal basis: our legitimate interest in hearing how the tools work for people, and your consent for showing your review.'),
@@ -104,24 +172,16 @@ export const sections: Section[] = [
       p('You can withdraw at any time with the remove link shown when the upload finished, or by emailing us with your contribution ID. Withdrawing deletes the video and tags. A record that a contribution existed and was withdrawn is kept, with no video, email or names.'),
       p('Legal basis: your consent, which you can withdraw.'),
 
+      h3('If you add a session to your calendar'),
+      p('Add to calendar makes a calendar file on your own device; we keep nothing. If you choose Google Calendar instead, the session’s title, time and place go to Google in the link you open.'),
+
       h3('If you sign up on padelpro.ie'),
       p('To play in the PadelPro circuit you give your name, email, password, date of birth, gender, home club and mobile number, and optionally your county. Your date of birth decides your age band and your gender decides your category; neither is published. Your name, club, ranking, results and event history are public on padelpro.ie, which you agree to when you sign up. We record when you agreed. If you tick the box for circuit updates and sponsor offers, we email you those until you untick it.'),
       p('When you enter an event with a partner, we hold your partner’s email to find or invite them. Host clubs give a contact name, email, phone and venue address; only the club name, town and county are public. Admin actions on the platform are written to a permanent log, so there is a record of who changed what.'),
       p('Legal basis: providing the circuit you entered, your consent for public rankings and for marketing emails, and our legitimate interest in running fair, auditable competitions.'),
 
-      // Niggles (Kevin, 6 Nov 2026): health information. DRAFT FOR EXPERT REVIEW, like the rest of this policy: the legal
-      // basis (explicit consent for health data) and the wording of this section in particular.
-      h3('Niggles (health information, thepadeldoc.com)'),
-      p('If you are 18 or over and choose to, you can flag a niggle: an ache or pain you want to keep an eye on. Because this is information about your health, we keep it only after you tick a separate consent for it, and you can withdraw that consent at any time.'),
-      p('What we store for each niggle: where it hurts (one of a fixed list of areas, picked on a body map or from the list, and the muscle area you tapped on the map), the side, how bad it is from 0 to 10, when it started if you say, what makes it worse (chosen from a fixed list, never free text), when you flagged and last changed it, and the quick updates you add (better, same or worse, with a new score). We also keep when you gave the consent and that you said you are 18 or over. If you add a pain score to a tournament check-in, it is stored under the same consent.'),
-      p('Why: so you can track your niggles over time, and so a coach you have linked to can see them and plan your training and tournaments around them.'),
-      p('Who sees it: you, and a coach you have linked your account to, who can read your niggles and their history but cannot change them. Nobody else, and it is never sent to the AI assistant or used to train anything. If you unlink from your coach, they stop seeing it at once.'),
-      p('How long we keep it: a niggle you mark as gone, or one untouched for six months, is cleared; cleared niggles are deleted 12 months later. When you withdraw your consent, everything is deleted at once: every niggle, its history, the consent itself, and any pain score on your tournament check-ins.'),
-      p('How to delete it: delete one niggle, or all of them, from the Niggles card on your page or in Settings, or withdraw your consent in Settings, which deletes everything. Deleting your account deletes it too.'),
-      p('Legal basis: your explicit consent, which you can withdraw.'),
-
       h3('Things we never ask for'),
-      p('Apart from niggles (above), which you add yourself under their own consent, the tools have no field for health or medical information. Please do not type injury or medical details into notes. We never see your password on padelpro.ie, and we never see your key on thepadeldoc.com; both are stored as one-way hashes.'),
+      p('Apart from niggles, the gym health check and the gym details your coach records (above), the tools have no field for health or medical information. Please do not type injury or medical details into notes. We never see your password on padelpro.ie, and we never see your key on thepadeldoc.com; both are stored as one-way hashes.'),
     ],
   },
   {
@@ -131,14 +191,21 @@ export const sections: Section[] = [
       p('We do not sell data and we do not share it with advertisers. The services that handle data on our behalf are:'),
       list(
         'Cloudflare: runs our backend and stores the database, clips, videos, photos and logos. Cloudflare is a US company; transfers are covered by the EU-US Data Privacy Framework and standard contractual clauses in its data processing terms.',
+        'Anthropic: reads the draw screenshots you upload in Tournaments (the pictures only, without your name or account). US company, covered the same way.',
         'Netlify: hosts the websites. US company, covered the same way.',
-        'Resend: sends our emails (sign-in links, confirm links and alerts). It receives the address, the subject and the text of each email. US company, covered the same way.',
+        'Resend: sends our emails (sign-in links, confirm links, alerts and the daily summary). It receives the address, the subject and the text of each email. US company, covered the same way.',
         'Plausible: cookie-free analytics for thepadeldoc.com, hosted in the EU.',
         'Supabase: the database and login system for padelpro.ie, including the emails it sends to confirm your address or reset your password.',
         'Apple, Google, Mozilla and Microsoft push services: deliver alerts to your device if you turn them on. They see where to deliver, not what; the message is encrypted so only your device can read it.',
-        'YouTube: when you press Load video on a YouTube link in the Match Tagger, the player loads from youtube-nocookie.com. From that moment YouTube receives your IP address and may store information on your device. See the cookie policy.',
       ),
-      p('Beyond those, data is shared only as described above: with the coach, club or players you are connected to, and publicly where this policy says something is public.'),
+      p('Some things you choose to open load from other companies, which then see your IP address:'),
+      list(
+        'YouTube: when you load a YouTube video in the Match Tagger or the Technique Analyser, YouTube’s script loads from youtube.com and the player from youtube-nocookie.com, and YouTube may store information on your device. Thumbnails for YouTube links in messages and Community load from YouTube when they are shown, and a video plays only after you tap it. See the cookie policy.',
+        'TikTok and Instagram: thumbnails for TikTok links load from TikTok when they are shown; TikTok and Instagram posts play only after you tap them.',
+        'YouTube and TikTok link details: when a link is sent in a message or posted in Community, our server asks YouTube or TikTok for its title, author and thumbnail. They see the link, not you.',
+        'jsDelivr and Google: when you switch on Pose in the Technique Analyser, the pose model downloads from cdn.jsdelivr.net and storage.googleapis.com. Your video stays on your device.',
+      ),
+      p('Beyond those, data is shared only as described above: with the coach, club or players you are connected to, with other members where you post in Community or the Marketplace, and publicly where this policy says something is public.'),
     ],
   },
   {
@@ -148,18 +215,23 @@ export const sections: Section[] = [
       list(
         'Live scoreboards and Americanos: deleted 30 days after the last change.',
         'Match view links: expire after 30 days. Player page links: after a year. Expired or revoked links are removed 30 days later.',
-        'Visit counts: the daily hash is kept 35 days. Rate-limit hashes: two days.',
+        'Visit counts: the daily hash is kept 35 days. Tool use counts: the daily hash is kept three days. Rate-limit hashes: two days.',
         'Sign-in and confirm links: deleted a day after they expire. Device keys from an email sign-in: last 90 days, then removed 30 days later. Copies of alert emails: seven days.',
-        'Alerts waiting to be sent, such as telling linked players that their coach has left: deleted once sent, a few every ten minutes.',
+        'Alerts waiting to be sent, such as telling linked players that their coach has left: deleted once sent, a few every ten minutes. Records of the result summaries sent to a coach: 30 days.',
         'Your photo: kept until you remove it, pick an avatar instead, or delete your account.',
         'Clips and frames you send your coach, with your note: kept until you or your coach deletes one, or until your account, your coach’s page for you or your coach’s account is deleted. An unlink does not delete them.',
         'Messages between you and your coach, with their voice notes and attached files: kept until the side that sent one deletes it, or until your coach’s page for you or either account is deleted, as above.',
+        'Full videos uploaded for trimming: deleted within seven days.',
         'Tactics Board plays: the last ten versions of each play are kept; older versions are deleted as new ones are saved.',
         'Contributions that never finished uploading: removed after 48 hours.',
-        'Coach and club sign-ups never confirmed: deleted after seven days.',
-        'Reviews: kept until the account is deleted or you ask us to remove one.',
+        'Coach and club sign-ups never confirmed: deleted after seven days. Requests for coach access: declined ones overnight, ones still waiting after 90 days.',
+        'Site reviews: kept until the account is deleted or you ask us to remove one.',
+        'Gym health check: kept until you delete it, do it again, or delete your account.',
+        'Tournaments: kept until you delete them or your account. Draw readings: until you confirm or cancel them, 24 hours at most; the record of each reading, without names or pictures, until your account is deleted.',
         'Niggles: a niggle you mark as gone, or one untouched for six months, is cleared, and cleared niggles are deleted 12 months later. Withdrawing your consent deletes every niggle, its history and any tournament pain score at once.',
-        'Everything else (accounts, tagged and Tracker matches, Tactics Board plays, player pages, clips, notes, box league records, requests for access, padelpro.ie player and club records): kept until you or the person who created it deletes it, or until you ask us to. We do not delete active coaching data on a timer, because coaches rely on a player’s history staying put.',
+        'Community: pictures and clips never posted are deleted after a day; invite links last seven days. Deleted posts and replies are hidden at once, and their text is deleted with your account.',
+        'Marketplace: a removed listing’s photos are deleted that night; the listing and its messages stay until either account is deleted. Reviews you wrote keep their scores, without your name or comment, after your account is deleted.',
+        'Everything else (accounts, tagged and Tracker matches, Tactics Board plays, player pages, clips, notes, gym records, rackets, what you watch, box league records, approved requests for access, padelpro.ie player and club records): kept until you or the person who created it deletes it, or until you ask us to. We do not delete active coaching data on a timer, because coaches rely on a player’s history staying put.',
         'On padelpro.ie a closed player account is anonymised rather than deleted, so past results and rankings stay consistent. Your PadelPro number remains; your name and contact details do not.',
       ),
       p('Player accounts can delete themselves from their own page, and coaches from Your account on their dashboard. An account that runs a Box League club can’t be deleted until the club is handed over or deleted. Clubs: email us and we will delete your account and everything under it.'),
@@ -189,7 +261,7 @@ export const sections: Section[] = [
         'You must be 16 or over to open a player account.',
         'You must be 18 or over to join a Box League yourself. Under 18s are added by the club, with a parent or guardian contact, and their phone numbers are never shown.',
         'Everyone in a contributed video must be 18 or over.',
-        'You must be 18 or over to flag niggles, and you confirm it when you give the consent.',
+        'You must be 18 or over to flag niggles, do the gym health check or use Tournaments, and you confirm it when you start; if you gave a year of birth, it must agree.',
         'A coach who makes a page for a player under 16 is responsible for having a parent’s or guardian’s agreement first.',
       ),
       p('If you think we hold data about a child without the right agreement, email us and we will remove it.'),
@@ -216,6 +288,7 @@ export const sections: Section[] = [
       p('Version 7 (25 October 2026) added messages between you and your coach: what is stored, who sees it, what anyone with your private page link can do, who can delete messages, and when they are deleted; and that we note which new things on your page you have opened.'),
       p('Version 8 (26 October 2026) added optional links to your profiles elsewhere: what is kept, who sees them, and how to remove them.'),
       p('Version 9 (6 November 2026) added niggles, which are health information: what is stored, why, who sees it, the 18 and over and consent rules, how long it is kept and how to delete it. This section is a draft for expert review.'),
+      p('Version 10 (6 November 2026) comes from a fresh check of everything the tools store. It adds public profile pages, the gym health check and the gym details a coach records, Tournaments and reading draws with Anthropic, My rackets, Community (including anonymous posts and sharing from the tools), Watching and the daily summary email, the Marketplace and its reviews, trimming long videos, adding a session to your calendar, Box League entry fees and level suggestions, the count of tool use on both sites, and the services that load when you open YouTube, TikTok, Instagram or the pose model. It corrects who can see your photo and your social links, how long requests for coach access are kept, what padelpro.ie counts, and what deleting an account leaves behind. The whole policy is a draft for expert review.'),
     ],
   },
 ]
