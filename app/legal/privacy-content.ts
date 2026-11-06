@@ -3,6 +3,9 @@
 // Written from an audit of what the code actually stores, not from a template. Version 1 is a first draft
 // for an expert to review, so every claim here should be true of the code on the day it is published.
 //
+// Version 10.2 (Kevin, 6 Nov 2026) adds the wellness check-in and training load (padel-share-api 0075): health information,
+// on its own consent and the 18 and over rule, trialled with listed accounts first. DRAFT FOR EXPERT REVIEW: the legal basis
+// (explicit consent for the check-in; logged load as part of the service), the sharing levels' wording, and retention.
 // Version 10.1 (Kevin, 6 Nov 2026) follows three code fixes (padel-share-api 0072, padel-jobs): deleted Community items
 // erased at once, rate-limit IP hashes keyed and changed daily, trimming videos off the runner within a day.
 // Version 10 (Kevin, 6 Nov 2026) is a full re-audit of the Worker, the tools and the site. DRAFT FOR EXPERT REVIEW, like
@@ -12,7 +15,7 @@
 // - Anthropic as a processor for draw reading: its retention period under the API terms, and the US transfer wording;
 // - anonymous posts: the admin can see the author.
 
-export const VERSION = 'Version 10.1, 6 November 2026'
+export const VERSION = 'Version 10.2, 6 November 2026'
 export const CONTACT = 'hello@padelpro.ie'
 
 export type Block =
@@ -27,7 +30,7 @@ const list = (...items: string[]): Block => ({ kind: 'list', items })
 const h3 = (text: string): Block => ({ kind: 'h3', text })
 
 export const intro: Block[] = [
-  p('This policy covers thepadeldoc.com and padelpro.ie, and the coaching tools that run on both: the Match Tracker, Americano Organiser, Scoreboard, Technique Analyser, Tactics Board, Balance Calculator, Match Tagger, coach and player pages, public profile pages, Gym plans, Tournaments, Niggles, My rackets, Community, the Marketplace and the Box League. The two sites share one backend, so one policy covers both.'),
+  p('This policy covers thepadeldoc.com and padelpro.ie, and the coaching tools that run on both: the Match Tracker, Americano Organiser, Scoreboard, Technique Analyser, Tactics Board, Balance Calculator, Match Tagger, coach and player pages, public profile pages, Gym plans, Tournaments, Niggles, the wellness check-in and training load, My rackets, Community, the Marketplace and the Box League. The two sites share one backend, so one policy covers both.'),
   p('It is written in plain language on purpose. If anything here is unclear, email us and we will answer in plain language too.'),
 ]
 
@@ -130,6 +133,19 @@ export const sections: Section[] = [
       p('How to delete it: delete one niggle, or all of them, from the Niggles card on your page or in Settings, or withdraw your consent in Settings, which deletes everything. Deleting your account deletes it too.'),
       p('Legal basis: your explicit consent, which you can withdraw.'),
 
+      // Wellness and training load (Kevin, 6 Nov 2026, padel-share-api 0075): health information. DRAFT FOR EXPERT REVIEW:
+      // the legal basis, the sharing levels and the retention in particular.
+      h3('Wellness check-in and training load (health information, thepadeldoc.com)'),
+      p('If you are 18 or over and choose to, you can do a short daily check-in: how well you slept and for how long, and how fatigued, sore, stressed and in what mood you feel, each on a scale of 1 to 5. After seven check-ins we work out a readiness light (green, amber or red) by comparing you with your own recent days, never with anyone else. It is a guide, not a diagnosis. Because this is information about your health, we keep it only after you tick a separate consent, with the 18 and over tick, and you can withdraw that consent at any time.'),
+      p('What we store: each check-in and its date, the light worked out for each day and the reasons for it, your choices (what you share with your coach, your reminders), and a record of each consent you gave or withdrew and when. If you have given the niggles consent, the light also reads your active niggles; pain stays in Niggles and is not copied here.'),
+      p('Training load: you can log your sessions and matches with how long they lasted and how hard they felt (0 to 10). A tournament check-in can log the match too, if you add the minutes played. This needs only the 18 and over rule, not the check-in consent.'),
+      p('Why: so you can see how you are and how much you are training, and spot a hard week or a run of poor sleep; and so a coach you have linked to can plan your training around it, if you choose to share.'),
+      p('Who sees it: you. Your linked coach sees your check-ins only if you choose to share, and only at the level you choose: nothing (the default), the light only, or the detail (the light, its reasons and your answers). Your linked coach sees your logged training load unless you turn that off in your choices. We note each time a coach looks. Nobody else sees it, and it is never sent to an AI service or used to train anything. If you unlink from your coach, they stop seeing it at once.'),
+      p('Reminders: if you turn them on, a push notification says only "Morning check-in" or "Log today\'s session?", never your answers or your light.'),
+      p('How long we keep it: check-ins, lights and the load you logged are deleted after 24 months; the record of which coach looked, after 12 months; the record of your consents stays with your account.'),
+      p('How to delete it: download everything or delete your check-ins from the Wellness tab on your page, or turn the check-in off and choose to delete what was kept. Deleting your account deletes it too.'),
+      p('Legal basis: your explicit consent for the check-in and its sharing, which you can withdraw; providing the service you asked for, for the training load you log.'),
+
       h3('My rackets (thepadeldoc.com)'),
       p('You can keep a list of your rackets, with the weight, balance, grips and extras of each weighing, and choose who sees it. Your coach can add a racket to your list. Racket pages show summaries across everyone’s weighings: how many there are, and averages only once there are at least three rackets, never a single weighing or a name. Your rackets are deleted with your account.'),
       p('Legal basis: providing the service you asked for.'),
@@ -182,7 +198,7 @@ export const sections: Section[] = [
       p('Legal basis: providing the circuit you entered, your consent for public rankings and for marketing emails, and our legitimate interest in running fair, auditable competitions.'),
 
       h3('Things we never ask for'),
-      p('Apart from niggles, the gym health check and the gym details your coach records (above), the tools have no field for health or medical information. Please do not type injury or medical details into notes. We never see your password on padelpro.ie, and we never see your key on thepadeldoc.com; both are stored as one-way hashes.'),
+      p('Apart from niggles, the wellness check-in, the gym health check and the gym details your coach records (above), the tools have no field for health or medical information. Please do not type injury or medical details into notes. We never see your password on padelpro.ie, and we never see your key on thepadeldoc.com; both are stored as one-way hashes.'),
     ],
   },
   {
@@ -230,6 +246,7 @@ export const sections: Section[] = [
         'Gym health check: kept until you delete it, do it again, or delete your account.',
         'Tournaments: kept until you delete them or your account. Draw readings: until you confirm or cancel them, 24 hours at most; the record of each reading, without names or pictures, until your account is deleted.',
         'Niggles: a niggle you mark as gone, or one untouched for six months, is cleared, and cleared niggles are deleted 12 months later. Withdrawing your consent deletes every niggle, its history and any tournament pain score at once.',
+        'Wellness check-ins, readiness lights and the training load you log: deleted after 24 months. The record of coaches looking: 12 months. The record of your consents: as long as your account.',
         'Community: pictures and clips never posted are deleted after a day; invite links last seven days. Deleted posts and replies are erased at once, leaving only an empty placeholder.',
         'Marketplace: a removed listing’s photos are deleted that night; the listing and its messages stay until either account is deleted. Reviews you wrote keep their scores, without your name or comment, after your account is deleted.',
         'Everything else (accounts, tagged and Tracker matches, Tactics Board plays, player pages, clips, notes, gym records, rackets, what you watch, box league records, approved requests for access, padelpro.ie player and club records): kept until you or the person who created it deletes it, or until you ask us to. We do not delete active coaching data on a timer, because coaches rely on a player’s history staying put.',
@@ -262,7 +279,7 @@ export const sections: Section[] = [
         'You must be 16 or over to open a player account.',
         'You must be 18 or over to join a Box League yourself. Under 18s are added by the club, with a parent or guardian contact, and their phone numbers are never shown.',
         'Everyone in a contributed video must be 18 or over.',
-        'You must be 18 or over to flag niggles, do the gym health check or use Tournaments, and you confirm it when you start; if you gave a year of birth, it must agree.',
+        'You must be 18 or over to flag niggles, do the wellness check-in or log training load, do the gym health check or use Tournaments, and you confirm it when you start; if you gave a year of birth, it must agree.',
         'A coach who makes a page for a player under 16 is responsible for having a parent’s or guardian’s agreement first.',
       ),
       p('If you think we hold data about a child without the right agreement, email us and we will remove it.'),
@@ -291,6 +308,7 @@ export const sections: Section[] = [
       p('Version 9 (6 November 2026) added niggles, which are health information: what is stored, why, who sees it, the 18 and over and consent rules, how long it is kept and how to delete it. This section is a draft for expert review.'),
       p('Version 10 (6 November 2026) comes from a fresh check of everything the tools store. It adds public profile pages, the gym health check and the gym details a coach records, Tournaments and reading draws with Anthropic, My rackets, Community (including anonymous posts and sharing from the tools), Watching and the daily summary email, the Marketplace and its reviews, trimming long videos, adding a session to your calendar, Box League entry fees and level suggestions, the count of tool use on both sites, and the services that load when you open YouTube, TikTok, Instagram or the pose model. It corrects who can see your photo and your social links, how long requests for coach access are kept, what padelpro.ie counts, and what deleting an account leaves behind. The whole policy is a draft for expert review.'),
       p('Version 10.1 (6 November 2026): deleted Community posts and replies are now erased at once, not kept until the account is deleted; the hash used for rate limits is now keyed with a secret and changes every day; and videos on the trimming machine are deleted when the job ends. This version is a draft for expert review.'),
+      p('Version 10.2 (6 November 2026) adds the wellness check-in and training load, which are health information: what is stored, why, who sees it and at what level, reminders, the 18 and over and consent rules, how long it is kept and how to delete it. This section is a draft for expert review.'),
     ],
   },
 ]
