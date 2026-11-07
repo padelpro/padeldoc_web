@@ -118,6 +118,13 @@
   for = "/tabs/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+# The tool pages' fonts (padel-coach-src build.mjs; Kevin 7 Nov 2026): Spline Sans and IBM Plex Mono, once inlined in
+# every page, now files with a content hash in the name (spline-sans-latin-var-<hash>.woff2), so kept a year the same way.
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "font/woff2"
 [[headers]]
   for = "/player/*"
   [headers.values]
