@@ -3,6 +3,11 @@
 // Written from an audit of what the code actually stores, not from a template. Version 1 is a first draft
 // for an expert to review, so every claim here should be true of the code on the day it is published.
 //
+// Version 12 (Kevin, 7 Nov 2026) adds the match diary (padel-share-api 0083): diaries from calendar, tournament, box league,
+// Tracker and Tagger matches; notes on opponents (other people's names and notes, never linked to an account, never shown to
+// them, never sent to AI, kept 24 months after the last match); the two coach sharing switches, off by default, also an
+// academy's on the same switches. Partners and following will add to it later. DRAFT FOR EXPERT REVIEW: the lawful basis
+// for other people's data (legitimate interests, household-style use), the 24 months, and the sharing.
 // Version 11 (Kevin, 7 Nov 2026) adds Share my age with my coach (padel-share-api 0081): the linked coach sees the age reached
 // this year and the senior category, and the gym's over-45 answer, only while it's on; never the year. It also catches up
 // on coach lessons (0079, in the calendar), Today (nothing new stored), and the bio, credentials and club and role on a
@@ -26,7 +31,7 @@
 // - Anthropic as a processor for draw reading: its retention period under the API terms, and the US transfer wording;
 // - anonymous posts: the admin can see the author.
 
-export const VERSION = 'Version 11, 7 November 2026'
+export const VERSION = 'Version 12, 7 November 2026'
 export const CONTACT = 'hello@padelpro.ie'
 
 export type Block =
@@ -210,11 +215,19 @@ export const sections: Section[] = [
       p('Your coach: if you are linked to a coach, you choose what they can do with your calendar: nothing, view it, view and add (the default), or full edit. You are told when they add or change something, and you can delete what they add. Other people’s names on your events are seen only by you and, if you let them see your calendar, your coach.'),
       p('Your calendar link: if you open it in Settings, you get a private link to subscribe to in Google, Apple or Outlook. We build it from your calendar each time your calendar app asks. It holds titles, times and places only: never other people’s names, notes or anything about your health. Anyone with the link can see it, so keep it to yourself; Reset link makes a new one and the old one stops at once. A coach’s link shows their bookings as “Coaching”, with player first names only if they choose. Google, Apple and Microsoft receive what the link holds when you subscribe, under their own privacy terms.'),
       p('Box league matches: on your league page you can tap “This is me” to tie your league link to your account, so your matches show in your calendar. We never match people by name.'),
-      p('After a session: if you use training load (above), your calendar can ask how long and how hard a match or session was, once, by an alert that says only “How was it?”. Your answer is saved in your training load.'),
+      p('After a session: if you use training load (above), your calendar can ask how long and how hard a match or session was, once, by an alert that says only “How was it?”. Your answer is saved in your training load. After a match, if you use the match diary (below), it asks how it went instead, by an alert that says only “How did it go?”.'),
       // Add a booking (Kevin, 6 Nov 2026, padel-share-api 0077). DRAFT FOR EXPERT REVIEW.
       p('Bookings from Playtomic or MatchPoint: if you paste a booking you shared from Playtomic or MatchPoint, or share it to us from your phone, we read the text on your device and keep what you save on your calendar: the venue, date, time, court, level, the link, and the other players’ names and levels as shared. Those names are seen by you and your linked coach, unless you turn that off for your bookings or for one booking; they never go to your calendar app, to anyone else or to an AI service, and they are deleted as soon as you delete the booking (the rest of it goes 30 days later). If you choose to, we suggest who a player might be, but only from your coach, your groups and the names in your own past matches, and only you can confirm it. We never contact Playtomic or MatchPoint; the link is kept only so you can open it. This paragraph is a draft for expert review.'),
       p('Add to calendar on a single booking makes a calendar file on your own device; we keep nothing. If you choose Google Calendar instead, the session’s title, time and place go to Google in the link you open.'),
       p('Legal basis: providing the service you asked for; for an injury entry, your explicit choice to add it, which you can undo by deleting it.'),
+
+      // The match diary (Kevin, 7 Nov 2026, padel-share-api 0083). DRAFT FOR EXPERT REVIEW: other people's names and notes
+      // about them (the lawful basis), the 24 months, and the coach and academy sharing.
+      h3('Match diary'),
+      p('After a match you can note the score, whether you won, how you and your partner played (1 to 10), what went well and what didn’t, and a note. It comes from a match in your calendar, a tournament match, a box league fixture, or a match you tracked or tagged, kept as one diary for one match. A box league result stays the league’s: the diary shows it, and “Flag the result” sends your note to the league as the league page would. A tournament check-in’s score and result are kept in step with the diary.'),
+      p('Notes on opponents: you can add the names of the people you played and what you noticed about them. These are other people’s names and your notes about them, kept only for your own use. They hold the names you type and nothing else: we never link them to anyone’s account, even if that person uses the site or was named on a booking, the people named are never shown them, and they are never searched across accounts. We keep an opponent and every note about them for 24 months after your last match against them, then delete them.'),
+      p('Who sees it: only you, unless you switch on “Share my match diary with my coach” or “Share my notes on opponents with my coach” in Settings, Coach access. Both are off unless you turn them on. Your linked coach then sees them read only, and stops seeing them as soon as you switch either off or unlink. If you are with an academy, its staff see them on the same switches. Your diary never goes into your calendar link, Community, a share link, a report for anyone else, or an AI service.'),
+      p('You can edit or delete any diary, delete an opponent with every note about them, and download everything (as a file of your diaries, opponents and notes, or a spreadsheet of your diaries) from Diary at any time. Deleting your account deletes all of it. Legal basis: providing the service you asked for; for the names and notes about other people, our and your legitimate interest in keeping your own record of your matches. This section is a draft for expert review.'),
 
       h3('If you sign up on padelpro.ie'),
       p('To play in the PadelPro circuit you give your name, email, password, date of birth, gender, home club and mobile number, and optionally your county. Your date of birth decides your age band and your gender decides your category; neither is published. Your name, club, ranking, results and event history are public on padelpro.ie, which you agree to when you sign up. We record when you agreed. If you tick the box for circuit updates and sponsor offers, we email you those until you untick it.'),
@@ -273,6 +286,7 @@ export const sections: Section[] = [
         'Niggles: a niggle you mark as gone, or one untouched for six months, is cleared, and cleared niggles are deleted 12 months later. Withdrawing your consent deletes every niggle, its history and any tournament pain score at once.',
         'Wellness check-ins, readiness lights and the training load you log: deleted after 24 months. The record of coaches looking: 12 months. The record of your consents: as long as your account.',
         'Calendar events: kept until you delete them or your account, and past events for 24 months. A deleted event is kept 30 days so your calendar app can remove it too. Your calendar link: until you reset it or delete your account. Venues you added stay on the shared list without your name.',
+        'Match diary: your diaries as long as your account, or until you delete them; a diary stays when the calendar event it came from is deleted, as the match still happened. An opponent and every note about them: 24 months after your last match against them, or until you delete them.',
         'Community: pictures and clips never posted are deleted after a day; invite links last seven days. Deleted posts and replies are erased at once, leaving only an empty placeholder.',
         'Marketplace: a removed listing’s photos are deleted that night; the listing and its messages stay until either account is deleted. Reviews you wrote keep their scores, without your name or comment, after your account is deleted.',
         'Everything else (accounts, tagged and Tracker matches, Tactics Board plays, player pages, clips, notes, gym records, rackets, what you watch, box league records, approved requests for access, padelpro.ie player and club records): kept until you or the person who created it deletes it, or until you ask us to. We do not delete active coaching data on a timer, because coaches rely on a player’s history staying put.',
@@ -338,6 +352,7 @@ export const sections: Section[] = [
       p('Version 10.3 (6 November 2026) adds the player calendar: the events you or your coach add, venues, your coach’s access, the private calendar link for Google, Apple and Outlook, “This is me” for box league matches, and the after-session prompt. This section is a draft for expert review.'),
       p('Version 10.2 (6 November 2026) adds the wellness check-in and training load, which are health information: what is stored, why, who sees it and at what level, reminders, the 18 and over and consent rules, how long it is kept and how to delete it. This section is a draft for expert review.'),
       p('Version 11 (7 November 2026) adds Share my age with my coach: what your coach sees while it is on (your age this year, your senior category and whether you are over 45 for gym plans), that they never see your year of birth, and that it is off unless you switch it on. It also adds your coach’s lessons to the calendar section, the Today page, and the bio, credentials and club and role you can add to your profile. This version is a draft for expert review.'),
+      p('Version 12 (7 November 2026) adds the match diary: what you can note after a match, notes on opponents (other people’s names and what you write about them, never linked to an account, never shown to them, kept 24 months after your last match against them), the two switches that share them with your coach (both off unless you turn them on), and that none of it goes to an AI service. Partners and following will be added to this section when they come. This version is a draft for expert review.'),
     ],
   },
 ]
