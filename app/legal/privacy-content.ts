@@ -3,6 +3,10 @@
 // Written from an audit of what the code actually stores, not from a template. Version 1 is a first draft
 // for an expert to review, so every claim here should be true of the code on the day it is published.
 //
+// Version 11 (Kevin, 7 Nov 2026) adds Share my age with my coach (padel-share-api 0081): the linked coach sees the age reached
+// this year and the senior category, and the gym's over-45 answer, only while it's on; never the year. It also catches up
+// on coach lessons (0079, in the calendar), Today (nothing new stored), and the bio, credentials and club and role on a
+// profile (0080, under the links choice). DRAFT FOR EXPERT REVIEW, with the rest.
 // Version 10.4 (Kevin, 6 Nov 2026) adds Add a booking (padel-share-api 0077): a Playtomic or MatchPoint share pasted or sent
 // to the calendar, with the other players' names and levels kept on the player's own event. DRAFT FOR EXPERT REVIEW: other
 // people's names (shown to the linked coach unless the player turns it off) and the legal basis for keeping them.
@@ -22,7 +26,7 @@
 // - Anthropic as a processor for draw reading: its retention period under the API terms, and the US transfer wording;
 // - anonymous posts: the admin can see the author.
 
-export const VERSION = 'Version 10.4, 6 November 2026'
+export const VERSION = 'Version 11, 7 November 2026'
 export const CONTACT = 'hello@padelpro.ie'
 
 export type Block =
@@ -80,7 +84,7 @@ export const sections: Section[] = [
       p('Legal basis: our legitimate interest in providing coaching tools, and the coach’s agreement with you. For the gym health details, your agreement with your coach to plan your training with them.'),
 
       h3('If you have a player account (thepadeldoc.com)'),
-      p('We keep your name, your email if you give one, and a hash of your key. Your email is used to sign you in by link and, if you turn them on, for email alerts; a coach you link to never sees it. We keep the matches, stats and clips you save, which of the four players is you in a match you pick yourself in, and any coach link you make. A linked coach sees your saved matches and stats, not your clips, except the ones you send them (below). You can also give your year of birth, which your coach never sees; it is used only for age rules, such as the 18 and over features below. You must be 16 or over to open an account. You can unlink or delete your account at any time from your page. Deleting removes everything, including the clips you sent your coach, with the exceptions explained under Community and the Marketplace. If you run a Box League club, your account can’t be deleted until the club is handed over or deleted.'),
+      p('We keep your name, your email if you give one, and a hash of your key. Your email is used to sign you in by link and, if you turn them on, for email alerts; a coach you link to never sees it. We keep the matches, stats and clips you save, which of the four players is you in a match you pick yourself in, and any coach link you make. A linked coach sees your saved matches and stats, not your clips, except the ones you send them (below). You can also give your year of birth, which your coach never sees; it is used only for age rules, such as the 18 and over features below. If you switch on Share my age with my coach (in Settings, Coach access; off unless you turn it on, and not offered under 18), your linked coach sees your age this year and your senior category (for example 41, +40), worked out from your year of birth, and whether you are over 45 for gym plans. They never see the year itself. Switch it off and they stop seeing it. You must be 16 or over to open an account. You can unlink or delete your account at any time from your page. Deleting removes everything, including the clips you sent your coach, with the exceptions explained under Community and the Marketplace. If you run a Box League club, your account can’t be deleted until the club is handed over or deleted.'),
       p('Legal basis: providing the account you asked for.'),
 
       h3('Your public profile page (thepadeldoc.com)'),
@@ -111,6 +115,7 @@ export const sections: Section[] = [
       h3('If you add links to your profiles elsewhere (thepadeldoc.com)'),
       p('In your settings you can add, if you want to, your handle on Instagram, TikTok, YouTube, X, Facebook, Strava or Playtomic. We keep the handle only, not the rest of the address, and show each as a link to that profile.'),
       p('Who sees them is your choice: only you; you and your coach (or, for a coach, the players linked to you), which is the setting unless you change it; or everyone, which also puts them on your public profile page and your private page link. We do not visit those profiles or take anything from them.'),
+      p('In Settings, Profile you can also add a short bio (up to 300 characters), your credentials (short lines such as a coaching qualification) and your club and role (for example “Head coach, Naas LTC”). They are shown on your profile card and your public profile page to whoever your links choice above lets see your links, and you can empty them at any time.'),
       p('To remove one, empty its field. Deleting your account removes them all.'),
       p('Legal basis: your consent, which you can withdraw at any time by emptying the fields.'),
 
@@ -198,7 +203,8 @@ export const sections: Section[] = [
 
       // The player calendar (Kevin, 6 Nov 2026, padel-share-api 0076). DRAFT FOR EXPERT REVIEW.
       h3('Your calendar (thepadeldoc.com)'),
-      p('Your calendar shows your coach’s booking, your tournaments, your gym sessions and your box league matches, and the events you or your coach add: matches, training, social games and times you can’t play, with the date, time, place, your time zone and, if you add them, a partner’s and opponents’ first names and a note. We use it to show your calendar, to ask how hard a session was, and to let your coach plan your training around it.'),
+      p('Lessons: your coach schedules lessons with you, alone or in a group, with the date, time and place. You see the lessons you are on and how many are on a group lesson, never the other players’ names; your coach sees who is on each. A lesson your coach cancels is kept for 30 days so your calendar app can remove it. Your Today page shows what is next and what is waiting for you from these same records; it stores nothing new.'),
+      p('Your calendar shows your coach’s lessons, your tournaments, your gym sessions and your box league matches, and the events you or your coach add: matches, training, social games and times you can’t play, with the date, time, place, your time zone and, if you add them, a partner’s and opponents’ first names and a note. We use it to show your calendar, to ask how hard a session was, and to let your coach plan your training around it.'),
       p('Places: when you type where you play, we save it to a shared list of venues so others can pick it later. A new venue shows only to you until it has been checked. If you choose “Not a venue”, the words stay on your event only.'),
       p('Times you can’t play: if the reason is an injury, we store only “Not available: injury” and the dates, with a note if you add one. If you mark an entry private, your coach sees only “Not available”, never the reason or the note, and it never goes out in your calendar link.'),
       p('Your coach: if you are linked to a coach, you choose what they can do with your calendar: nothing, view it, view and add (the default), or full edit. You are told when they add or change something, and you can delete what they add. Other people’s names on your events are seen only by you and, if you let them see your calendar, your coach.'),
@@ -331,6 +337,7 @@ export const sections: Section[] = [
       p('Version 10.4 (6 November 2026) adds bookings pasted or shared from Playtomic or MatchPoint: the other players’ names and levels on your own booking, who sees them, and that we never contact the booking sites. This section is a draft for expert review.'),
       p('Version 10.3 (6 November 2026) adds the player calendar: the events you or your coach add, venues, your coach’s access, the private calendar link for Google, Apple and Outlook, “This is me” for box league matches, and the after-session prompt. This section is a draft for expert review.'),
       p('Version 10.2 (6 November 2026) adds the wellness check-in and training load, which are health information: what is stored, why, who sees it and at what level, reminders, the 18 and over and consent rules, how long it is kept and how to delete it. This section is a draft for expert review.'),
+      p('Version 11 (7 November 2026) adds Share my age with my coach: what your coach sees while it is on (your age this year, your senior category and whether you are over 45 for gym plans), that they never see your year of birth, and that it is off unless you switch it on. It also adds your coach’s lessons to the calendar section, the Today page, and the bio, credentials and club and role you can add to your profile. This version is a draft for expert review.'),
     ],
   },
 ]
