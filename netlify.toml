@@ -111,6 +111,54 @@
     Content-Type = "application/manifest+json"
     Cache-Control = "public, max-age=3600"
 
+# The split player and me pages (padel-coach-src build/split.mjs; Kevin 7 Nov 2026). Their chunks in /tabs/ carry a content
+# hash in the name, so a file never changes: kept a year without asking again. The pages that load them are always
+# checked first (no-cache), so a release never pairs an old page with new chunks or the other way round.
+[[headers]]
+  for = "/tabs/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+[[headers]]
+  for = "/player/*"
+  [headers.values]
+    Cache-Control = "no-cache"
+[[headers]]
+  for = "/me"
+  [headers.values]
+    Cache-Control = "no-cache"
+[[headers]]
+  for = "/me/*"
+  [headers.values]
+    Cache-Control = "no-cache"
+[[headers]]
+  for = "/p/*"
+  [headers.values]
+    Cache-Control = "no-cache"
+[[headers]]
+  for = "/coach"
+  [headers.values]
+    Cache-Control = "no-cache"
+[[headers]]
+  for = "/coach/*"
+  [headers.values]
+    Cache-Control = "no-cache"
+[[headers]]
+  for = "/signin"
+  [headers.values]
+    Cache-Control = "no-cache"
+[[headers]]
+  for = "/admin"
+  [headers.values]
+    Cache-Control = "no-cache"
+[[headers]]
+  for = "/community"
+  [headers.values]
+    Cache-Control = "no-cache"
+[[headers]]
+  for = "/community/*"
+  [headers.values]
+    Cache-Control = "no-cache"
+
 # Preset avatars (padel-coach-src avatars-spec.md 2.1): copied to public/avatars/ by release.mjs, one file per id.
 # A file never changes (a new image would get a new id), so browsers keep them for a year without asking again.
 [[headers]]
