@@ -3,6 +3,17 @@
 // Written from an audit of what the code actually stores, not from a template. Version 1 is a first draft
 // for an expert to review, so every claim here should be true of the code on the day it is published.
 //
+// Version 13 (Kevin, 8 Nov 2026) adds coach availability (padel-share-api 0085 and 0086): a coach's description of their
+// working hours, typed or dictated through the phone keyboard, sent to Anthropic to be read (no name or account; the
+// words never stored by us); what's kept (weekly hours, changes from a later date, blocked dates with the coach's own
+// reason, the time zone, a reading for 24 hours at most and a record of it without the words); who sees it (the coach
+// only: it shades their calendar, warns of clashes and finds free times; never shown to players, never in a calendar
+// link); Find a time reading players' calendars only as far as each player lets their coach see it, and only as busy or
+// free. The sentence "No other part of the tools sends your data to an AI service" is replaced. DRAFT FOR EXPERT REVIEW:
+// Anthropic's retention under the API terms (this text says "a limited period", as for draws, not "never stored");
+// whether a coach's hours are their personal data at all (we treat them as such); the lawful basis for Find a time
+// using a player's calendar for their coach (we rely on the access level the player set).
+//
 // Version 12.1 (Kevin, 7 Nov 2026) adds partners and following (padel-share-api 0084): partner links (invite or a coach's
 // proposal, both accept), what partners share (shared matches, pair stats and head-to-head, with each other and each one's
 // linked coach), playing side and hand, pair keys on tournaments, partners' copies of shared matches that survive an
@@ -39,7 +50,7 @@
 // - Anthropic as a processor for draw reading: its retention period under the API terms, and the US transfer wording;
 // - anonymous posts: the admin can see the author.
 
-export const VERSION = 'Version 12.1, 7 November 2026'
+export const VERSION = 'Version 13, 8 November 2026'
 export const CONTACT = 'hello@padelpro.ie'
 
 export type Block =
@@ -143,7 +154,7 @@ export const sections: Section[] = [
       p('If you are 18 or over you can plan the tournaments you play. We keep what you enter or confirm: the event (name, category, level, dates, venue), your partner’s and opponents’ names as text, your matches with their times and courts, up to three keys and three plans for each event (your goals), your checklist, warm-up and travel times, notes on opponents, a recovery plan, the lessons from your review and a highlight reel. Names you enter stay as text on your tournament and are never linked to anyone’s account.'),
       p('After a match you can check in with the result, score, how hard it felt and two short notes on what worked and what to fix. On a match morning you can check in on any pain. Pain is health information: it is kept only if you have given the niggles consent (below); otherwise you see the advice and nothing is stored.'),
       p('Who sees it: you, and your linked coach, who sees your tournaments and, unless you turn it off, your check-ins (never pain without the niggles consent), can add keys, plans, a review and a reel, and can get alerts with your results, one by one or as one summary on a match day.'),
-      p('Reading a draw: if you upload screenshots of a draw (up to three), we send the pictures to Anthropic, our AI provider, to read the event, your matches and the names in them, so you only have to check them. Before they leave your device the pictures are redrawn and resized, which removes their location and camera details, and our server removes any that are left. We don’t send your name or account. We never store the pictures. What was read, including every name in the draw, is kept until you confirm or cancel it, and for 24 hours at most; after that we keep only a record of the reading for your account (when, how long it took, its cost, and how many of the details you had to correct, with no names or pictures). Anthropic keeps what we send only for a limited period under its commercial terms and does not use it to train its models. No other part of the tools sends your data to an AI service.'),
+      p('Reading a draw: if you upload screenshots of a draw (up to three), we send the pictures to Anthropic, our AI provider, to read the event, your matches and the names in them, so you only have to check them. Before they leave your device the pictures are redrawn and resized, which removes their location and camera details, and our server removes any that are left. We don’t send your name or account. We never store the pictures. What was read, including every name in the draw, is kept until you confirm or cancel it, and for 24 hours at most; after that we keep only a record of the reading for your account (when, how long it took, its cost, and how many of the details you had to correct, with no names or pictures). Anthropic keeps what we send only for a limited period under its commercial terms and does not use it to train its models. The only other thing the tools send to an AI service is a coach’s own description of their working hours, if they choose to use it (see Your calendar, below).'),
       p('How long we keep it: until you delete a tournament, choose Delete my tournaments, or delete your account. The records of draw readings are kept until your account is deleted.'),
       p('Legal basis: providing the service you asked for, and your explicit consent for pain scores.'),
 
@@ -228,6 +239,11 @@ export const sections: Section[] = [
       p('Bookings from Playtomic or MatchPoint: if you paste a booking you shared from Playtomic or MatchPoint, or share it to us from your phone, we read the text on your device and keep what you save on your calendar: the venue, date, time, court, level, the link, and the other players’ names and levels as shared. Those names are seen by you and your linked coach, unless you turn that off for your bookings or for one booking; they never go to your calendar app, to anyone else or to an AI service, and they are deleted as soon as you delete the booking (the rest of it goes 30 days later). If you choose to, we suggest who a player might be, but only from your coach, your groups and the names in your own past matches, and only you can confirm it. We never contact Playtomic or MatchPoint; the link is kept only so you can open it. This paragraph is a draft for expert review.'),
       p('Add to calendar on a single booking makes a calendar file on your own device; we keep nothing. If you choose Google Calendar instead, the session’s title, time and place go to Google in the link you open.'),
       p('Legal basis: providing the service you asked for; for an injury entry, your explicit choice to add it, which you can undo by deleting it.'),
+      // Coach availability (Kevin, 8 Nov 2026, padel-share-api 0085 and 0086). DRAFT FOR EXPERT REVIEW.
+      p('If you coach, your working hours: you can describe when you coach in your own words, typed or spoken through your phone keyboard’s microphone (we never receive any audio). We send those words to Anthropic, our AI provider, to turn them into your weekly hours, regular days off and dates you are away, without your name or account. We don’t store your words. What was read is kept until you save or cancel it, and for 24 hours at most; after that we keep only a record of the reading for your account (when, its cost, and how many of the details you changed, without your words). Anthropic keeps what we send only for a limited period under its commercial terms and does not use it to train its models. You can also set your hours by hand, and then nothing is sent to anyone.'),
+      p('What we keep is what you check and save: your weekly hours, any change to them from a later date, the dates and times you block with a reason if you give one, and your time zone. Only you see them. They shade your own calendar, warn you when a lesson lands outside your hours, on a blocked time or over another lesson, and help Find a time. Your players never see your hours or your reasons, and they never go in any calendar link. Blocked dates are deleted 30 days after they pass; everything goes when you delete your account.'),
+      p('Find a time: when you look for a time for a lesson, we check your hours, blocked dates and lessons, and the calendars of the players on it, only as far as each player lets you see their calendar (not at all if they set it to Off or have no account, which the sheet tells you). We use only whether they are busy at a time, never what or why, and we keep nothing from it.'),
+      p('Legal basis for your working hours and Find a time: providing the service you asked for.'),
 
       // The match diary (Kevin, 7 Nov 2026, padel-share-api 0083). DRAFT FOR EXPERT REVIEW: other people's names and notes
       // about them (the lawful basis), the 24 months, and the coach and academy sharing.
@@ -267,7 +283,7 @@ export const sections: Section[] = [
       p('We do not sell data and we do not share it with advertisers. The services that handle data on our behalf are:'),
       list(
         'Cloudflare: runs our backend and stores the database, clips, videos, photos and logos. Cloudflare is a US company; transfers are covered by the EU-US Data Privacy Framework and standard contractual clauses in its data processing terms.',
-        'Anthropic: reads the draw screenshots you upload in Tournaments (the pictures only, without your name or account). US company, covered the same way.',
+        'Anthropic: reads the draw screenshots you upload in Tournaments (the pictures only), and a coach’s description of their working hours (the words only), in each case without your name or account. US company, covered the same way.',
         'Netlify: hosts the websites. US company, covered the same way.',
         'Resend: sends our emails (sign-in links, confirm links, alerts and the daily summary). It receives the address, the subject and the text of each email. US company, covered the same way.',
         'Plausible: cookie-free analytics for thepadeldoc.com, hosted in the EU.',
@@ -377,6 +393,7 @@ export const sections: Section[] = [
       p('Version 11 (7 November 2026) adds Share my age with my coach: what your coach sees while it is on (your age this year, your senior category and whether you are over 45 for gym plans), that they never see your year of birth, and that it is off unless you switch it on. It also adds your coach’s lessons to the calendar section, the Today page, and the bio, credentials and club and role you can add to your profile. This version is a draft for expert review.'),
       p('Version 12 (7 November 2026) adds the match diary: what you can note after a match, notes on opponents (other people’s names and what you write about them, never linked to an account, never shown to them, kept 24 months after your last match against them), the two switches that share them with your coach (both off unless you turn them on), and that none of it goes to an AI service. Partners and following will be added to this section when they come. This version is a draft for expert review.'),
       p('Version 12.1 (7 November 2026) adds partners and following: partner links and what partners share, playing side and hand, pair keys on tournaments, partners’ copies of shared matches, followers, the one ladder for who sees what with its ceilings, hide my club, and one block everywhere. It also moves the diary’s downloads to Settings and lets a diary link a partner’s name to a partner when you choose. This version is a draft for expert review.'),
+      p('Version 13 (8 November 2026) adds a coach’s working hours: the description a coach can give in their own words, which is sent to Anthropic to be read and is not stored by us; what we keep (their hours, changes from a later date, blocked dates and their time zone), that only the coach sees it, and how Find a time uses players’ calendars. The line saying no other part of the tools uses an AI service is replaced. This version is a draft for expert review.'),
     ],
   },
 ]
