@@ -6,7 +6,7 @@
 
 // The site's own first path segments: Next pages, public/ folders and the netlify.toml and next.config.ts routes.
 export const SITE_PATHS = new Set([
-  'about', 'admin', 'americano', 'americano-25', 'analyse', 'avatars', 'balance', 'club', 'clubs', 'coach', 'coaches', 'community', 'contribute',
+  'about', 'academy', 'admin', 'americano', 'americano-25', 'analyse', 'avatars', 'balance', 'club', 'clubs', 'coach', 'coaches', 'community', 'contribute',
   'cookies', 'embed', 'images', 'league', 'legal', 'm', 'me', 'p', 'player', 'players', 'privacy', 'scoreboard', 'shots', 'signin',
   't', 'tactics', 'tagger', 'tools', 'tracker', 'unsubscribe', 'v', 'vamos',
 ])
