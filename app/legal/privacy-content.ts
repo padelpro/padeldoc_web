@@ -3,6 +3,15 @@
 // Written from an audit of what the code actually stores, not from a template. Version 1 is a first draft
 // for an expert to review, so every claim here should be true of the code on the day it is published.
 //
+// Version 16 (Kevin, 8 Nov 2026) follows two more tweaks (padel-share-api 0091). The academy's wellness yes now never
+// gives more than the player's own coach sees: it holds only while the player shares their check-ins with their coach,
+// at that level; setting the coach's sharing to Nothing (or turning the check-in off) withdraws it, recorded, and turning
+// the coach's sharing back up doesn't restore it. Both are set in one place, Settings, Wellness and health. And a coach's
+// WhatsApp number reaches academy players only if the coach turns on "Share my number with academy players too" (off by
+// default); the player's own coach's number shows as before. Section 2 (Settings, Profile; the academy) changes. DRAFT
+// FOR EXPERT REVIEW: the academy's wellness yes depending on the coach's sharing (one consent bounded by another, and the
+// withdrawal it triggers), and the coach's number reaching academy players with the coach's own switch.
+//
 // Version 15 (Kevin, 8 Nov 2026) adds two tweaks (padel-share-api 0090): a coach's optional WhatsApp number, shown with a
 // WhatsApp button only to the coach's own linked players and to academy players who have said yes to the academy's
 // coaches, never on a public profile; and a player's "Show my photo on my profile" switch, which puts their photo on
@@ -71,7 +80,7 @@
 // - Anthropic as a processor for draw reading: its retention period under the API terms, and the US transfer wording;
 // - anonymous posts: the admin can see the author.
 
-export const VERSION = 'Version 15, 8 November 2026'
+export const VERSION = 'Version 16, 8 November 2026'
 export const CONTACT = 'hello@padelpro.ie'
 
 export type Block =
@@ -161,7 +170,7 @@ export const sections: Section[] = [
       p('In your settings you can add, if you want to, your handle on Instagram, TikTok, YouTube, X, Facebook, Strava or Playtomic. We keep the handle only, not the rest of the address, and show each as a link to that profile.'),
       p('Who sees them is your choice, on the same ladder as everything else you can show (see Partners and following): only you; you and your coach (or, for a coach, the players linked to you), which is the setting unless you change it; your partners; your followers; every signed-in member; or anyone with your page link, which also puts them on your public profile page and your private page link. The same choice covers your bio, credentials and club and role. We do not visit those profiles or take anything from them.'),
       p('In Settings, Profile you can also add a short bio (up to 300 characters), your credentials (short lines such as a coaching qualification) and your club and role (for example “Head coach, Naas LTC”). They are shown on your profile card and your public profile page to whoever your links choice above lets see your links, and you can empty them at any time.'),
-      p('A coach can also add a WhatsApp number in Settings, Profile, if they want to. It is shown, with a WhatsApp button that opens a chat with the coach in WhatsApp, only to the players linked to that coach and, if the coach is part of an academy, to the academy’s players who have said yes to its coaches. It is never on a public profile page, never shown to anyone else and never used by us to contact anyone. A chat you start that way is between you and the coach in WhatsApp: we don’t see it. The coach can change or remove the number at any time.'),
+      p('A coach can also add a WhatsApp number in Settings, Profile, if they want to. It is shown, with a WhatsApp button that opens a chat with the coach in WhatsApp, only to the players linked to that coach and, if the coach is part of an academy and turns on “Share my number with academy players too” (off unless they turn it on), to the academy’s players who have said yes to its coaches. It is never on a public profile page, never shown to anyone else and never used by us to contact anyone. A chat you start that way is between you and the coach in WhatsApp: we don’t see it. The coach can change or remove the number at any time.'),
       p('To remove one, empty its field. Deleting your account removes them all.'),
       p('Legal basis: your consent, which you can withdraw at any time by emptying the fields.'),
 
@@ -292,7 +301,8 @@ export const sections: Section[] = [
       // Academies (Kevin, 8 Nov 2026, padel-share-api 0082 and 0088; the PadelPro pilot). DRAFT FOR EXPERT REVIEW.
       h3('If your coach is part of an academy'),
       p('A coach can run their coaching as part of an academy, such as PadelPro, with other coaches and specialists. If your coach’s coaching becomes part of one, we tell you on your page, and your coach stays your lead coach: your page, your messages and your link to them stay as they were.'),
-      p('Nobody else in the academy, its head coach included, sees anything of yours unless you say yes to them, on the card on your page or in Settings, Coach access. If you do, the academy’s head coach, other coaches and specialists can see your page and work with you: they see your sessions, progress, matches, tournaments, training load and your calendar as far as you let your coach see it, and can add notes, clips and gym plans; the head coach can also add to your sessions and plans as your coach can. Your diary and notes on opponents follow your own switches, as for your coach. They never see your messages with your coach. Your wellness check-ins and niggles are a separate question: the academy’s coaches see them only if you say yes to that too, and only if you are 18 or over. Saying no, or not answering, changes nothing for you or your coach. You can switch either off at any time in Settings, Coach access, and the academy’s access stops at once.'),
+      p('Nobody else in the academy, its head coach included, sees anything of yours unless you say yes to them, on the card on your page or in Settings, Coach access. If you do, the academy’s head coach, other coaches and specialists can see your page and work with you: they see your sessions, progress, matches, tournaments, training load and your calendar as far as you let your coach see it, and can add notes, clips and gym plans; the head coach can also add to your sessions and plans as your coach can. Your diary and notes on opponents follow your own switches, as for your coach. They never see your messages with your coach. Saying no, or not answering, changes nothing for you or your coach. You can switch it off at any time in Settings, Coach access, and the academy’s access stops at once.'),
+      p('Your wellness check-ins and niggles are a separate question, set in Settings, Wellness and health beside what you share with your own coach: the academy’s coaches see them only if you say yes to that too, only if you are 18 or over, and never more than your own coach sees. If you share only the light with your coach, that is all they see. If you set what you share with your coach to Nothing, or turn the check-in off, the academy’s access to your wellness and niggles stops at once and your yes to it is withdrawn; sharing with your coach again doesn’t give the academy access again until you say yes to it again. You can switch it off at any time, and the academy’s access stops at once.'),
       p('We keep a record of each yes and when you gave or withdrew it, and the wording you saw, so we can show what you agreed to.'),
       p('If you are under 18, the academy can bring you in only with a parent’s or guardian’s yes, which it records with us (their name, how they gave it and when). Your wellness check-ins and niggles are never shared with the academy while you are under 18.'),
       p('If you or your coach leave the academy, its staff stop seeing your own data (your matches, calendar, training load, wellness, niggles and tournaments) at once. What its staff wrote for you, such as session notes, clips and gym plans, stays with the academy, and you keep reading the messages and the clips and notes shared with you before you left.'),
@@ -430,6 +440,7 @@ export const sections: Section[] = [
       p('Version 13 (8 November 2026) adds a coach’s working hours: the description a coach can give in their own words, which is sent to Anthropic to be read and is not stored by us; what we keep (their hours, changes from a later date, blocked dates and their time zone), that only the coach sees it, and how Find a time uses players’ calendars. The line saying no other part of the tools uses an AI service is replaced. This version is a draft for expert review.'),
       p('Version 14 (8 November 2026) adds academies: what happens when your coach’s coaching becomes part of an academy such as PadelPro, that its head coach, other coaches and specialists see nothing of yours without your yes (and never your messages), that your wellness check-ins and niggles need a separate yes and are never shared under 18, that a player under 18 needs a parent’s or guardian’s yes, and what happens when you leave. This version is a draft for expert review.'),
       p('Version 15 (8 November 2026) adds a coach’s WhatsApp number, shown only to their own players and to academy players who have said yes to its coaches, never publicly; and Show my photo on my profile, which lets a player put their photo on their public profile page: on for a photo added from now on, off for a photo added before until the player turns it on. This version is a draft for expert review.'),
+      p('Version 16 (8 November 2026): the academy’s coaches never see more of your wellness check-ins and niggles than your own coach does, and both are set in one place, Settings, Wellness and health; setting what you share with your coach to Nothing withdraws your yes to the academy, and sharing again doesn’t restore it by itself. A coach’s WhatsApp number reaches academy players only if the coach turns that on. This version is a draft for expert review.'),
     ],
   },
 ]
