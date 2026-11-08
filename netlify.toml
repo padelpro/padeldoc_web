@@ -64,6 +64,12 @@
   from = "/admin"
   to = "/player/index.html"
   status = 200
+# The academy section of the coach dashboard (academy pilot P1, Kevin 8 Nov 2026): the coach page opens on it; anyone not
+# staff in an academy, or not on the ACADEMY list, sees "page not found" (GET /v1/academy answers them 404).
+[[redirects]]
+  from = "/academy"
+  to = "/player/index.html"
+  status = 200
 
 # Public profile pages (Kevin 28 Oct 2026), thepadeldoc.com/<name>: served by netlify/edge-functions/profile.ts, which
 # also moves /@name to /name. app/profile-path.ts has the rule.
@@ -155,6 +161,10 @@
     Cache-Control = "no-cache"
 [[headers]]
   for = "/admin"
+  [headers.values]
+    Cache-Control = "no-cache"
+[[headers]]
+  for = "/academy"
   [headers.values]
     Cache-Control = "no-cache"
 [[headers]]
