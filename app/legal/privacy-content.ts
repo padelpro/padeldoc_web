@@ -3,6 +3,16 @@
 // Written from an audit of what the code actually stores, not from a template. Version 1 is a first draft
 // for an expert to review, so every claim here should be true of the code on the day it is published.
 //
+// Version 17 (Kevin, 8 Nov 2026) adds opponent scouting, phase 1 (padel-share-api 0087; padel-coach-src
+// specs/opponent-scouting-spec.md): a coach can ask for a short report on an opponent pair in a tournament, from the
+// published competition results and rankings Padel API holds (Premier Padel and FIP events). Padel API is named as a new
+// source; Anthropic gets the published rows to word the report, never anyone's notes; the report is shown only to the
+// coach who asked and kept until the day after the tournament; Padel API's answers are kept 24 hours; a person can ask
+// not to be scouted. Sections 2, 3 and 7 change. DRAFT FOR EXPERT REVIEW: the legal basis for processing data about people
+// who aren't our users (we rely on legitimate interest: published results of professional competition, used to prepare
+// for a match, with a way to object; the assessment itself is for the reviewer), the notice to them (this page, and the
+// objection route), and whether an AI-worded summary of published results needs any further safeguard.
+//
 // Version 16 (Kevin, 8 Nov 2026) follows two more tweaks (padel-share-api 0091). The academy's wellness yes now never
 // gives more than the player's own coach sees: it holds only while the player shares their check-ins with their coach,
 // at that level; setting the coach's sharing to Nothing (or turning the check-in off) withdraws it, recorded, and turning
@@ -80,7 +90,7 @@
 // - Anthropic as a processor for draw reading: its retention period under the API terms, and the US transfer wording;
 // - anonymous posts: the admin can see the author.
 
-export const VERSION = 'Version 16, 8 November 2026'
+export const VERSION = 'Version 17, 8 November 2026'
 export const CONTACT = 'hello@padelpro.ie'
 
 export type Block =
@@ -298,6 +308,13 @@ export const sections: Section[] = [
       p('One block, everywhere: when you block someone, they can no longer invite you, follow you or message you, your partnership with them ends (with the copies above), follows between you go, and they see your profile as someone signed out does. Your blocked people are listed in Settings, Privacy and data, where you can unblock them.'),
       p('An unanswered invite is deleted after 30 days; a declined invite or follow request is kept 14 days so it can’t be sent again at once, then deleted. Deleting your account deletes your partnerships, follows and what you shared with followers, after your partners’ copies are made. Legal basis: providing the service you asked for; for partners’ copies and opponents’ names, our and your partner’s legitimate interest in keeping a record of matches played together. This section is a draft for expert review.'),
 
+      // Opponent scouting (Kevin, 8 Nov 2026, padel-share-api 0087). DRAFT FOR EXPERT REVIEW.
+      h3('Opponent scouting (thepadeldoc.com, coaches)'),
+      p('A coach can ask for a short report on an opponent pair in one of their players’ tournaments. It uses only published competition results and rankings from Padel API, which covers Premier Padel and FIP events: each player’s recent matches and scores, who they played with, their ranking over the last year, and their matches at that event. The coach picks the right person from a list; we never match a name to a person for them. Nothing comes from web searches, social media or anyone’s account with us.'),
+      p('To word the report, we send those published results to Anthropic, our AI provider, without the coach’s name or account, and check every line it writes against the results before it is shown. The coach’s own notes, their players’ notes on opponents and their tagged matches are added to the report by us when it is shown, only to that coach, and are never sent to Anthropic.'),
+      p('Only the coach who asked sees the report. We keep it until the day after the tournament’s last day, and Padel API’s answers for 24 hours, then delete them. If you play in those events and don’t want to be scouted here, email us: we add you to a list, you no longer appear in the search, and any report on you is deleted at once.'),
+      p('Legal basis: for the coach, providing the service they asked for; for the players scouted, our and the coach’s legitimate interest in preparing for a match from results that are already public, with your right to object as above. This section is a draft for expert review.'),
+
       // Academies (Kevin, 8 Nov 2026, padel-share-api 0082 and 0088; the PadelPro pilot). DRAFT FOR EXPERT REVIEW.
       h3('If your coach is part of an academy'),
       p('A coach can run their coaching as part of an academy, such as PadelPro, with other coaches and specialists. If your coach’s coaching becomes part of one, we tell you on your page, and your coach stays your lead coach: your page, your messages and your link to them stay as they were.'),
@@ -324,7 +341,8 @@ export const sections: Section[] = [
       p('We do not sell data and we do not share it with advertisers. The services that handle data on our behalf are:'),
       list(
         'Cloudflare: runs our backend and stores the database, clips, videos, photos and logos. Cloudflare is a US company; transfers are covered by the EU-US Data Privacy Framework and standard contractual clauses in its data processing terms.',
-        'Anthropic: reads the draw screenshots you upload in Tournaments (the pictures only), and a coach’s description of their working hours (the words only), in each case without your name or account. US company, covered the same way.',
+        'Anthropic: reads the draw screenshots you upload in Tournaments (the pictures only), a coach’s description of their working hours (the words only), and the published results an opponent scouting report is worded from, in each case without your name or account. US company, covered the same way.',
+        'Padel API: when a coach scouts an opponent, our server asks Padel API for that player’s published results and rankings. Padel API doesn’t learn who asked.',
         'Netlify: hosts the websites. US company, covered the same way.',
         'Resend: sends our emails (sign-in links, confirm links, alerts and the daily summary). It receives the address, the subject and the text of each email. US company, covered the same way.',
         'Plausible: cookie-free analytics for thepadeldoc.com, hosted in the EU.',
@@ -353,6 +371,7 @@ export const sections: Section[] = [
         'Visit counts: the daily hash is kept 35 days. Tool use counts: the daily hash is kept three days. Rate-limit hashes: two days.',
         'Sign-in and confirm links: deleted a day after they expire. Device keys from an email sign-in: last 90 days, then removed 30 days later. Copies of alert emails: seven days.',
         'Alerts waiting to be sent, such as telling linked players that their coach has left: deleted once sent, a few every ten minutes. Records of the result summaries sent to a coach: 30 days.',
+        'Opponent scouting: a report until the day after its tournament’s last day; Padel API’s answers 24 hours.',
         'Your photo: kept until you remove it, pick an avatar instead, or delete your account. Whether it shows on your public profile (players) is kept with it.',
         'A coach’s WhatsApp number: kept until the coach removes it or deletes their account.',
         'Clips and frames you send your coach, with your note: kept until you or your coach deletes one, or until your account, your coach’s page for you or your coach’s account is deleted. An unlink does not delete them.',
@@ -441,6 +460,7 @@ export const sections: Section[] = [
       p('Version 14 (8 November 2026) adds academies: what happens when your coach’s coaching becomes part of an academy such as PadelPro, that its head coach, other coaches and specialists see nothing of yours without your yes (and never your messages), that your wellness check-ins and niggles need a separate yes and are never shared under 18, that a player under 18 needs a parent’s or guardian’s yes, and what happens when you leave. This version is a draft for expert review.'),
       p('Version 15 (8 November 2026) adds a coach’s WhatsApp number, shown only to their own players and to academy players who have said yes to its coaches, never publicly; and Show my photo on my profile, which lets a player put their photo on their public profile page: on for a photo added from now on, off for a photo added before until the player turns it on. This version is a draft for expert review.'),
       p('Version 16 (8 November 2026): the academy’s coaches never see more of your wellness check-ins and niggles than your own coach does, and both are set in one place, Settings, Wellness and health; setting what you share with your coach to Nothing withdraws your yes to the academy, and sharing again doesn’t restore it by itself. A coach’s WhatsApp number reaches academy players only if the coach turns that on. This version is a draft for expert review.'),
+      p('Version 17 (8 November 2026) adds opponent scouting for coaches: reports from Padel API’s published results and rankings, worded by Anthropic from those results only, shown only to the coach who asked, kept until the day after the tournament, and how to ask not to be scouted. This version is a draft for expert review.'),
     ],
   },
 ]
