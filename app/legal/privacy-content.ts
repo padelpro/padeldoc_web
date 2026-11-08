@@ -3,6 +3,16 @@
 // Written from an audit of what the code actually stores, not from a template. Version 1 is a first draft
 // for an expert to review, so every claim here should be true of the code on the day it is published.
 //
+// Version 15 (Kevin, 8 Nov 2026) adds two tweaks (padel-share-api 0090): a coach's optional WhatsApp number, shown with a
+// WhatsApp button only to the coach's own linked players and to academy players who have said yes to the academy's
+// coaches, never on a public profile; and a player's "Show my photo on my profile" switch, which puts their photo on
+// their public profile page. Existing photos stay off it until the player switches it on; a photo uploaded after this
+// version starts with the switch on, and the switch sits beside the upload. Sections 2 (the photo, the public profile,
+// Settings, Profile) and 7 (retention) change. DRAFT FOR EXPERT REVIEW: whether the switch starting on for a new photo
+// is a valid consent for showing it publicly (the player chooses to upload, sees the switch beside it and can turn it
+// off at once; we could make it start off instead), and the coach's number reaching academy players (the coach's own
+// choice to add it, their consent, withdrawable by removing it).
+//
 // Version 14 (Kevin, 8 Nov 2026) adds academies (padel-share-api 0082 and 0088; padel-coach-src specs/academy-spec.md 9,
 // 11 and 14, the PadelPro pilot): a coach's coaching becoming part of an academy; the player's coach staying their lead
 // coach; the academy's head coach, other coaches and specialists only after the player's own yes (the head coach too,
@@ -61,7 +71,7 @@
 // - Anthropic as a processor for draw reading: its retention period under the API terms, and the US transfer wording;
 // - anonymous posts: the admin can see the author.
 
-export const VERSION = 'Version 14, 8 November 2026'
+export const VERSION = 'Version 15, 8 November 2026'
 export const CONTACT = 'hello@padelpro.ie'
 
 export type Block =
@@ -123,7 +133,7 @@ export const sections: Section[] = [
       p('Legal basis: providing the account you asked for.'),
 
       h3('Your public profile page (thepadeldoc.com)'),
-      p('Every coach, player and club account has a public profile page at thepadeldoc.com/your-name, made the first time you use your account. A player’s name there starts from their first name, and a coach’s from their full name; you can change it. Anyone can see on it: your first name (coaches: full name; clubs: the club’s name), whether you are a player, coach or club, your avatar, the country, region and home club you give in your settings if you give them, and, for coaches, your photo, the clubs you run and how many players your answers in Community have helped. Your social links show there only if you choose Everyone for them (below). Nothing else about you is on it.'),
+      p('Every coach, player and club account has a public profile page at thepadeldoc.com/your-name, made the first time you use your account. A player’s name there starts from their first name, and a coach’s from their full name; you can change it. Anyone can see on it: your first name (coaches: full name; clubs: the club’s name), whether you are a player, coach or club, your avatar, the country, region and home club you give in your settings if you give them, your photo if you are a coach, or a player who switches on Show my photo on my profile (below), and, for coaches, the clubs you run and how many players your answers in Community have helped. Your social links show there only if you choose Everyone for them (below). Nothing else about you is on it.'),
       p('A player can ask a coach to coach them from the coach’s profile, with a short message (up to 280 characters). The coach sees the request and the message. A declined request is kept so the same player can only ask again after 14 days; requests are deleted with either account.'),
       p('Legal basis: providing the account you asked for, and our legitimate interest in letting players find coaches and clubs.'),
 
@@ -144,13 +154,14 @@ export const sections: Section[] = [
 
       h3('If you add a photo of yourself (thepadeldoc.com)'),
       p('Coaches and players can each add a photo of themselves in place of an avatar. Nobody can upload a photo for someone else: a coach can’t add one for a player. Before it leaves your device, the photo is cropped to a square and resized to 256 pixels, which also removes its metadata, including any location. It is stored with Cloudflare R2. It is deleted when you choose Remove photo, when you pick an avatar or go back to your initials instead, or when you delete your account.'),
-      p('Who sees it: a player’s photo is seen by the player, their linked coach, and anyone with a link to their player page. A coach’s photo is seen by the coach and the players linked to them, and is shown on the coach’s public profile page. Once you post, reply, join a group or list something in Community or the Marketplace, your photo is also shown there to other signed-in members. It is never shown on padelpro.ie, and never used for Contribute, for training any model, for face recognition or for marketing.'),
+      p('Who sees it: a player’s photo is seen by the player, their linked coach, and anyone with a link to their player page. A player can also show it on their public profile page, where anyone can see it, with Show my photo on my profile in Settings, Profile. The switch is on for a photo you add from 8 November 2026, and you can turn it off at any time; a photo added before then stays off your public profile until you turn it on. A coach’s photo is seen by the coach and the players linked to them, and is shown on the coach’s public profile page. Once you post, reply, join a group or list something in Community or the Marketplace, your photo is also shown there to other signed-in members. It is never shown on padelpro.ie, and never used for Contribute, for training any model, for face recognition or for marketing.'),
       p('Legal basis: your consent, which you can withdraw at any time by removing the photo.'),
 
       h3('If you add links to your profiles elsewhere (thepadeldoc.com)'),
       p('In your settings you can add, if you want to, your handle on Instagram, TikTok, YouTube, X, Facebook, Strava or Playtomic. We keep the handle only, not the rest of the address, and show each as a link to that profile.'),
       p('Who sees them is your choice, on the same ladder as everything else you can show (see Partners and following): only you; you and your coach (or, for a coach, the players linked to you), which is the setting unless you change it; your partners; your followers; every signed-in member; or anyone with your page link, which also puts them on your public profile page and your private page link. The same choice covers your bio, credentials and club and role. We do not visit those profiles or take anything from them.'),
       p('In Settings, Profile you can also add a short bio (up to 300 characters), your credentials (short lines such as a coaching qualification) and your club and role (for example “Head coach, Naas LTC”). They are shown on your profile card and your public profile page to whoever your links choice above lets see your links, and you can empty them at any time.'),
+      p('A coach can also add a WhatsApp number in Settings, Profile, if they want to. It is shown, with a WhatsApp button that opens a chat with the coach in WhatsApp, only to the players linked to that coach and, if the coach is part of an academy, to the academy’s players who have said yes to its coaches. It is never on a public profile page, never shown to anyone else and never used by us to contact anyone. A chat you start that way is between you and the coach in WhatsApp: we don’t see it. The coach can change or remove the number at any time.'),
       p('To remove one, empty its field. Deleting your account removes them all.'),
       p('Legal basis: your consent, which you can withdraw at any time by emptying the fields.'),
 
@@ -332,7 +343,8 @@ export const sections: Section[] = [
         'Visit counts: the daily hash is kept 35 days. Tool use counts: the daily hash is kept three days. Rate-limit hashes: two days.',
         'Sign-in and confirm links: deleted a day after they expire. Device keys from an email sign-in: last 90 days, then removed 30 days later. Copies of alert emails: seven days.',
         'Alerts waiting to be sent, such as telling linked players that their coach has left: deleted once sent, a few every ten minutes. Records of the result summaries sent to a coach: 30 days.',
-        'Your photo: kept until you remove it, pick an avatar instead, or delete your account.',
+        'Your photo: kept until you remove it, pick an avatar instead, or delete your account. Whether it shows on your public profile (players) is kept with it.',
+        'A coach’s WhatsApp number: kept until the coach removes it or deletes their account.',
         'Clips and frames you send your coach, with your note: kept until you or your coach deletes one, or until your account, your coach’s page for you or your coach’s account is deleted. An unlink does not delete them.',
         'Messages between you and your coach, with their voice notes and attached files: kept until the side that sent one deletes it, or until your coach’s page for you or either account is deleted, as above.',
         'Full videos uploaded for trimming: deleted from our storage within seven days, and from the trimming machine when the job ends (within a day if something goes wrong).',
@@ -417,6 +429,7 @@ export const sections: Section[] = [
       p('Version 12.1 (7 November 2026) adds partners and following: partner links and what partners share, playing side and hand, pair keys on tournaments, partners’ copies of shared matches, followers, the one ladder for who sees what with its ceilings, hide my club, and one block everywhere. It also moves the diary’s downloads to Settings and lets a diary link a partner’s name to a partner when you choose. This version is a draft for expert review.'),
       p('Version 13 (8 November 2026) adds a coach’s working hours: the description a coach can give in their own words, which is sent to Anthropic to be read and is not stored by us; what we keep (their hours, changes from a later date, blocked dates and their time zone), that only the coach sees it, and how Find a time uses players’ calendars. The line saying no other part of the tools uses an AI service is replaced. This version is a draft for expert review.'),
       p('Version 14 (8 November 2026) adds academies: what happens when your coach’s coaching becomes part of an academy such as PadelPro, that its head coach, other coaches and specialists see nothing of yours without your yes (and never your messages), that your wellness check-ins and niggles need a separate yes and are never shared under 18, that a player under 18 needs a parent’s or guardian’s yes, and what happens when you leave. This version is a draft for expert review.'),
+      p('Version 15 (8 November 2026) adds a coach’s WhatsApp number, shown only to their own players and to academy players who have said yes to its coaches, never publicly; and Show my photo on my profile, which lets a player put their photo on their public profile page: on for a photo added from now on, off for a photo added before until the player turns it on. This version is a draft for expert review.'),
     ],
   },
 ]
