@@ -106,6 +106,12 @@
   for = "/player-sw.js"
   [headers.values]
     Cache-Control = "no-cache"
+# The Tactics Board's offline worker (Drill Builder D1, Kevin 9 Nov 2026): never served stale either, so a new build
+# or the kill switch reaches the browsers that have it on the next load.
+[[headers]]
+  for = "/tactics-sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
 [[headers]]
   for = "/player.webmanifest"
   [headers.values]
