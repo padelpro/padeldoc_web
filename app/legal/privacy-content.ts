@@ -3,6 +3,15 @@
 // Written from an audit of what the code actually stores, not from a template. Version 1 is a first draft
 // for an expert to review, so every claim here should be true of the code on the day it is published.
 //
+// Version 19 (Kevin, 9 Nov 2026) adds the player journey's first two phases (padel-coach-src
+// specs/player-journey-spec.md 2, 1.2 and 7.4; padel-share-api 0093): the level a player picks at sign-up or in Settings
+// (one of seven, or Not sure, which stores nothing), each change kept with its date and who set it, seen by the
+// player's linked coach and, with the player's yes to the academy's staff, by its staff; never sent to an AI service,
+// never public. And the home page's photos from Kevin's own sessions: only with the written OK of everyone in them (a
+// parent's for a child), taken down within 7 days on request. Sections 2, 4 and 8 change. DRAFT FOR EXPERT REVIEW, as
+// every version: whether the level needs anything beyond providing the account (we think not: it's the player's own
+// placement, shown to people who already coach them), and the photo permission wording.
+//
 // Version 18 (Kevin, 8 Nov 2026) adds the AI gym draft with an interview (padel-share-api 0092; padel-coach-src
 // specs/gym-plans-spec.md 5.2 and 5.5, niggles-spec.md 7): a coach, or a player for themselves, answers up to eight
 // questions and Anthropic drafts a gym block from the answers and the library, checked in code before anyone sees it.
@@ -109,7 +118,7 @@
 // - Anthropic as a processor for draw reading: its retention period under the API terms, and the US transfer wording;
 // - anonymous posts: the admin can see the author.
 
-export const VERSION = 'Version 18, 9 November 2026'
+export const VERSION = 'Version 19, 9 November 2026'
 export const CONTACT = 'hello@padelpro.ie'
 
 export type Block =
@@ -169,6 +178,11 @@ export const sections: Section[] = [
       h3('If you have a player account (thepadeldoc.com)'),
       p('We keep your name, your email if you give one, and a hash of your key. Your email is used to sign you in by link and, if you turn them on, for email alerts; a coach you link to never sees it. We keep the matches, stats and clips you save, which of the four players is you in a match you pick yourself in, and any coach link you make. A linked coach sees your saved matches and stats, not your clips, except the ones you send them (below). You can also give your year of birth, which your coach never sees; it is used only for age rules, such as the 18 and over features below. If you switch on Share my age with my coach (in Settings, Coach access; off unless you turn it on, and not offered under 18), your linked coach sees your age this year and your senior category (for example 41, +40), worked out from your year of birth, and whether you are over 45 for gym plans. They never see the year itself. Switch it off and they stop seeing it. You must be 16 or over to open an account. You can unlink or delete your account at any time from your page. Deleting removes everything, including the clips you sent your coach, with the exceptions explained under Community and the Marketplace. If you run a Box League club, your account can’t be deleted until the club is handed over or deleted.'),
       p('Legal basis: providing the account you asked for.'),
+
+      // Version 19: the level (padel-share-api 0093).
+      h3('Your level (thepadeldoc.com)'),
+      p('When you sign up, and at any time in Settings, you can pick the level that sounds most like you, one of seven from Just starting to Top level, or Not sure, which stores nothing. We keep the level you picked and each time you change it, with the date and who set it (you: nobody else can set it). Your linked coach sees it on their page for you, with the date you set it and how it has changed over time; if your coach is part of an academy, its staff see it once you have said yes to them, as for the rest of your page. When you leave an academy, its staff stop seeing it. It is never shown on your public profile and never sent to an AI service. If you paste bookings into your calendar, your page may compare the Playtomic level in them with yours and ask if you want to update it; that check happens on your device, and your level only changes if you change it.'),
+      p('How long we keep it: your level and its history are kept until you delete your account. Legal basis: providing the account you asked for.'),
 
       h3('Your public profile page (thepadeldoc.com)'),
       p('Every coach, player and club account has a public profile page at thepadeldoc.com/your-name, made the first time you use your account. A player’s name there starts from their first name, and a coach’s from their full name; you can change it. Anyone can see on it: your first name (coaches: full name; clubs: the club’s name), whether you are a player, coach or club, your avatar, the country, region and home club you give in your settings if you give them, your photo if you are a coach, or a player who switches on Show my photo on my profile (below), and, for coaches, the clubs you run and how many players your answers in Community have helped. Your social links show there only if you choose Everyone for them (below). Nothing else about you is on it.'),
@@ -357,6 +371,11 @@ export const sections: Section[] = [
       p('When you enter an event with a partner, we hold your partner’s email to find or invite them. Host clubs give a contact name, email, phone and venue address; only the club name, town and county are public. Admin actions on the platform are written to a permanent log, so there is a record of who changed what.'),
       p('Legal basis: providing the circuit you entered, your consent for public rankings and for marketing emails, and our legitimate interest in running fair, auditable competitions.'),
 
+      // Version 19: the home page's photos (padel-coach-src specs/player-journey-spec.md 1.2).
+      h3('Photos on our home page'),
+      p('The home page may show photos from Kevin’s own coaching sessions. We use a photo with a person in it only with that person’s written OK, and for a child, a parent’s or guardian’s; Kevin keeps those permissions. If you are in a photo and want it taken down, email ' + CONTACT + ' and it comes down within 7 days. We never use stock photos of people or AI images of people on the home page.'),
+      p('Legal basis: your consent, which you can withdraw at any time.'),
+
       h3('Things we never ask for'),
       p('Apart from niggles, the wellness check-in, the gym health check and the gym details your coach records (above), the tools have no field for health or medical information. Please do not type injury or medical details into notes. We never see your password on padelpro.ie, and we never see your key on thepadeldoc.com; both are stored as one-way hashes.'),
     ],
@@ -409,6 +428,8 @@ export const sections: Section[] = [
         'Coach and club sign-ups never confirmed: deleted after seven days. Requests for coach access: declined ones overnight, ones still waiting after 90 days.',
         'Site reviews: kept until the account is deleted or you ask us to remove one.',
         'Gym health check: kept until you delete it, do it again, or delete your account.',
+        'Your level and each change to it: kept until you delete your account.',
+        'Photos on the home page: until the person in them asks us to take one down (within 7 days) or we stop using it.',
         'Gym drafts: the drafted plan as long as you keep it; the record of each draft, without your answers, until the account that asked is deleted. How long you have trained in a gym: until you change or clear it, or delete your account.',
         'Tournaments: kept until you delete them or your account. Draw readings: until you confirm or cancel them, 24 hours at most; the record of each reading, without names or pictures, until your account is deleted.',
         'Niggles: a niggle you mark as gone, or one untouched for six months, is cleared, and cleared niggles are deleted 12 months later. Withdrawing your consent deletes every niggle, its history and any tournament pain score at once.',
@@ -490,6 +511,7 @@ export const sections: Section[] = [
       p('Version 16 (8 November 2026): the academy’s coaches never see more of your wellness check-ins and niggles than your own coach does, and both are set in one place, Settings, Wellness and health; setting what you share with your coach to Nothing withdraws your yes to the academy, and sharing again doesn’t restore it by itself. A coach’s WhatsApp number reaches academy players only if the coach turns that on. This version is a draft for expert review.'),
       p('Version 17 (8 November 2026) adds opponent scouting for coaches: reports from Padel API’s published results and rankings, worded by Anthropic from those results only, shown only to the coach who asked, kept until the day after the tournament, and how to ask not to be scouted. This version is a draft for expert review.'),
       p('Version 18 (9 November 2026) adds gym drafts by the assistant: the short interview, what is sent to Anthropic (the answers and a fixed list of training details, never names or messages), how long you have trained in a gym kept on your profile, and Let the AI use my niggles, off unless you switch it on, which sends only where it is, how bad and what makes it worse, never a niggle at 6 out of 10 or more, and asks you again to agree to the niggles consent’s new wording if you agreed before it mentioned the assistant. This version is a draft for expert review.'),
+      p('Version 19 (9 November 2026) adds your level: the one you pick at sign-up or in Settings, each change kept with its date, seen by your linked coach (and an academy’s staff after your yes), never public and never sent to an AI service. It also adds photos on the home page, used only with the written OK of everyone in them and taken down within 7 days on request. This version is a draft for expert review.'),
     ],
   },
 ]
