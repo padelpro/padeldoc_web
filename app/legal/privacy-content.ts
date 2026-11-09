@@ -3,6 +3,16 @@
 // Written from an audit of what the code actually stores, not from a template. Version 1 is a first draft
 // for an expert to review, so every claim here should be true of the code on the day it is published.
 //
+// Version 20 (Kevin, 9 Nov 2026) adds coach payments' first phase (padel-coach-src specs/coach-payments-spec.md 2, 4, 5.1,
+// 7.1 and 8.4; padel-share-api 0094), with no money taken yet: a coach's offers and prices on their public page, their
+// call settings and the video link they paste (shown only to a player with a booked call), and free intro calls booked
+// from the coach's hours: the time in UTC with both time zones, the status and who cancelled, both calendars and calendar
+// links, a calendar file by a private link, Google, Outlook.com and Microsoft 365 links, reminders a day and an hour
+// before, 18 and over, and calls kept 12 months after the date. Sections 2, 3, 4, 6 and 8 change. DRAFT FOR EXPERT
+// REVIEW, as every version: the 12 months (spec open question 15), the 18 or over tick when no year of birth is held
+// (we don't store the tick), and the video service being the coach's own (we think the coach controls the meeting). Like every
+// version, its line in section 8 says it is a draft for expert review (Kevin 9 Nov 2026).
+//
 // Version 19 (Kevin, 9 Nov 2026) adds the player journey's first two phases (padel-coach-src
 // specs/player-journey-spec.md 2, 1.2 and 7.4; padel-share-api 0093): the level a player picks at sign-up or in Settings
 // (one of seven, or Not sure, which stores nothing), each change kept with its date and who set it, seen by the
@@ -118,7 +128,7 @@
 // - Anthropic as a processor for draw reading: its retention period under the API terms, and the US transfer wording;
 // - anonymous posts: the admin can see the author.
 
-export const VERSION = 'Version 19, 9 November 2026'
+export const VERSION = 'Version 20, 9 November 2026'
 export const CONTACT = 'hello@padelpro.ie'
 
 export type Block =
@@ -185,9 +195,17 @@ export const sections: Section[] = [
       p('How long we keep it: your level and its history are kept until you delete your account. Legal basis: providing the account you asked for.'),
 
       h3('Your public profile page (thepadeldoc.com)'),
-      p('Every coach, player and club account has a public profile page at thepadeldoc.com/your-name, made the first time you use your account. A player’s name there starts from their first name, and a coach’s from their full name; you can change it. Anyone can see on it: your first name (coaches: full name; clubs: the club’s name), whether you are a player, coach or club, your avatar, the country, region and home club you give in your settings if you give them, your photo if you are a coach, or a player who switches on Show my photo on my profile (below), and, for coaches, the clubs you run and how many players your answers in Community have helped. Your social links show there only if you choose Everyone for them (below). Nothing else about you is on it.'),
+      p('Every coach, player and club account has a public profile page at thepadeldoc.com/your-name, made the first time you use your account. A player’s name there starts from their first name, and a coach’s from their full name; you can change it. Anyone can see on it: your first name (coaches: full name; clubs: the club’s name), whether you are a player, coach or club, your avatar, the country, region and home club you give in your settings if you give them, your photo if you are a coach, or a player who switches on Show my photo on my profile (below), and, for coaches, the clubs you run, how many players your answers in Community have helped, and the offers and prices you switch on (below). Your social links show there only if you choose Everyone for them (below). Nothing else about you is on it.'),
       p('A player can ask a coach to coach them from the coach’s profile, with a short message (up to 280 characters). The coach sees the request and the message. A declined request is kept so the same player can only ask again after 14 days; requests are deleted with either account.'),
       p('Legal basis: providing the account you asked for, and our legitimate interest in letting players find coaches and clubs.'),
+
+      // Version 20: coach offers and free intro calls (padel-share-api 0094). DRAFT FOR EXPERT REVIEW.
+      h3('Coaching offers and free calls (thepadeldoc.com)'),
+      p('If you coach, you can set what you offer and your prices: a one-off review (its price and how soon you send it back), a monthly plan (its price, reviews a month and extras), a free intro call (its length) and a paid call (its length and price), in euro or pounds. What you switch on shows on your public profile page, to anyone who can see it. No money is taken through thepadeldoc yet: until payments start, payment is between you and the player, and we will update this policy before they do. We also keep your call settings (the gap before and after a call, how much notice you need, how far ahead players can book and the most calls a day) and the video link you paste (Google Meet, Zoom, Teams or another). Your video link is shown only to a player with a call booked with you.'),
+      p('If you book a free intro call with a coach, we keep the call: which coach, the start and end time, your time zone and the coach’s, whether it is booked, moved, cancelled or done, who cancelled it, and whether either of you marked it as missed. The coach sees your first name and the time; you see the coach’s name, the time and their video link. We find free times from the coach’s hours, blocked dates, lessons and other calls; you only ever see the free times, never why another time is busy. The call goes on your calendar and the coach’s, and in both private calendar links. We send each of you an alert and an email when it is booked, moved or cancelled, and a reminder a day before and an hour before. If either of you deletes your account, the call is cancelled and the other person is told it was cancelled, with no reason given.'),
+      p('Each call has its own calendar file at a private link, in the emails and on the booking: anyone with that link can open the call’s title, time and video link, so keep it to yourself. If you choose Google Calendar, Outlook.com or Microsoft 365, the call’s title, time and video link go to that company in the link you open. The call itself happens on the coach’s own video service, under its terms; we don’t create the meeting and we see nothing of it.'),
+      p('Calls are for people aged 18 and over. If you gave a year of birth, it must say you are; if not, you tick to say you are, and we don’t keep the tick.'),
+      p('Legal basis: providing the service you asked for.'),
 
       h3('If you send a clip or a frame to your coach (thepadeldoc.com)'),
       p('If your player account is linked to a coach, you can send them a video, or a saved frame (a still picture from your video, with your drawings), from the Technique Analyser, with a note if you like. We store the video or frame, its title and your note (up to 500 characters) on the page your coach keeps for you, marked as sent by you, and it counts towards your coach’s clip storage. Your coach gets an alert that you sent it. Your coach sees it, with your note, on that page; anyone else only sees it if your coach adds it to your Videos, where it shows like any video or photo on your page, with your note as its note, which your coach can then edit.'),
@@ -404,6 +422,7 @@ export const sections: Section[] = [
       ),
       p('If your coach is part of an academy, its head coach, other coaches and specialists, once you say yes, see what is described in section 2, “If your coach is part of an academy”.'),
       p('If you subscribe to your calendar link in Google Calendar, Apple Calendar or Outlook, that company receives the titles, times and places the link holds, each time it checks the link.'),
+      p('If you book a call with a coach, the coach sees your first name and the time, and the call happens on the coach’s own video service (Google Meet, Zoom, Teams or another), under its terms. If you add the call with Google Calendar, Outlook.com or Microsoft 365, that company receives its title, time and video link.'),
       p('Beyond those, data is shared only as described above: with the coach, club or players you are connected to, with other members where you post in Community or the Marketplace, and publicly where this policy says something is public.'),
     ],
   },
@@ -429,6 +448,8 @@ export const sections: Section[] = [
         'Site reviews: kept until the account is deleted or you ask us to remove one.',
         'Gym health check: kept until you delete it, do it again, or delete your account.',
         'Your level and each change to it: kept until you delete your account.',
+        'A coach’s offers, prices, call settings and video link: kept until the coach changes them or deletes their account.',
+        'Calls with a coach: kept 12 months after the date of the call, or until either account is deleted. The reminders are sent once and not kept.',
         'Photos on the home page: until the person in them asks us to take one down (within 7 days) or we stop using it.',
         'Gym drafts: the drafted plan as long as you keep it; the record of each draft, without your answers, until the account that asked is deleted. How long you have trained in a gym: until you change or clear it, or delete your account.',
         'Tournaments: kept until you delete them or your account. Draw readings: until you confirm or cancel them, 24 hours at most; the record of each reading, without names or pictures, until your account is deleted.',
@@ -470,6 +491,7 @@ export const sections: Section[] = [
         'You must be 18 or over to join a Box League yourself. Under 18s are added by the club, with a parent or guardian contact, and their phone numbers are never shown.',
         'Everyone in a contributed video must be 18 or over.',
         'You must be 18 or over to flag niggles, do the wellness check-in or log training load, do the gym health check or use Tournaments, and you confirm it when you start; if you gave a year of birth, it must agree.',
+        'You must be 18 or over to book a call with a coach. If you gave a year of birth, it must agree.',
         'A coach who makes a page for a player under 16 is responsible for having a parent’s or guardian’s agreement first.',
         'An academy can bring in a player under 18 only with a parent’s or guardian’s yes, which it records with us, and their wellness check-ins and niggles are never shared with the academy while they are under 18.',
       ),
@@ -512,6 +534,7 @@ export const sections: Section[] = [
       p('Version 17 (8 November 2026) adds opponent scouting for coaches: reports from Padel API’s published results and rankings, worded by Anthropic from those results only, shown only to the coach who asked, kept until the day after the tournament, and how to ask not to be scouted. This version is a draft for expert review.'),
       p('Version 18 (9 November 2026) adds gym drafts by the assistant: the short interview, what is sent to Anthropic (the answers and a fixed list of training details, never names or messages), how long you have trained in a gym kept on your profile, and Let the AI use my niggles, off unless you switch it on, which sends only where it is, how bad and what makes it worse, never a niggle at 6 out of 10 or more, and asks you again to agree to the niggles consent’s new wording if you agreed before it mentioned the assistant. This version is a draft for expert review.'),
       p('Version 19 (9 November 2026) adds your level: the one you pick at sign-up or in Settings, each change kept with its date, seen by your linked coach (and an academy’s staff after your yes), never public and never sent to an AI service. It also adds photos on the home page, used only with the written OK of everyone in them and taken down within 7 days on request. This version is a draft for expert review.'),
+      p('Version 20 (9 November 2026) adds coaches’ offers and prices on their public page, with no money taken yet, and free intro calls booked from a coach’s hours: what we keep about a call, who sees it, the call’s calendar file and calendar links, the reminders, 18 and over, and calls kept 12 months after the date. This version is a draft for expert review.'),
     ],
   },
 ]
