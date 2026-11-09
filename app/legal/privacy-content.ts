@@ -3,6 +3,23 @@
 // Written from an audit of what the code actually stores, not from a template. Version 1 is a first draft
 // for an expert to review, so every claim here should be true of the code on the day it is published.
 //
+// Version 18 (Kevin, 8 Nov 2026) adds the AI gym draft with an interview (padel-share-api 0092; padel-coach-src
+// specs/gym-plans-spec.md 5.2 and 5.5, niggles-spec.md 7): a coach, or a player for themselves, answers up to eight
+// questions and Anthropic drafts a gym block from the answers and the library, checked in code before anyone sees it.
+// What's sent is a fixed list: the answers (with names, emails and phone numbers taken out of anything typed), an age
+// band (never the year of birth), the training age band (a new optional profile field beside the year of birth), the
+// weeks of tournaments and calendar events in the plan's window (types and days only, never names, titles or places),
+// ratings by area, the last four weeks' training load as numbers, and the library's exercises; never a name or a
+// message. Niggles go only if the player switches on "Let the AI use my niggles" (Settings, Wellness and health; off by
+// default): the area, the score out of 10 and the "worse with" choices, never notes or dates; a niggle at 6 or more is
+// never sent and the plan says to see a physio. Every draft lands as a draft to check; a linked player's own draft is
+// seen and can be changed by their coach. Sections 2 (gym, niggles, tournaments' AI line), 3 (Anthropic) and 7
+// (retention) change. DRAFT FOR EXPERT REVIEW: niggles reaching an AI provider under the player's own switch (explicit
+// consent for health data to a processor, separate from the niggles consent itself, which keeps its wording version 1
+// for now); the coach's draft using what the coach can already see of the player (we rely on the coaching
+// relationship and the player's existing sharing choices, nothing new is read); and whether the age band and the
+// load numbers need a word of their own.
+//
 // Version 17 (Kevin, 8 Nov 2026) adds opponent scouting, phase 1 (padel-share-api 0087; padel-coach-src
 // specs/opponent-scouting-spec.md): a coach can ask for a short report on an opponent pair in a tournament, from the
 // published competition results and rankings Padel API holds (Premier Padel and FIP events). Padel API is named as a new
@@ -90,7 +107,7 @@
 // - Anthropic as a processor for draw reading: its retention period under the API terms, and the US transfer wording;
 // - anonymous posts: the admin can see the author.
 
-export const VERSION = 'Version 17, 8 November 2026'
+export const VERSION = 'Version 18, 9 November 2026'
 export const CONTACT = 'hello@padelpro.ie'
 
 export type Block =
@@ -191,11 +208,19 @@ export const sections: Section[] = [
       p('How long we keep it: until you choose Delete my health check, do the check again (the new one replaces the old, so no history is kept), or delete your account. An out-of-date check is not deleted on its own.'),
       p('Legal basis: your explicit consent, which you can withdraw by deleting the check.'),
 
+      // DRAFT FOR EXPERT REVIEW (version 18): the AI gym draft (padel-share-api 0092).
+      h3('Gym drafts by the assistant (thepadeldoc.com)'),
+      p('A coach can ask the assistant to draft a gym block for a player, and a player can ask for one for themselves (with a coach, after the option to ask the coach first). It starts with up to eight short questions: the goal, how many weeks, gym days a week and how long, where and with what kit, how long you have trained in a gym with a plan, niggles, court sessions a week, and anything you dislike or can’t do. Your answer on how long you have trained in a gym is kept on your profile next to your year of birth, so you are not asked again; you can change or clear it in Settings.'),
+      p('What we send to Anthropic, our AI provider, to draft the block: the answers (anything typed has names, email addresses and phone numbers taken out first), an age band such as 30 to 44 (never your year of birth; a coach’s draft only uses your age if you share it with them, otherwise only whether you are over 45, as your coach set it), how long you have trained, the weeks and days of your tournaments and calendar events in the plan’s weeks (their type only, never names, titles, places, partners or opponents), your coach’s ratings by area (never their notes), your training load for the last four weeks as numbers, and the exercises from our library. Only what the person asking can already see is used. We never send your name, your account, your messages or your notes.'),
+      p('Niggles go to Anthropic only if you switch on Let the AI use my niggles (Settings, Wellness and health; off unless you switch it on, and only you can). Then a draft can plan around them using only where it is, how bad (out of 10) and what makes it worse, never any notes or dates. A niggle at 6 out of 10 or more is never sent: that area is left out of the plan, and the plan tells you to see a physio about it. You can switch it off at any time; withdrawing your niggles consent switches it off too.'),
+      p('What we keep: the draft, as a gym plan for the person to check and change before anyone uses it. A player’s own draft is theirs; if they have a coach, that coach can see and change it and gets an alert. We also keep a record of each draft for the account that asked (when, its cost, and how many lines our checks left out), without your answers. Anthropic keeps what we send only for a limited period under its commercial terms and does not use it to train its models.'),
+      p('Legal basis: providing the service you asked for; for niggles, your explicit consent through the switch.'),
+
       h3('Tournaments (thepadeldoc.com)'),
       p('If you are 18 or over you can plan the tournaments you play. We keep what you enter or confirm: the event (name, category, level, dates, venue), your partner’s and opponents’ names as text, your matches with their times and courts, up to three keys and three plans for each event (your goals), your checklist, warm-up and travel times, notes on opponents, a recovery plan, the lessons from your review and a highlight reel. Names you enter stay as text on your tournament and are never linked to anyone’s account.'),
       p('After a match you can check in with the result, score, how hard it felt and two short notes on what worked and what to fix. On a match morning you can check in on any pain. Pain is health information: it is kept only if you have given the niggles consent (below); otherwise you see the advice and nothing is stored.'),
       p('Who sees it: you, and your linked coach, who sees your tournaments and, unless you turn it off, your check-ins (never pain without the niggles consent), can add keys, plans, a review and a reel, and can get alerts with your results, one by one or as one summary on a match day.'),
-      p('Reading a draw: if you upload screenshots of a draw (up to three), we send the pictures to Anthropic, our AI provider, to read the event, your matches and the names in them, so you only have to check them. Before they leave your device the pictures are redrawn and resized, which removes their location and camera details, and our server removes any that are left. We don’t send your name or account. We never store the pictures. What was read, including every name in the draw, is kept until you confirm or cancel it, and for 24 hours at most; after that we keep only a record of the reading for your account (when, how long it took, its cost, and how many of the details you had to correct, with no names or pictures). Anthropic keeps what we send only for a limited period under its commercial terms and does not use it to train its models. The only other thing the tools send to an AI service is a coach’s own description of their working hours, if they choose to use it (see Your calendar, below).'),
+      p('Reading a draw: if you upload screenshots of a draw (up to three), we send the pictures to Anthropic, our AI provider, to read the event, your matches and the names in them, so you only have to check them. Before they leave your device the pictures are redrawn and resized, which removes their location and camera details, and our server removes any that are left. We don’t send your name or account. We never store the pictures. What was read, including every name in the draw, is kept until you confirm or cancel it, and for 24 hours at most; after that we keep only a record of the reading for your account (when, how long it took, its cost, and how many of the details you had to correct, with no names or pictures). Anthropic keeps what we send only for a limited period under its commercial terms and does not use it to train its models. The other things the tools send to an AI service are a coach’s own description of their working hours, if they choose to use it (see Your calendar, below), the published results an opponent scouting report is worded from, and what a gym draft is planned from (see Gym drafts by the assistant, above).'),
       p('How long we keep it: until you delete a tournament, choose Delete my tournaments, or delete your account. The records of draw readings are kept until your account is deleted.'),
       p('Legal basis: providing the service you asked for, and your explicit consent for pain scores.'),
 
@@ -205,7 +230,7 @@ export const sections: Section[] = [
       p('If you are 18 or over and choose to, you can flag a niggle: an ache or pain you want to keep an eye on. Because this is information about your health, we keep it only after you tick a separate consent for it, and you can withdraw that consent at any time.'),
       p('What we store for each niggle: where it hurts (one of a fixed list of areas, picked on a body map or from the list, and the muscle area you tapped on the map), the side, how bad it is from 0 to 10, when it started if you say, what makes it worse (chosen from a fixed list, never free text), when you flagged and last changed it, and the quick updates you add (better, same or worse, with a new score). We also keep when you gave the consent and that you said you are 18 or over. If you add a pain score to a tournament check-in, it is stored under the same consent.'),
       p('Why: so you can track your niggles over time, and so a coach you have linked to can see them and plan your training and tournaments around them.'),
-      p('Who sees it: you, and a coach you have linked your account to, who can read your niggles and their history but cannot change them. Nobody else, and it is never sent to an AI service or used to train anything. If you unlink from your coach, they stop seeing it at once.'),
+      p('Who sees it: you, and a coach you have linked your account to, who can read your niggles and their history but cannot change them. Nobody else. It is never used to train anything, and it is sent to an AI service only if you switch on Let the AI use my niggles, and then only the area, the score and what makes it worse, for a gym draft (see Gym drafts by the assistant, above). If you unlink from your coach, they stop seeing it at once.'),
       p('How long we keep it: a niggle you mark as gone, or one untouched for six months, is cleared; cleared niggles are deleted 12 months later. When you withdraw your consent, everything is deleted at once: every niggle, its history, the consent itself, and any pain score on your tournament check-ins.'),
       p('How to delete it: delete one niggle, or all of them, from the Niggles card on your page or in Settings, or withdraw your consent in Settings, which deletes everything. Deleting your account deletes it too.'),
       p('Legal basis: your explicit consent, which you can withdraw.'),
@@ -341,7 +366,7 @@ export const sections: Section[] = [
       p('We do not sell data and we do not share it with advertisers. The services that handle data on our behalf are:'),
       list(
         'Cloudflare: runs our backend and stores the database, clips, videos, photos and logos. Cloudflare is a US company; transfers are covered by the EU-US Data Privacy Framework and standard contractual clauses in its data processing terms.',
-        'Anthropic: reads the draw screenshots you upload in Tournaments (the pictures only), a coach’s description of their working hours (the words only), and the published results an opponent scouting report is worded from, in each case without your name or account. US company, covered the same way.',
+        'Anthropic: reads the draw screenshots you upload in Tournaments (the pictures only), a coach’s description of their working hours (the words only), the published results an opponent scouting report is worded from, and what a gym draft is planned from (the interview’s answers and the training details listed under Gym drafts, your niggles only with your switch on), in each case without your name or account. US company, covered the same way.',
         'Padel API: when a coach scouts an opponent, our server asks Padel API for that player’s published results and rankings. Padel API doesn’t learn who asked.',
         'Netlify: hosts the websites. US company, covered the same way.',
         'Resend: sends our emails (sign-in links, confirm links, alerts and the daily summary). It receives the address, the subject and the text of each email. US company, covered the same way.',
@@ -382,6 +407,7 @@ export const sections: Section[] = [
         'Coach and club sign-ups never confirmed: deleted after seven days. Requests for coach access: declined ones overnight, ones still waiting after 90 days.',
         'Site reviews: kept until the account is deleted or you ask us to remove one.',
         'Gym health check: kept until you delete it, do it again, or delete your account.',
+        'Gym drafts: the drafted plan as long as you keep it; the record of each draft, without your answers, until the account that asked is deleted. How long you have trained in a gym: until you change or clear it, or delete your account.',
         'Tournaments: kept until you delete them or your account. Draw readings: until you confirm or cancel them, 24 hours at most; the record of each reading, without names or pictures, until your account is deleted.',
         'Niggles: a niggle you mark as gone, or one untouched for six months, is cleared, and cleared niggles are deleted 12 months later. Withdrawing your consent deletes every niggle, its history and any tournament pain score at once.',
         'Wellness check-ins, readiness lights and the training load you log: deleted after 24 months. The record of coaches looking: 12 months. The record of your consents: as long as your account.',
@@ -461,6 +487,7 @@ export const sections: Section[] = [
       p('Version 15 (8 November 2026) adds a coach’s WhatsApp number, shown only to their own players and to academy players who have said yes to its coaches, never publicly; and Show my photo on my profile, which lets a player put their photo on their public profile page: on for a photo added from now on, off for a photo added before until the player turns it on. This version is a draft for expert review.'),
       p('Version 16 (8 November 2026): the academy’s coaches never see more of your wellness check-ins and niggles than your own coach does, and both are set in one place, Settings, Wellness and health; setting what you share with your coach to Nothing withdraws your yes to the academy, and sharing again doesn’t restore it by itself. A coach’s WhatsApp number reaches academy players only if the coach turns that on. This version is a draft for expert review.'),
       p('Version 17 (8 November 2026) adds opponent scouting for coaches: reports from Padel API’s published results and rankings, worded by Anthropic from those results only, shown only to the coach who asked, kept until the day after the tournament, and how to ask not to be scouted. This version is a draft for expert review.'),
+      p('Version 18 (9 November 2026) adds gym drafts by the assistant: the short interview, what is sent to Anthropic (the answers and a fixed list of training details, never names or messages), how long you have trained in a gym kept on your profile, and Let the AI use my niggles, off unless you switch it on, which sends only where it is, how bad and what makes it worse, never a niggle at 6 out of 10 or more. This version is a draft for expert review.'),
     ],
   },
 ]
