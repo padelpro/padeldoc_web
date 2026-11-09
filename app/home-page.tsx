@@ -1,3 +1,4 @@
+import React from 'react'
 import { Community, Footer, SiteHeader } from './site-parts'
 import UsageNumbers from './usage-numbers'
 import UsedByStrip from './used-by-strip'
@@ -5,6 +6,8 @@ import ReviewsStrip from './reviews-strip'
 import PhoneFrame from './phone-frame'
 import Reveal from './reveal'
 import copy from './_copy/home.json'
+import Proof from './proof'
+import { PromiseBlocks, ToolRow, PillarsBand } from './home-parts'
 
 // The homepage (Kevin 26 Oct 2026): one question, a pill per role, then a section per role with its main tool, what it
 // does in a few ticks, its button and Learn more (its own page, /players, /coaches or /clubs). Each role has its colour: player copper, coach
@@ -17,6 +20,11 @@ import copy from './_copy/home.json'
 
 // The words are in _copy/home.json (Kevin 2 Nov 2026: the free line and "Signed in as" went, a line about the community
 // went under the question, each role got a Learn more link to its own page and new ticks). The shots and colours are here.
+//
+// The player journey's landing (J2, Kevin 8 Nov 2026; padel-coach-src specs/player-journey-spec.md 1): Kevin's two promise
+// lines in their own blocks under the hero (coach first), the proof line under them, the player and coach sections lead
+// with their promise and show the six-tile tool row instead of one shot, four ticks each, and the pillars band before
+// the clubs. Clubs keep their shot (home-parts.tsx).
 const looks = {
   player: {
     shot: '/shots/tagger.png', phoneShot: '/shots/phone-dark-player.png',
@@ -70,23 +78,26 @@ export default function HomePage() {
               className="mt-10 md:mt-0 mx-auto w-[280px] md:w-[300px]" />
           </section>
 
+          <PromiseBlocks className="mt-10 sm:mt-14" />
+          <Proof className="mt-6" />
           <UsageNumbers className="mt-10 sm:mt-14" />
         </div>
 
-        {roles.map((r, i) => (
-          <section key={r.id} id={r.id} aria-labelledby={`${r.id}-heading`}
+        {roles.map((r, i) => (<React.Fragment key={r.id}>
+          {r.id === 'club' && <PillarsBand />}
+          <section id={r.id} aria-labelledby={`${r.id}-heading`}
             className={`${i === 0 ? 'mt-12 sm:mt-16 ' : ''}${r.band} py-14 sm:py-20`}>
             <div className="mx-auto max-w-6xl px-6">
               <div>
                 <h2 id={`${r.id}-heading`} className={`text-4xl sm:text-5xl font-bold tracking-tight ${r.text}`}>{r.heading}</h2>
                 <p className="mt-4 text-xl text-text/85 leading-relaxed max-w-prose">{r.line}</p>
-                <Reveal>
+                {r.id === 'club' ? <Reveal>
                   {/* Phones: a dark phone shot in the CSS phone frame. sm and up: the 1440 x 900 desktop shot, as before. */}
                   <PhoneFrame src={r.phoneShot} alt={r.phoneAlt} className="sm:hidden mt-8 mx-auto w-[300px] max-w-full" />
                   <div className="hidden sm:block mt-10 rounded-xl border border-edge bg-panel-2 overflow-hidden shadow-[0_40px_80px_-40px_color-mix(in_srgb,var(--color-shade)_45%,transparent)]">
                     <img src={r.shot} alt={r.shotAlt} width={1440} height={900} loading="lazy" className="w-full h-auto" />
                   </div>
-                </Reveal>
+                </Reveal> : <ToolRow role={r.id} className="mt-10" />}
                 <ul className="mt-8 sm:mt-10 grid gap-x-10 gap-y-3 sm:grid-cols-2">
                   {r.ticks.map((t) => (
                     <li key={t} className="flex gap-3 text-lg">
@@ -102,7 +113,7 @@ export default function HomePage() {
               </div>
             </div>
           </section>
-        ))}
+        </React.Fragment>))}
 
         <div className="mx-auto max-w-6xl px-6 pb-16">
           <UsedByStrip className="mt-12 sm:mt-24" />
