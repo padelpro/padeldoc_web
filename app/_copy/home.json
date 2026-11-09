@@ -17,7 +17,7 @@
   },
   "proof": {
     "_about": "The proof line under the hero (spec 1.2): Kevin's credential, then the counts once the usage numbers show (50 players or more). Kevin: paste your first credential from your coach profile here, as written there; until then it's the footer's own line.",
-    "credential": "Made by Dr Kevin O'Brien, padel coach and sport scientist",
+    "credential": "Built by Dr Kevin O'Brien: sport scientist, former Head of S&C at Tennis Ireland, Ireland padel international",
     "counts": "{players} players and {coaches} coaches use The Padel Doc"
   },
   "toolRow": {
