@@ -3,6 +3,15 @@
 // Written from an audit of what the code actually stores, not from a template. Version 1 is a first draft
 // for an expert to review, so every claim here should be true of the code on the day it is published.
 //
+// Version 21 (Kevin, 9 Nov 2026) follows tweaks-b 10 (padel-share-api, no migration; padel-coach-src
+// specs/academy-spec.md 14.7): an academy's staff see a player's niggles only with the academy's health yes and the
+// player's niggles consent, the one their own coach reads niggles by, whatever the player shares of their check-ins; the
+// check-ins stay as they were, never more than the coach sees. The yes can be given while either is shared with the coach;
+// setting the check-ins to Nothing (or turning the check-in off), or withdrawing the niggles consent, withdraws the yes
+// until the player says yes again. Sections 2 and 8 change. DRAFT FOR EXPERT REVIEW, as every version: one yes covering
+// two kinds of health data, each bounded by a different consent, and the withdrawal either one triggers. Like every
+// version, its line in section 8 says it is a draft for expert review.
+//
 // Version 20 (Kevin, 9 Nov 2026) adds coach payments' first phase (padel-coach-src specs/coach-payments-spec.md 2, 4, 5.1,
 // 7.1 and 8.4; padel-share-api 0094), with no money taken yet: a coach's offers and prices on their public page, their
 // call settings and the video link they paste (shown only to a player with a booked call), and free intro calls booked
@@ -128,7 +137,7 @@
 // - Anthropic as a processor for draw reading: its retention period under the API terms, and the US transfer wording;
 // - anonymous posts: the admin can see the author.
 
-export const VERSION = 'Version 20, 9 November 2026'
+export const VERSION = 'Version 21, 9 November 2026'
 export const CONTACT = 'hello@padelpro.ie'
 
 export type Block =
@@ -378,7 +387,8 @@ export const sections: Section[] = [
       h3('If your coach is part of an academy'),
       p('A coach can run their coaching as part of an academy, such as PadelPro, with other coaches and specialists. If your coach’s coaching becomes part of one, we tell you on your page, and your coach stays your lead coach: your page, your messages and your link to them stay as they were.'),
       p('Nobody else in the academy, its head coach included, sees anything of yours unless you say yes to them, on the card on your page or in Settings, Coach access. If you do, the academy’s head coach, other coaches and specialists can see your page and work with you: they see your sessions, progress, matches, tournaments, training load and your calendar as far as you let your coach see it, and can add notes, clips and gym plans; the head coach can also add to your sessions and plans as your coach can. Your diary and notes on opponents follow your own switches, as for your coach. They never see your messages with your coach. Saying no, or not answering, changes nothing for you or your coach. You can switch it off at any time in Settings, Coach access, and the academy’s access stops at once.'),
-      p('Your wellness check-ins and niggles are a separate question, set in Settings, Wellness and health beside what you share with your own coach: the academy’s coaches see them only if you say yes to that too, only if you are 18 or over, and never more than your own coach sees. If you share only the light with your coach, that is all they see. If you set what you share with your coach to Nothing, or turn the check-in off, the academy’s access to your wellness and niggles stops at once and your yes to it is withdrawn; sharing with your coach again doesn’t give the academy access again until you say yes to it again. You can switch it off at any time, and the academy’s access stops at once.'),
+      // Version 21: the academy's niggles follow the niggles consent (tweaks-b 10). DRAFT FOR EXPERT REVIEW.
+      p('Your wellness check-ins and niggles are a separate question, set in Settings, Wellness and health beside what you share with your own coach: the academy’s coaches see them only if you say yes to that too, only if you are 18 or over, and never more than your own coach sees. Your check-ins: only while you share them with your coach, and only as much as you share; if you share only the light with your coach, that is all they see. Your niggles: an academy’s staff see them only with your yes to the academy and your niggles consent, the one that lets your own coach see them, whatever you share of your check-ins. You can say yes while you share either with your coach. If you set what you share of your check-ins with your coach to Nothing, turn the check-in off, or withdraw your niggles consent, the academy’s access stops at once and your yes to it is withdrawn; turning any of them back on doesn’t give the academy access again until you say yes to it again. You can switch it off at any time, and the academy’s access stops at once.'),
       p('We keep a record of each yes and when you gave or withdrew it, and the wording you saw, so we can show what you agreed to.'),
       p('If you are under 18, the academy can bring you in only with a parent’s or guardian’s yes, which it records with us (their name, how they gave it and when). Your wellness check-ins and niggles are never shared with the academy while you are under 18.'),
       p('If you or your coach leave the academy, its staff stop seeing your own data (your matches, calendar, training load, wellness, niggles and tournaments) at once. What its staff wrote for you, such as session notes, clips and gym plans, stays with the academy, and you keep reading the messages and the clips and notes shared with you before you left.'),
@@ -535,6 +545,7 @@ export const sections: Section[] = [
       p('Version 18 (9 November 2026) adds gym drafts by the assistant: the short interview, what is sent to Anthropic (the answers and a fixed list of training details, never names or messages), how long you have trained in a gym kept on your profile, and Let the AI use my niggles, off unless you switch it on, which sends only where it is, how bad and what makes it worse, never a niggle at 6 out of 10 or more, and asks you again to agree to the niggles consent’s new wording if you agreed before it mentioned the assistant. This version is a draft for expert review.'),
       p('Version 19 (9 November 2026) adds your level: the one you pick at sign-up or in Settings, each change kept with its date, seen by your linked coach (and an academy’s staff after your yes), never public and never sent to an AI service. It also adds photos on the home page, used only with the written OK of everyone in them and taken down within 7 days on request. This version is a draft for expert review.'),
       p('Version 20 (9 November 2026) adds coaches’ offers and prices on their public page, with no money taken yet, and free intro calls booked from a coach’s hours: what we keep about a call, who sees it, the call’s calendar file and calendar links, the reminders, 18 and over, and calls kept 12 months after the date. This version is a draft for expert review.'),
+      p('Version 21 (9 November 2026) says that an academy’s staff see your niggles only with your yes to the academy and your niggles consent with your own coach, whatever you share of your check-ins, and that withdrawing either, or setting your check-ins with your coach to Nothing, withdraws your yes until you say yes again. This version is a draft for expert review.'),
     ],
   },
 ]
