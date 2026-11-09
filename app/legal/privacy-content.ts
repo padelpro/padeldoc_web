@@ -10,8 +10,8 @@
 // links, a calendar file by a private link, Google, Outlook.com and Microsoft 365 links, reminders a day and an hour
 // before, 18 and over, and calls kept 12 months after the date. Sections 2, 3, 4, 6 and 8 change. DRAFT FOR EXPERT
 // REVIEW, as every version: the 12 months (spec open question 15), the 18 or over tick when no year of birth is held
-// (we don't store the tick), and the video service being the coach's own (we think the coach controls the meeting). Kevin
-// 9 Nov 2026: the page itself doesn't say draft for this version (its line in section 8 has no draft sentence).
+// (we don't store the tick), and the video service being the coach's own (we think the coach controls the meeting). Like every
+// version, its line in section 8 says it is a draft for expert review (Kevin 9 Nov 2026).
 //
 // Version 19 (Kevin, 9 Nov 2026) adds the player journey's first two phases (padel-coach-src
 // specs/player-journey-spec.md 2, 1.2 and 7.4; padel-share-api 0093): the level a player picks at sign-up or in Settings
@@ -534,7 +534,7 @@ export const sections: Section[] = [
       p('Version 17 (8 November 2026) adds opponent scouting for coaches: reports from Padel API’s published results and rankings, worded by Anthropic from those results only, shown only to the coach who asked, kept until the day after the tournament, and how to ask not to be scouted. This version is a draft for expert review.'),
       p('Version 18 (9 November 2026) adds gym drafts by the assistant: the short interview, what is sent to Anthropic (the answers and a fixed list of training details, never names or messages), how long you have trained in a gym kept on your profile, and Let the AI use my niggles, off unless you switch it on, which sends only where it is, how bad and what makes it worse, never a niggle at 6 out of 10 or more, and asks you again to agree to the niggles consent’s new wording if you agreed before it mentioned the assistant. This version is a draft for expert review.'),
       p('Version 19 (9 November 2026) adds your level: the one you pick at sign-up or in Settings, each change kept with its date, seen by your linked coach (and an academy’s staff after your yes), never public and never sent to an AI service. It also adds photos on the home page, used only with the written OK of everyone in them and taken down within 7 days on request. This version is a draft for expert review.'),
-      p('Version 20 (9 November 2026) adds coaches’ offers and prices on their public page, with no money taken yet, and free intro calls booked from a coach’s hours: what we keep about a call, who sees it, the call’s calendar file and calendar links, the reminders, 18 and over, and calls kept 12 months after the date.'),
+      p('Version 20 (9 November 2026) adds coaches’ offers and prices on their public page, with no money taken yet, and free intro calls booked from a coach’s hours: what we keep about a call, who sees it, the call’s calendar file and calendar links, the reminders, 18 and over, and calls kept 12 months after the date. This version is a draft for expert review.'),
     ],
   },
 ]
