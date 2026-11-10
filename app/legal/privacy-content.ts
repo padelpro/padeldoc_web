@@ -3,22 +3,33 @@
 // Written from an audit of what the code actually stores, not from a template. Version 1 is a first draft
 // for an expert to review, so every claim here should be true of the code on the day it is published.
 //
-// Version 22 (Kevin, 10 Nov 2026) adds the season planner's first phase and the watch app's install counter
-// (padel-share-api 0096 on branch season-s1, season.js; 0095 on branch watch-counter, watchCounter.js; padel-coach-src
-// specs/season-planner-spec.md and watch-score-app-spec.md 8). Neither branch was merged or deployed when this was
-// written. Season plans: S1 only, Getting better blocks built by code from Kevin's rules (no AI, no events yet: those are
+// Version 22 (Kevin, 10 Nov 2026) adds the season planner's first phase, the watch app's install counter and habits
+// (padel-share-api 0096 on branch season-s1, season.js; 0095 on branch watch-counter, watchCounter.js; 0097 on branch
+// journey-j3, habits.js; padel-coach-src specs/season-planner-spec.md, watch-score-app-spec.md 8 and
+// player-journey-spec.md 4). None of the three branches was merged or deployed when this was written.
+// Season plans: S1 only, Getting better blocks built by code from Kevin's rules (no AI, no events yet: those are
 // S3 and S5); what a plan keeps, the usual week from the last 4 full weeks of logged load (a coach's page only while the
 // coach can see the load), 18 and over by the year of birth or, on a page with no account, the coach's or staff's tick
 // (season_age_ticks: who and when, no year), Over 45 only from the page's own answer or the shared age, a linked player
 // reading the active plan only, the private copy on leaving an academy, and the account delete taking every plan about
-// the player. The watch app: the live score is the Scoreboard's share (POST /v1/matches); the counts are hashes of a
-// random install id and a random per-match id, the platform, the version, the first day and the last day a match was
-// sent, never pruned; the admin sees totals only. The Tracker import from the watch (padel-coach-src branch
-// watch-import) isn't merged, so it isn't here. Sections 2, 4, 6 and 8 change, and the intro's list of tools. DRAFT FOR
-// EXPERT REVIEW, as every version: the counts kept with no end date (hashes of random ids: we think not personal data,
-// but they are per install), whether Zepp sees the app's requests from its phone app, the coach's tick as the age
-// check when no year of birth is held, and the academy keeping its plan after the player leaves. Like every version,
-// its line in section 8 says it is a draft for expert review.
+// the player. A private coach the player shares with (coach_shares, access.js RIGHTS.share season "R") reads an
+// academy page's plan and its drafts, and changes nothing. The watch app: the live score is the Scoreboard's share (POST
+// /v1/matches); the counts are hashes of a random install id and a random per-match id, the platform, the version, the
+// first day and the last day a match was sent; the admin sees totals only. Kevin 10 Nov 2026: the counts are kept as
+// totals, and an install's record with its hashed id is deleted after 12 months unused (the sweep being added on
+// watch-counter; not committed when this was written). Habits (J3): which habits, the sleep target, the ticks for today
+// or yesterday, the one line on today (sealed), up to 3 habits a coach adds and the player's Hide this, the consent
+// records with Share my daily line; the coach at the player's wellness share level (light: the week's and the block's
+// counts; detail: each day, and the line only with Share my daily line), academy staff under the check-in's health yes
+// (canSee "wellness"), every read logged; ticks and lines deleted after 24 months; turn off keeping or deleting the
+// ticks and lines; the download; 18 and over; never sent to AI; never stored in a plan (the season plan only shows the
+// block's counts); the Today card's Don't show this kept on the device only. The Tracker import from the watch
+// (padel-coach-src branch watch-import) isn't merged, so it isn't here. Sections 2, 4, 6 and 8 change, and the intro's
+// list of tools. DRAFT FOR EXPERT REVIEW, as every version: the install records kept 12 months unused (hashes of random
+// ids: we think not personal data, but they are per install), whether Zepp sees the app's requests from its phone app,
+// the coach's tick as the age check when no year of birth is held, the academy keeping its plan after the player
+// leaves, and whether habits are health information (we handle them as the check-in is). Like every version, its line
+// in section 8 says it is a draft for expert review.
 //
 // Version 21 (Kevin, 9 Nov 2026) follows tweaks-b 10 (padel-share-api, no migration; padel-coach-src
 // specs/academy-spec.md 14.7): an academy's staff see a player's niggles only with the academy's health yes and the
@@ -169,7 +180,7 @@ const list = (...items: string[]): Block => ({ kind: 'list', items })
 const h3 = (text: string): Block => ({ kind: 'h3', text })
 
 export const intro: Block[] = [
-  p('This policy covers thepadeldoc.com and padelpro.ie, and the coaching tools that run on both: the Match Tracker, Americano Organiser, Scoreboard, Technique Analyser, Tactics Board, Balance Calculator, Match Tagger, coach and player pages, public profile pages, Gym plans, Tournaments, Niggles, the wellness check-in and training load, season plans, the Padel Doc watch app, My rackets, Community, the Marketplace and the Box League. The two sites share one backend, so one policy covers both.'),
+  p('This policy covers thepadeldoc.com and padelpro.ie, and the coaching tools that run on both: the Match Tracker, Americano Organiser, Scoreboard, Technique Analyser, Tactics Board, Balance Calculator, Match Tagger, coach and player pages, public profile pages, Gym plans, Tournaments, Niggles, the wellness check-in and training load, habits, season plans, the Padel Doc watch app, My rackets, Community, the Marketplace and the Box League. The two sites share one backend, so one policy covers both.'),
   p('It is written in plain language on purpose. If anything here is unclear, email us and we will answer in plain language too.'),
 ]
 
@@ -204,7 +215,7 @@ export const sections: Section[] = [
       h3('The Padel Doc watch app'),
       p('The watch app scores padel on an Amazfit watch (Zepp OS). It is free. Apart from the counts below, it sends us nothing unless you choose to. If you choose Show live, or send a match when it ends, the score comes to us as a live score link, the same as the Scoreboard’s: anyone with the code sees the team names, any first names you typed in the Zepp app and the score, and it is deleted 30 days after the last change (see If you run a live scoreboard or Americano, above).'),
       p('To see whether the app works and how many people use it, we count: a random ID the app makes for each install, kept only as a one-way hash and never linked to an account; the app version and the watch platform (Zepp OS); the day it was first used and the day it last sent a match or a live score; and how many matches were sent and shown live, each match counted once by its own random ID, also kept only as a one-way hash. The counts hold no name, score or share code.'),
-      p('Only we see them, on our admin page, and only as totals: installs, watches that sent a match in the last 30 days, matches sent, live scores and installs per app version. The app asks for no permissions on the watch. It doesn’t send us your location, heart rate or other health data. The counts have no set end date. To stop abuse, the counts are rate limited by a daily hash of your IP address, as on the rest of the site, deleted after two days.'),
+      p('Only we see them, on our admin page, and only as totals: installs, watches that sent a match in the last 30 days, matches sent, live scores and installs per app version. The app asks for no permissions on the watch. It doesn’t send us your location, heart rate or other health data. We keep the counts as totals. An install’s record, with its hashed ID, is deleted after 12 months without use. To stop abuse, the counts are rate limited by a daily hash of your IP address, as on the rest of the site, deleted after two days.'),
       p('Legal basis: our legitimate interest in knowing whether the app works and how many people use it; for a live score, providing the live link you asked for.'),
 
       h3('If you are a coach'),
@@ -315,6 +326,18 @@ export const sections: Section[] = [
       p('How to delete it: download everything or delete your check-ins from the Wellness tab on your page, or turn the check-in off and choose to delete what was kept. Deleting your account deletes it too.'),
       p('Legal basis: your explicit consent for the check-in and its sharing, which you can withdraw; providing the service you asked for, for the training load you log.'),
 
+      // Version 22: habits, J3 (padel-share-api 0097 on branch journey-j3, habits.js). DRAFT FOR EXPERT REVIEW.
+      h3('Habits (thepadeldoc.com)'),
+      p('Under the wellness check-in you can tick a few habits each day, for what happens off court: sleep, mobility, water, a warm-up before you train or play, and one line on today. Habits are for people aged 18 and over. They stay off until you turn them on, with their own consent and the 18 and over tick. Your coach can add up to 3 habits of their own for you, each a short name with a tick. Their names are checked against a word list, so none is about pain, food or body weight. There are no amounts, calories, body weight or food anywhere in habits.'),
+      p('What we store: which habits you track and your sleep target; each habit you ticked as done, for today or yesterday only (no tick means not done); your one line on today, up to 140 characters, encrypted in our database; the habits your coach added, who added them and when, and whether you hid them; and a record of each consent you gave or withdrew and when, including Share my daily line. While the check-in is on, the sleep habit is read from the hours of sleep in your check-in against your target, so there is nothing to tick. The warm-up shows only on a day with a session logged, or a lesson, match or booking in your calendar.'),
+      p('Who sees it: you. Your linked coach sees your habits only at the level you already share your check-in with them: nothing, the light only (how many days you did each habit this week, and so far in each block of your season plan), or the detail (each day’s ticks for the last 4 weeks as well). They see your daily line only if you also tick Share my daily line, which is off until you do, and only at the detail. An academy’s staff see your habits under the same yes as your check-ins, and never more than your own coach does (see If your coach is part of an academy, below). We note each time a coach looks. Adding a habit for you never lets a coach see more.'),
+      p('Your coach’s habits: your linked coach can add them, or on an academy’s page your lead coach. If you don’t want one, tap Hide this in Settings, Wellness. It stops showing, and your coach sees “Hidden by the player”, never why. Your past ticks for it stay, and Show again brings it back. If your coach removes a habit, its ticks are deleted.'),
+      p('Habits are never sent to an AI service or used to train anything, and they are never stored in a plan. A season plan shows only the counts so far beside its blocks, to you and to whoever already sees your habits.'),
+      p('On your Today page, once you have checked in, we may show one habit card a day, such as “Early night and water today.” the day before a tournament. If you tap Don’t show this, that card stays off on that device. The choice is kept in your browser, not sent to us.'),
+      p('How long we keep it: each day’s ticks and lines are deleted after 24 months, as check-ins are. Your choices and your coach’s habits stay until they are changed or your account is deleted. The record of which coach looked: 12 months. The record of your consents stays with your account.'),
+      p('How to turn it off or delete it: download your habits from Settings, Wellness, with your choices, your consents, your coach’s habits and every tick and line we hold. To turn habits off, choose Turn off, keep my ticks, or Turn off and delete my ticks, which deletes your lines too. Either way Share my daily line goes off, and your coach sees nothing more. Deleting your account deletes it all.'),
+      p('Legal basis: your explicit consent, which you can withdraw.'),
+
       // Version 22: season plans, phase S1 (padel-share-api 0096, season.js). DRAFT FOR EXPERT REVIEW.
       h3('Season plans (thepadeldoc.com)'),
       p('A season plan maps out your next blocks of training, a few weeks each. Each week has a training load range to aim for. Some weeks are lighter, and the last week of a block has a test, the jump test. You can make one for yourself. If you have a coach, your coach or their academy makes it on their page for you. We are trying season plans with a small number of accounts first.'),
@@ -322,7 +345,7 @@ export const sections: Section[] = [
       p('What we use to build it: your logged training load from the 4 full weeks before the plan is made, if you have logged that far back; if not, an estimate from the sessions and minutes you enter. On a coach’s page, your load is used only while your coach can see it (they can unless you turn that off).'),
       p('Your age: season plans are for people aged 18 and over, so we check the year of birth on your account. Without one, there is no plan. On a coach’s page, we only use whether you are 45 or over if you share your age with your coach, or your coach marked you as over 45 for gym plans. On your own, it comes from your year of birth. From 45, each block is a week shorter. The plan keeps only whether you are 45 or over, never your age. If we learn you are 45 or over after the plan is made, the blocks not yet started get shorter, and the log notes it.'),
       p('If your coach has a page for you that isn’t linked to an account, there is no year of birth to check. Your coach, or academy staff who can change the plan, can then tick “This player is 18 or over”. We keep who ticked it and when, in the log too. We don’t keep your age. Unticking hides the plan. Once the page is linked to an account with a year of birth, the year of birth decides instead. You never see or set the tick.'),
-      p('Who sees it: if you make your own plan, you, and only you can change it. On a coach’s page: your coach, and an academy’s staff once you have said yes to them, as for the rest of your page. Only your coach, or staff whose role lets them, can change it. You see the active plan but can’t change it, and you don’t see drafts.'),
+      p('Who sees it: if you make your own plan, you, and only you can change it. On a coach’s page: your coach, and an academy’s staff once you have said yes to them, as for the rest of your page. Only your coach, or staff whose role lets them, can change it. You see the active plan but can’t change it, and you don’t see drafts. If you share with a private coach of your own from outside the academy, that coach can see the academy’s plan for you too, while you share with them and once you have said yes to the academy’s staff. They can read the plan and any draft, but can’t make, change, start, stop or discard one, or set the 18 or over tick.'),
       p('We don’t use AI to build season plans. Our code builds them from fixed rules.'),
       p('Leaving an academy: the academy keeps its plan for you as it is, as a record of the coaching it gave you. You get a read-only copy of the plan that was active when you left, on your own account.'),
       p('How long we keep it: a draft until it is discarded or replaced by a new one. A plan until you delete your account, or your coach deletes the page it is on. Deleting your account deletes every season plan about you, including any an academy kept and your copies, plus the 18 or over tick and the log. If someone who made or changed a plan deletes their account, the plan stays and their name is taken off it.'),
@@ -503,7 +526,8 @@ export const sections: Section[] = [
         'Niggles: a niggle you mark as gone, or one untouched for six months, is cleared, and cleared niggles are deleted 12 months later. Withdrawing your consent deletes every niggle, its history and any tournament pain score at once.',
         'Wellness check-ins, readiness lights and the training load you log: deleted after 24 months. The record of coaches looking: 12 months. The record of your consents: as long as your account.',
         'Season plans: a draft until it is discarded or replaced. A plan, its log, any copy and the 18 or over tick until the account it is about is deleted, or the coach’s page it is on.',
-        'Watch app counts: no set end date. They hold only hashes of random IDs, never a name or an account.',
+        'Habits: each day’s ticks and lines, 24 months. Your choices and your coach’s habits: until they are changed or your account is deleted. The record of your consents: as long as your account.',
+        'Watch app counts: kept as totals. An install’s record, with its hashed ID, is deleted after 12 months without use. They hold only hashes of random IDs, never a name or an account.',
         'Calendar events: kept until you delete them or your account, and past events for 24 months. A deleted event is kept 30 days so your calendar app can remove it too. Your calendar link: until you reset it or delete your account. Venues you added stay on the shared list without your name.',
         'Match diary: your diaries as long as your account, or until you delete them; a diary stays when the calendar event it came from is deleted, as the match still happened. An opponent and every note about them: 24 months after your last match against them, or until you delete them.',
         'Partners and following: partnerships and follows until either of you ends them or deletes your account; an unanswered invite 30 days; a declined invite or follow request 14 days. A partner’s copy of a match you played together stays theirs.',
@@ -541,6 +565,7 @@ export const sections: Section[] = [
         'Everyone in a contributed video must be 18 or over.',
         'You must be 18 or over to flag niggles, do the wellness check-in or log training load, do the gym health check or use Tournaments, and you confirm it when you start; if you gave a year of birth, it must agree.',
         'You must be 18 or over to book a call with a coach. If you gave a year of birth, it must agree.',
+        'You must be 18 or over to turn on habits, and you confirm it when you start; if you gave a year of birth, it must agree.',
         'You must be 18 or over to have a season plan. We check the year of birth on your account, or, on a coach’s page with no account, the coach’s tick that you are 18 or over.',
         'A coach who makes a page for a player under 16 is responsible for having a parent’s or guardian’s agreement first.',
         'An academy can bring in a player under 18 only with a parent’s or guardian’s yes, which it records with us, and their wellness check-ins and niggles are never shared with the academy while they are under 18.',
@@ -586,7 +611,7 @@ export const sections: Section[] = [
       p('Version 19 (9 November 2026) adds your level: the one you pick at sign-up or in Settings, each change kept with its date, seen by your linked coach (and an academy’s staff after your yes), never public and never sent to an AI service. It also adds photos on the home page, used only with the written OK of everyone in them and taken down within 7 days on request. This version is a draft for expert review.'),
       p('Version 20 (9 November 2026) adds coaches’ offers and prices on their public page, with no money taken yet, and free intro calls booked from a coach’s hours: what we keep about a call, who sees it, the call’s calendar file and calendar links, the reminders, 18 and over, and calls kept 12 months after the date. This version is a draft for expert review.'),
       p('Version 21 (9 November 2026) says that an academy’s staff see your niggles only with your yes to the academy and your niggles consent with your own coach, whatever you share of your check-ins, and that withdrawing either, or setting your check-ins with your coach to Nothing, withdraws your yes until you say yes again. This version is a draft for expert review.'),
-      p('Version 22 (10 November 2026) adds season plans: what we keep, what we build them from, the 18 or over rule and the coach’s tick, who sees them, and what happens when you leave an academy or delete your account. It also adds the Padel Doc watch app: the live score it can send and the usage totals we count. This version is a draft for expert review.'),
+      p('Version 22 (10 November 2026) adds season plans: what we keep, what we build them from, the 18 or over rule and the coach’s tick, who sees them, and what happens when you leave an academy or delete your account. It also adds the Padel Doc watch app: the live score it can send and the usage totals we count, with each install’s record deleted after 12 months without use. And it adds habits: what we keep, who sees them and at what level, your coach’s habits and Hide this, the Today card, 18 and over, 24 months, and how to turn them off, download or delete them. This version is a draft for expert review.'),
     ],
   },
 ]
