@@ -1,0 +1,1 @@
+var o={_about:"Words in place of a name that's empty (Kevin 11 Nov 2026, item 27: never a sentence with a missing name). src/components/names.js. en-IE, no em dashes.",thePlayer:"the player",yourCoach:"your coach",someoneElse:"someone else"};export{o as a};
