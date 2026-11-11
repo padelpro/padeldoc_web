@@ -1,0 +1,1 @@
+var c=t=>String(t??"").trim(),m=t=>c(t).split(/\s+/)[0]||"",x=(t,n)=>c(t)||n;var l=t=>t&&t[0].toUpperCase()+t.slice(1);function g(t,n={},e={}){let i=String(t??"");return i.replace(/\{(\w+)\}/g,(u,r,o)=>{let s=n[r]!=null?String(n[r]):"",p=o===0||/[.!?:]\s+$/.test(i.slice(0,o));return r in e&&!s.trim()?p?l(e[r]):e[r]:s})}export{m as a,x as b,g as c};
