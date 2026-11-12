@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next'
 import { Spline_Sans, IBM_Plex_Mono } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
+import { IS_DEMO, plausibleDomain } from './site'
+import { DemoRibbon } from './_demo/ribbon'
 
 const splineSans = Spline_Sans({
   subsets: ['latin'],
@@ -46,6 +48,8 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     images: [{ url: '/og.png', alt: 'The Padel Doc — free padel tools' }],
   },
+  // The demo build only (demo.thepadeldoc.com, padel-coach-src specs/demo-site-spec.md 9.3): no page in a search engine.
+  ...(IS_DEMO ? { robots: { index: false, follow: false } } : {}),
 }
 
 // The browser's bar colour: the tools' light band (padeldoc.js chromeLight).
@@ -58,11 +62,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${splineSans.variable} ${ibmPlexMono.variable}`}>
       <body>
-        <main>{children}</main>
-        {/* Privacy-light analytics; no cookies, no personal data. */}
+        {/* The demo build only: the ribbon after the page, as the tools' one. thepadeldoc.com's own tree is exactly
+            as it was (one child, no empty slot), so its pages come out byte for byte the same. */}
+        {IS_DEMO ? <><main>{children}</main><DemoRibbon /></> : <main>{children}</main>}
+        {/* Privacy-light analytics; no cookies, no personal data. The demo counts as its own site. */}
         <Script
           defer
-          data-domain="thepadeldoc.com"
+          data-domain={plausibleDomain(IS_DEMO)}
           src="https://plausible.io/js/script.js"
           strategy="afterInteractive"
         />

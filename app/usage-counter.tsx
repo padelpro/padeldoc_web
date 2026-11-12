@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from 'react'
 import { usageLine } from './usage-sentence'
+import { WORKER } from './worker-url'
 
 // The padel-share Worker's public counters. A LITERAL, not an env var: this endpoint is
 // unauthenticated and already public — the same base URL is baked into every tool bundle under
 // public/ — so there is nothing here to keep out of a client bundle. An env var would only add a
 // deployment-time failure mode (unset in one environment, counter silently gone) to a value that
 // does not vary by environment: one Worker serves both brands.
-const STATS_URL = 'https://padel-share.padel-coach.workers.dev/v1/stats'
+const STATS_URL = `${WORKER}/v1/stats`
 
 // Give up rather than hang. §7 rule 1 treats a timeout exactly as a failure — render nothing —
 // so the abort and a network error deliberately land in the same catch.

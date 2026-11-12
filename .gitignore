@@ -29,6 +29,10 @@ tsconfig.tsbuildinfo
 # Local Claude Code settings
 .claude/settings.local.json
 
+# The demo site's edge function, copied into place by scripts/demo-prebuild.mjs on the demo build only
+# (its source is netlify/demo/demo-site.ts). Never committed: thepadeldoc.com's deploy has no such function.
+netlify/edge-functions/demo-site.ts
+
 # Brand asset staging folder — source PNGs live here; only the generated
 # public/ favicon + OG files get committed.
 brand-assets/

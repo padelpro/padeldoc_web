@@ -150,3 +150,20 @@ If you ever need to do it by hand, this is the full sequence:
 - **Entitlements / payments** — no Supabase or Stripe integration here yet. The paid
   entitlement work (accounts, gating premium tool features, checkout) is a later phase
   and will need its own auth/data layer, unlike this currently static site.
+
+## The demo site (demo.thepadeldoc.com)
+
+A second Netlify site builds this same repo and branch (padel-coach-src `specs/demo-site-spec.md` 10.2, step D7). Same
+build command (`npm run build`) and publish folder (`.next`); only its two build variables differ:
+
+```
+PADELDOC_SITE=demo
+NEXT_PUBLIC_PADELDOC_WORKER=https://padel-share-demo.padel-coach.workers.dev
+```
+
+With neither set the build is thepadeldoc.com's, exactly as before. On the demo build: `/` opens Try it as (`/signin`,
+drawn by the player bundle), the marketing pages move to thepadeldoc.com, `/privacy` is the demo's own notice,
+`robots.txt` shuts every path, every answer carries `X-Robots-Tag: noindex`, Plausible counts
+`demo.thepadeldoc.com`, and `/unsubscribe` and `/cal/*` answer 404. `scripts/demo-prebuild.mjs` (npm's prebuild and
+postbuild) does the demo-only steps and stops the build on a wrong pair of variables, on tool bundles from before demo
+mode, or if anything Next wrote holds production's Worker address. `netlify.toml` is shared and says nothing of the demo.

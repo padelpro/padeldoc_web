@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from 'react'
 import { publicReviews, type Review } from './reviews'
+import { WORKER } from './worker-url'
 
 // What people say (SU1): approved reviews the writers allowed. Same rules as the counter and the Used by strip: a
 // public endpoint, a literal URL, give up after a few seconds, and nothing at all when there is nothing to show.
-const REVIEWS_URL = 'https://padel-share.padel-coach.workers.dev/v1/reviews'
+const REVIEWS_URL = `${WORKER}/v1/reviews`
 const TIMEOUT_MS = 4000
 
 export default function ReviewsStrip({ className = '' }: { className?: string }) {
