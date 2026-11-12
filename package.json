@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/demo-prebuild.mjs",
     "build": "next build",
+    "postbuild": "node scripts/demo-prebuild.mjs --check",
     "start": "next start",
-    "test": "node --test \"app/**/*.test.ts\"",
+    "test": "node --test \"app/**/*.test.ts\" \"scripts/**/*.test.mjs\"",
     "sync-tools": "node scripts/sync-tools.mjs",
     "shots": "node scripts/shots.mjs"
   },

@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from 'react'
 import { storedKey, roleOf, firstName, HOME, type Role } from './signed-in'
+import { WORKER } from './worker-url'
 
 // GET /v1/me on the padel-share Worker, as the tools call it (X-Coach-Key). The same literal base as usage-counter.tsx.
-const ME_URL = 'https://padel-share.padel-coach.workers.dev/v1/me'
+const ME_URL = `${WORKER}/v1/me`
 const TIMEOUT_MS = 6000
 
 type Who = { phase: 'out' } | { phase: 'checking' } | { phase: 'in'; role: Role; name: string }

@@ -4,7 +4,11 @@
 // about the seller) and puts og: and twitter: tags into the player bundle's page. These are the pure parts. The page's
 // own copy is padel-coach-src data/market_copy.json; these few lines are for the preview only.
 
-export const WORKER = 'https://padel-share.padel-coach.workers.dev'
+import { workerFrom, edgeEnv, WORKER_VAR } from './worker-default.ts'
+
+// The Worker: production's, or the demo's on the demo site (app/worker-default.ts; this file runs in the edge function
+// and under node's tests, never in a page).
+export const WORKER = workerFrom(edgeEnv(WORKER_VAR))
 export const ID_RE = /^[23456789ABCDEFGHJKMNPQRSTUVWXYZ]{6}$/
 
 export type Card = {

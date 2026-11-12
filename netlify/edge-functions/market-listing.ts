@@ -3,9 +3,12 @@
 // Facebook show the title, price, condition, town and the first photo. If the Worker is slow or down, or the listing
 // is gone, the plain page goes out as it is. The rules are app/market-card.ts.
 import { WORKER, listingIdOf, readCard, metaTags, withTags } from '../../app/market-card.ts'
+import { siteFrom, edgeEnv, SITE_VAR } from '../../app/worker-default.ts'
 
 type Context = { next: () => Promise<Response> }   // the part of Netlify's context used here
 const WAIT_MS = 1500
+// The address in the preview: thepadeldoc.com, or the demo's own on the demo site (PADELDOC_SITE=demo there).
+const SITE = siteFrom(edgeEnv(SITE_VAR)) === 'demo' ? 'https://demo.thepadeldoc.com' : 'https://thepadeldoc.com'
 
 export default async (request: Request, context: Context) => {
   const url = new URL(request.url)
@@ -17,7 +20,7 @@ export default async (request: Request, context: Context) => {
       .then((r) => (r.ok ? r.json() : null)).then(readCard).catch(() => null),
   ])
   if (!card || !(page.headers.get('content-type') || '').includes('text/html')) return page
-  const html = withTags(await page.text(), metaTags(card, `https://thepadeldoc.com/community/market/l/${id}`))
+  const html = withTags(await page.text(), metaTags(card, `${SITE}/community/market/l/${id}`))
   const headers = new Headers(page.headers)
   headers.delete('content-length')
   headers.delete('etag')

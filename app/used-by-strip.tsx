@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from 'react'
 import { usedByClubs, type Club } from './used-by'
+import { WORKER } from './worker-url'
 
 // "Used by": club logos for clubs that opted in (box-league-spec.md decision 27). Same rules as the usage counter: a
 // public endpoint, a literal URL, give up after a few seconds, and render nothing at all when there is nothing to
 // show or the Worker doesn't answer.
-const USED_BY_URL = 'https://padel-share.padel-coach.workers.dev/v1/used-by'
+const USED_BY_URL = `${WORKER}/v1/used-by`
 const TIMEOUT_MS = 4000
 
 export default function UsedByStrip({ className = '' }: { className?: string }) {

@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { intro, sections, VERSION, CONTACT } from '../legal/privacy-content'
 import { Blocks, LegalFooter } from '../legal/blocks'
 import { SiteHeader } from '../site-parts'
+import { IS_DEMO } from '../site'
+import { DemoPrivacy } from '../_demo/privacy'
 
 export const metadata: Metadata = {
   title: 'Privacy policy',
@@ -10,6 +12,8 @@ export const metadata: Metadata = {
 }
 
 export default function Privacy() {
+  // The demo build: the demo's own short notice in place of the policy (padel-coach-src specs/demo-site-spec.md 9.4).
+  if (IS_DEMO) return <DemoPrivacy />
   return (
     <>
       <SiteHeader />
