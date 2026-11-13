@@ -48,7 +48,13 @@ test('the email box sends a known name and a real-looking email, tidied', () => 
 test('the page is at a preview address: today\'s home page is untouched, and no search engine is asked in', () => {
   const page = read('./preview/launch/page.tsx')
   assert.match(page, /robots: \{ index: false, follow: false \}/)
-  assert.ok(!read('./page.tsx').includes('launch'), 'the home page still draws HomePage')
+  // The home page becomes the launch page by one line, not yet switched.
+  assert.match(read('./site.ts'), /^export const LAUNCH_HOME: boolean = false$/m, 'not switched yet')
+  assert.ok(read('./page.tsx').includes('{LAUNCH_HOME ? <LaunchPage /> : <HomePage />}'))
+  // With it on: the role pages go to the launch page, leave the sitemap, and the footer loses them.
+  assert.ok(read('../next.config.ts').includes('LAUNCH_HOME ? LAUNCH_MOVED.map'))
+  assert.ok(read('./sitemap.ts').includes('LAUNCH_HOME ? pages.filter'))
+  assert.ok(read('./site.ts').includes("export const LAUNCH_MOVED = ['/players', '/coaches', '/clubs', '/tools/box-league']"))
   assert.ok(!read('./sitemap.ts').includes('preview'), 'not in the sitemap')
   assert.ok(existsSync(new URL('./launch-page.tsx', import.meta.url)))
   // Dark is for this page only.

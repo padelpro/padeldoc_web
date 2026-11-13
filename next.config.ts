@@ -1,6 +1,6 @@
 import type { NextConfig } from 'next'
 import { siteConfig } from './app/worker-default'
-import { DEMO_MOVED, MAIN_SITE } from './app/site'
+import { DEMO_MOVED, MAIN_SITE, LAUNCH_HOME, LAUNCH_MOVED } from './app/site'
 
 // The five tools are self-contained static HTML bundles in public/<tool>/index.html
 // (synced from the padel-coach-src build — see scripts/sync-tools.mjs). Rewrite the clean
@@ -19,7 +19,8 @@ const nextConfig: NextConfig = {
   // The demo only: / is Try it as (the player bundle's page at /signin on demo.thepadeldoc.com), and the marketing
   // pages live on thepadeldoc.com. Nothing here on thepadeldoc.com's build.
   async redirects() {
-    if (!demo) return []
+    // Launch 1: with the launch page as the home page, the old role pages go to it (app/site.ts LAUNCH_HOME).
+    if (!demo) return LAUNCH_HOME ? LAUNCH_MOVED.map((source) => ({ source, destination: '/', permanent: false })) : []
     return [
       { source: '/', destination: '/signin', permanent: false },
       ...DEMO_MOVED.map((source) => ({ source, destination: `${MAIN_SITE}${source}`, permanent: false })),

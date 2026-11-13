@@ -1,7 +1,8 @@
 import { redirect } from 'next/navigation'
 import HomePage from './home-page'
 import UsageBeacon from './usage-beacon'
-import { IS_DEMO } from './site'
+import { IS_DEMO, LAUNCH_HOME } from './site'
+import LaunchPage from './launch-page'
 
 // The homepage itself is in home-page.tsx. UsageBeacon counts a visit for the admin's usage dashboard.
 // On the demo build (demo.thepadeldoc.com) / is the Try it as screen, which the player bundle draws at /signin there
@@ -12,7 +13,7 @@ export default function Home() {
   return (
     <>
       <UsageBeacon />
-      <HomePage />
+      {LAUNCH_HOME ? <LaunchPage /> : <HomePage />}
     </>
   )
 }
