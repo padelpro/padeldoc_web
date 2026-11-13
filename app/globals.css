@@ -40,6 +40,25 @@ html, body {
   html { scroll-behavior: smooth; }
 }
 
+/* The launch landing page only (launch-page.tsx, [data-launch]; Kevin 13 Nov 2026): the tools' dark set
+   (padel-coach-src src/brands/padeldoc.js palette) on a device set to dark. Every other page stays light. */
+@media (prefers-color-scheme: dark) {
+  html:has([data-launch]) {
+    --color-bg:        #141517;
+    --color-panel:     #1c1e21;
+    --color-panel-2:   #17191c;
+    --color-band:      #0d0e10;
+    --color-edge:      rgba(255, 255, 255, 0.08);
+    --color-accent:    #c1834e;
+    --color-accent-2:  #2f9bff;
+    --color-text:      #ece7e1;
+    --color-muted:     #8a9ba3;
+    --color-on-accent: #05202b;
+    --color-shade:     #000000;
+  }
+  html:has([data-launch]), html:has([data-launch]) body { color-scheme: dark; }
+}
+
 body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
