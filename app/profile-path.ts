@@ -7,8 +7,8 @@
 // The site's own first path segments: Next pages, public/ folders and the netlify.toml and next.config.ts routes.
 export const SITE_PATHS = new Set([
   'about', 'academy', 'admin', 'americano', 'americano-25', 'analyse', 'avatars', 'balance', 'cal', 'club', 'clubs', 'coach', 'coaches', 'community', 'contribute',
-  'cookies', 'embed', 'fonts', 'images', 'league', 'legal', 'm', 'me', 'p', 'player', 'players', 'privacy', 'scoreboard', 'shots', 'signin',
-  't', 'tabs', 'tactics', 'tagger', 'tools', 'tracker', 'unsubscribe', 'v', 'vamos',
+  'cookies', 'embed', 'fonts', 'images', 'league', 'legal', 'm', 'me', 'p', 'player', 'players', 'preview', 'privacy', 'scoreboard', 'shots', 'signin',
+  't', 'tabs', 'tactics', 'tagger', 'terms', 'tools', 'tracker', 'unsubscribe', 'v', 'vamos',
 ])
 
 // Letters and numbers, with single hyphens or underscores between them (Kevin 29 Oct 2026: _ and - are different names).

@@ -1,0 +1,47 @@
+{
+  "_about": "The launch landing page (padel-coach-src specs/launch-1-scope.md, Kevin 13 Nov 2026), at /preview/launch until launch day. The headline isn't chosen: \"headline\" is the number of the one shown, 1 to 4. Change that one number to change it.",
+  "headline": 1,
+  "headlines": [
+    "See what really happens in your matches.",
+    "Know where your points go.",
+    "Your padel, on video and in numbers.",
+    "Score your match. Then see why it went that way."
+  ],
+  "signIn": "Sign in",
+  "roles": [
+    { "id": "player", "label": "I'm a player", "href": "/me/join" },
+    { "id": "coach", "label": "I'm a coach", "href": "/coach/join" }
+  ],
+  "rows": [
+    { "label": "During the match", "line": "Score it on your phone or your watch." },
+    { "label": "Afterwards", "line": "Tag the video. Break down any shot and send it." }
+  ],
+  "soon": {
+    "label": "Coming soon",
+    "names": [
+      { "id": "training", "name": "Training" },
+      { "id": "academy", "name": "Academy" },
+      { "id": "community", "name": "Community" }
+    ],
+    "ask": "Tell me when {name} is ready",
+    "email": "Your email",
+    "send": "Tell me",
+    "note": "One email when it opens. Nothing else.",
+    "done": "Done. One email when {name} opens.",
+    "bad": "That email doesn't look right.",
+    "failed": "Couldn't save that. Try again."
+  },
+  "footer": {
+    "tools": "Free tools",
+    "links": [
+      { "name": "Scoreboard", "href": "/scoreboard" },
+      { "name": "Americano", "href": "/americano" },
+      { "name": "Balance Calculator", "href": "/balance" },
+      { "name": "Tactics Board", "href": "/tactics" }
+    ],
+    "legal": [
+      { "name": "Privacy", "href": "/privacy" },
+      { "name": "Terms", "href": "/terms" }
+    ]
+  }
+}
