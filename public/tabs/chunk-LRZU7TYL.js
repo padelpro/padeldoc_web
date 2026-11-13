@@ -1,0 +1,1 @@
+import{a as s}from"./chunk-72ENKGPA.js";import{C as n}from"./chunk-WRWCGNHZ.js";import{c as o,h as y}from"./chunk-KUBSTVIS.js";var t=o(y(),1);var a=o(n(),1);function d(f,l="default",p=s){let u=t.default.lazy(()=>f().then(e=>({default:e[l]}))),r=e=>(0,a.jsx)(t.Suspense,{fallback:(0,a.jsx)(p,{}),children:(0,a.jsx)(u,{...e})});return r.displayName=`Lazy(${l})`,r}export{d as a};
