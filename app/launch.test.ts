@@ -6,15 +6,15 @@ import { headlineOf, emailOk, soonBody, withName, SOON_TOPICS } from './launch.t
 const read = (f: string) => readFileSync(new URL(f, import.meta.url), 'utf8')
 const copy = JSON.parse(read('./_copy/launch.json'))
 
-test('the headline is one number to change, and the page is built with the first', () => {
-  assert.equal(copy.headline, 1)
+test('the headline is one number to change, and the page is built with Kevin\'s pick, the second (14 Nov 2026)', () => {
+  assert.equal(copy.headline, 2)
   assert.deepEqual(copy.headlines, [
     'See what really happens in your matches.',
     'Know where your points go.',
     'Your padel, on video and in numbers.',
     'Score your match. Then see why it went that way.',
   ])
-  assert.equal(headlineOf(copy), 'See what really happens in your matches.')
+  assert.equal(headlineOf(copy), 'Know where your points go.')
   for (const n of [1, 2, 3, 4]) assert.equal(headlineOf({ ...copy, headline: n }), copy.headlines[n - 1])
   // Anything that isn't one of the four: the first, never an empty page.
   for (const bad of [0, 5, 1.5, '2', null, undefined]) assert.equal(headlineOf({ ...copy, headline: bad }), copy.headlines[0])
