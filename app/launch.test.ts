@@ -62,3 +62,23 @@ test('the page is at a preview address: today\'s home page is untouched, and no 
   assert.match(css, /@media \(prefers-color-scheme: dark\) \{\s+html:has\(\[data-launch\]\)/)
   assert.match(read('./launch-page.tsx'), /<div data-launch /)
 })
+
+// Launch 1 stage 3 (Kevin 13 Nov 2026): the box sends a confirm email first, and the email's link lands on a page that
+// POSTs its token.
+test('coming soon is confirmed first: the box says to check your email, and /launch/confirm posts the link\'s token', async () => {
+  const { tokenOf, confirmSaid } = await import('./launch.ts')
+  assert.equal(copy.soon.done, 'Check your email to confirm.')
+  assert.equal(confirmSaid('done', 'Training', copy.confirm), 'Done. One email when Training opens.')
+  assert.equal(confirmSaid('open', 'Academy', copy.confirm), 'Academy is open already.')
+  assert.equal(confirmSaid('expired', '', copy.confirm), 'That link has run out. Ask again on the home page.')
+  assert.equal(confirmSaid('nonsense', '', copy.confirm), copy.confirm.failed)
+  const t = 'training.1794000000.bWFldmVAZXhhbXBsZS50ZXN0.q3Jz-_AbC'
+  assert.equal(tokenOf(`?t=${t}`), t)
+  for (const bad of ['', '?t=', '?t=x', '?t=training.1.x.y', '?t=<script>.1794000000.a.b', `?x=${t}`]) assert.equal(tokenOf(bad), '', bad)
+  const page = read('./launch/confirm/confirm.tsx')
+  assert.ok(page.includes("fetch(`${WORKER}/v1/launch/confirm`, { method: 'POST'"), 'a POST once the page has loaded: a scanner that only fetches the link confirms nothing')
+  assert.ok(read('./launch/confirm/page.tsx').includes('robots: { index: false, follow: false }'))
+  const box = read('./launch-soon.tsx')
+  assert.ok(box.includes('JSON.stringify({ ...body, website: trap })') && !box.includes('TODO'))
+  for (const v of Object.values(copy.confirm)) assert.ok(!/[–—]/.test(String(v)), String(v))
+})

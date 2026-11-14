@@ -28,3 +28,17 @@ export function soonBody(topic: unknown, email: unknown): { topic: SoonTopic; em
 
 // "Tell me when {name} is ready" with the name in.
 export const withName = (words: string, name: string): string => String(words || '').replace('{name}', name)
+
+// The confirm link's token (app/launch/confirm): the page's ?t=, or '' when it isn't there or isn't the shape the
+// Worker signs (four dot-separated parts of URL-safe characters).
+export function tokenOf(search: unknown): string {
+  let t = ''
+  try { t = new URLSearchParams(typeof search === 'string' ? search : '').get('t') || '' } catch { return '' }
+  return /^[a-z]+\.\d{9,11}\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/.test(t) && t.length <= 600 ? t : ''
+}
+
+// The confirm page's one line.
+export function confirmSaid(phase: string, name: string, C: Record<string, string>): string {
+  const words = C[phase] || C.failed || ''
+  return withName(words, name || '')
+}
