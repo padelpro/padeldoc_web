@@ -27,9 +27,18 @@
     "email": "Your email",
     "send": "Tell me",
     "note": "One email when it opens. Nothing else.",
-    "done": "Done. One email when {name} opens.",
+    "done": "Check your email to confirm.",
     "bad": "That email doesn't look right.",
     "failed": "Couldn't save that. Try again."
+  },
+  "confirm": {
+    "working": "One moment.",
+    "done": "Done. One email when {name} opens.",
+    "open": "{name} is open already.",
+    "expired": "That link has run out. Ask again on the home page.",
+    "failed": "Couldn't save that. Try again.",
+    "again": "Try again",
+    "home": "The Padel Doc"
   },
   "footer": {
     "tools": "Free tools",
