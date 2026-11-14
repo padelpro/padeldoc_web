@@ -123,6 +123,7 @@ test('thepadeldoc.com is untouched: its proxies still in netlify.toml, the demo\
   assert.ok(read('.gitignore').split(/\r?\n/).includes('netlify/edge-functions/demo-site.ts'))
   const pkg = JSON.parse(read('package.json'))
   assert.equal(pkg.scripts.build, 'next build')
-  assert.equal(pkg.scripts.prebuild, 'node scripts/demo-prebuild.mjs')
+  // The build stamp first (scripts/build-stamp.mjs, Kevin 14 Nov 2026), then the demo's own steps as before.
+  assert.equal(pkg.scripts.prebuild, 'node scripts/build-stamp.mjs && node scripts/demo-prebuild.mjs')
   assert.equal(pkg.scripts.postbuild, 'node scripts/demo-prebuild.mjs --check')
 })

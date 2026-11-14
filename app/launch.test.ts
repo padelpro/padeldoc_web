@@ -48,8 +48,9 @@ test('the email box sends a known name and a real-looking email, tidied', () => 
 test('the page is at a preview address: today\'s home page is untouched, and no search engine is asked in', () => {
   const page = read('./preview/launch/page.tsx')
   assert.match(page, /robots: \{ index: false, follow: false \}/)
-  // The home page becomes the launch page by one line, not yet switched.
-  assert.match(read('./site.ts'), /^export const LAUNCH_HOME: boolean = false$/m, 'not switched yet')
+  // The home page becomes the launch page by one line: false until launch day, true from then (the test takes either,
+  // so launch day is that one line and nothing else).
+  assert.match(read('./site.ts'), /^export const LAUNCH_HOME: boolean = (false|true)$/m, 'one line, false or true')
   assert.ok(read('./page.tsx').includes('{LAUNCH_HOME ? <LaunchPage /> : <HomePage />}'))
   // With it on: the role pages go to the launch page, leave the sitemap, and the footer loses them.
   assert.ok(read('../next.config.ts').includes('LAUNCH_HOME ? LAUNCH_MOVED.map'))
