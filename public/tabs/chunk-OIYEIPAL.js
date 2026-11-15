@@ -1,0 +1,1 @@
+var t=new Map;function a(e,c,i=2e3,o=()=>Date.now()){let n=t.get(e);if(n&&o()-n.at<i)return n.promise;let s=Promise.resolve().then(c).then(r=>((!r||r.kind!=="ok")&&t.delete(e),r),r=>{throw t.delete(e),r});return t.set(e,{at:o(),promise:s}),s}var h=e=>e?t.delete(e):t.clear();export{a,h as b};
