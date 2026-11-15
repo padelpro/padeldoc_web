@@ -32,6 +32,12 @@
   from = "/p/*"
   to = "/player/index.html"
   status = 200
+# A shared card's page (padel-coach-src share-outside-spec 3 and 10; padel-share-api 0121): in the player bundle, its
+# preview tags and noindex put in by netlify/edge-functions/share-card.ts.
+[[redirects]]
+  from = "/s/*"
+  to = "/player/index.html"
+  status = 200
 [[redirects]]
   from = "/coach"
   to = "/player/index.html"
@@ -153,6 +159,11 @@
   for = "/p/*"
   [headers.values]
     Cache-Control = "no-cache"
+[[headers]]
+  for = "/s/*"
+  [headers.values]
+    Cache-Control = "no-cache"
+    X-Robots-Tag = "noindex"
 [[headers]]
   for = "/coach"
   [headers.values]
