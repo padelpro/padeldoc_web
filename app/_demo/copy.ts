@@ -32,7 +32,7 @@ export const notice: Block[] = [
   ] },
   { kind: 'h3', text: 'Others' },
   { kind: 'list', items: [
-    'Analytics: Plausible, with no cookies, counted as its own site, demo.thepadeldoc.com.',
+    'Analytics: none on demo.thepadeldoc.com, no Plausible either. The demo counts how often each role is picked, a day at a time, and nothing about who picked it.',
     'YouTube’s own terms and cookies apply to the match video, as on thepadeldoc.com.',
   ] },
 ]

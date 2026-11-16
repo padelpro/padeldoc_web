@@ -7,7 +7,7 @@ import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { PRODUCTION_WORKER, DEMO_WORKER, workerFrom, siteFrom, siteConfig, edgeEnv } from './worker-default.ts'
 import { demoRule, ROBOTS_HEADER, ROBOTS_VALUE } from './demo-rules.ts'
-import { plausibleDomain, robotsFor, DEMO_MOVED, MAIN_SITE, DEMO_HOST } from './site.ts'
+import { plausibleOn, PLAUSIBLE_DOMAIN, robotsFor, DEMO_MOVED, MAIN_SITE, DEMO_HOST } from './site.ts'
 import { notice, RIBBON, NOTICE_TITLE } from './_demo/copy.ts'
 import demoSite, { config as demoSiteConfig } from '../netlify/demo/demo-site.ts'
 
@@ -86,8 +86,10 @@ test('the demo\'s edge function: 404 before the proxies, noindex on every answer
 test('robots, Plausible and the moved pages', () => {
   assert.deepEqual(robotsFor(false), { rules: { userAgent: '*', allow: '/' }, sitemap: 'https://thepadeldoc.com/sitemap.xml' })
   assert.deepEqual(robotsFor(true), { rules: { userAgent: '*', disallow: '/' } })
-  assert.equal(plausibleDomain(false), 'thepadeldoc.com')
-  assert.equal(plausibleDomain(true), 'demo.thepadeldoc.com')
+  // Plausible: thepadeldoc.com only, as it was; the demo build none (Kevin 16 Nov 2026).
+  assert.equal(PLAUSIBLE_DOMAIN, 'thepadeldoc.com')
+  assert.equal(plausibleOn(false), true)
+  assert.equal(plausibleOn(true), false)
   assert.equal(MAIN_SITE, 'https://thepadeldoc.com')
   // Every marketing page of app/ moves; privacy stays (the demo has its own notice) and / is Try it as.
   const pages = readdirSync(join(root, 'app')).filter((n) => existsSync(join(root, 'app', n, 'page.tsx'))).map((n) => `/${n}`)
@@ -98,7 +100,7 @@ test('robots, Plausible and the moved pages', () => {
 test('the demo\'s words: the notice of spec 9.4, no em dashes', () => {
   const text = JSON.stringify({ notice, RIBBON, NOTICE_TITLE })
   assert.equal(/—|–/.test(text), false)
-  for (const part of ['made up', 'YouTube', 'technique clip', 'until the reset that night', 'No account, no email and no name', 'one-way hash for two days', 'Plausible', 'demo.thepadeldoc.com']) assert.ok(text.includes(part), part)
+  for (const part of ['made up', 'YouTube', 'technique clip', 'until the reset that night', 'No account, no email and no name', 'one-way hash for two days', 'no Plausible', 'nothing about who picked it', 'demo.thepadeldoc.com']) assert.ok(text.includes(part), part)
   assert.equal(RIBBON.text, 'Demo, made-up people, resets every night')
 })
 

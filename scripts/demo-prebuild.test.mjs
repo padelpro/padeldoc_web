@@ -7,7 +7,7 @@ import { tmpdir } from 'node:os'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { spawnSync } from 'node:child_process'
-import { prebuild, postbuild, demoEnvProblem, bundlesHaveDemoMode, productionAddressIn, PRODUCTION_WORKER, DEMO_WORKER, PROD_TAG, DEMO_TAG, EDGE_SOURCE, EDGE_TARGET } from './demo-prebuild.mjs'
+import { prebuild, postbuild, demoEnvProblem, bundlesHaveDemoMode, productionAddressIn, plausibleIn, PRODUCTION_WORKER, DEMO_WORKER, PROD_TAG, PLAUSIBLE_SRC, EDGE_SOURCE, EDGE_TARGET } from './demo-prebuild.mjs'
 import { PRODUCTION_WORKER as P2, DEMO_WORKER as D2 } from '../app/worker-default.ts'
 
 const here = dirname(fileURLToPath(import.meta.url))
@@ -18,7 +18,7 @@ function site({ demoMode = true } = {}) {
   const root = mkdtempSync(join(tmpdir(), 'demo-prebuild-'))
   const put = (p, text) => { mkdirSync(dirname(join(root, p)), { recursive: true }); writeFileSync(join(root, p), text) }
   put('public/tactics/index.html', `<head><script defer ${PROD_TAG} src="https://plausible.io/js/script.js"></script></head>const api="${PRODUCTION_WORKER}"`)
-  put('public/player/index.html', `<head><script defer ${PROD_TAG} src="x"></script></head>`)
+  put('public/player/index.html', `<head>\n<link rel="canonical" href="https://thepadeldoc.com/player">\n<script defer ${PROD_TAG} src="https://plausible.io/js/script.js"></script>\n</head>`)
   put('public/tabs/app-abc.js', `const a="${PRODUCTION_WORKER}"${demoMode ? `,d="${DEMO_WORKER}"` : ''}`)
   put('public/images/x.txt', PROD_TAG)
   put(EDGE_SOURCE, '// the demo edge function')
@@ -46,12 +46,13 @@ test('thepadeldoc.com (nothing set): nothing changes, nothing printed, a stray c
   } finally { s.done() }
 })
 
-test('the demo: the Plausible tag rewritten in the tool pages only, the edge function put in place', () => {
+test('the demo: the Plausible tag taken out of the tool pages (Kevin 16 Nov 2026: no Plausible on the demo), the edge function put in place', () => {
   const s = site()
   try {
     const r = prebuild(s.root, DEMO, quiet)
     assert.deepEqual(r.pages.sort(), ['public/player/index.html', 'public/tactics/index.html'])
-    for (const p of r.pages) { assert.ok(s.read(p).includes(DEMO_TAG), p); assert.equal(s.read(p).includes(PROD_TAG), false, p) }
+    for (const p of r.pages) { assert.equal(s.read(p).includes(PLAUSIBLE_SRC), false, p); assert.equal(s.read(p).includes(PROD_TAG), false, p) }
+    assert.equal(s.read('public/player/index.html'), '<head>\n<link rel="canonical" href="https://thepadeldoc.com/player">\n</head>', 'the line goes, the rest stays')
     assert.equal(s.read('public/images/x.txt'), PROD_TAG, 'only .html pages')
     assert.ok(s.read('public/tactics/index.html').includes(PRODUCTION_WORKER), 'the bundle itself is left as released')
     assert.equal(s.read(EDGE_TARGET), '// the demo edge function')
@@ -85,6 +86,7 @@ test('the demo stops: the wrong pair, bundles from before demo mode, no tag to r
 test('the build check: production\'s address in anything Next wrote stops the demo build; the cache and public/ don\'t count', () => {
   const s = site()
   try {
+    prebuild(s.root, DEMO, quiet)
     s.put('.next/server/app/index.html', `<script>fetch("${DEMO_WORKER}/v1/stats")</script>`)
     s.put('.next/cache/webpack/x.pack', PRODUCTION_WORKER)
     assert.deepEqual(productionAddressIn(s.root), [])
@@ -93,6 +95,17 @@ test('the build check: production\'s address in anything Next wrote stops the de
     assert.deepEqual(productionAddressIn(s.root), ['.next/static/chunks/a.js'])
     assert.throws(() => postbuild(s.root, DEMO, quiet), /production's Worker address is in the demo build: \.next\/static\/chunks\/a\.js/)
     assert.deepEqual(postbuild(s.root, {}, quiet), { demo: false }, 'thepadeldoc.com\'s build is never checked')
+  } finally { s.done() }
+})
+
+test('the build check: Plausible\'s script in a page Next wrote, or left in a tool page, stops the demo build', () => {
+  const s = site()
+  try {
+    prebuild(s.root, DEMO, quiet)
+    assert.deepEqual(plausibleIn(s.root), [])
+    s.put('.next/server/app/about.html', '<script defer data-domain="demo.thepadeldoc.com" src="https://plausible.io/js/script.js"></script>')
+    assert.deepEqual(plausibleIn(s.root), ['.next/server/app/about.html'])
+    assert.throws(() => postbuild(s.root, DEMO, quiet), /Plausible's script is in the demo build/)
   } finally { s.done() }
 })
 

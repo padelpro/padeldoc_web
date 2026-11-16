@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Spline_Sans, IBM_Plex_Mono } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
-import { IS_DEMO, plausibleDomain } from './site'
+import { IS_DEMO, plausibleOn, PLAUSIBLE_DOMAIN } from './site'
 import { DemoRibbon } from './_demo/ribbon'
 
 const splineSans = Spline_Sans({
@@ -65,13 +65,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* The demo build only: the ribbon after the page, as the tools' one. thepadeldoc.com's own tree is exactly
             as it was (one child, no empty slot), so its pages come out byte for byte the same. */}
         {IS_DEMO ? <><main>{children}</main><DemoRibbon /></> : <main>{children}</main>}
-        {/* Privacy-light analytics; no cookies, no personal data. The demo counts as its own site. */}
-        <Script
-          defer
-          data-domain={plausibleDomain(IS_DEMO)}
-          src="https://plausible.io/js/script.js"
-          strategy="afterInteractive"
-        />
+        {/* Privacy-light analytics; no cookies, no personal data. thepadeldoc.com only: the demo build has none. */}
+        {plausibleOn(IS_DEMO) && (
+          <Script
+            defer
+            data-domain={PLAUSIBLE_DOMAIN}
+            src="https://plausible.io/js/script.js"
+            strategy="afterInteractive"
+          />
+        )}
       </body>
     </html>
   )
