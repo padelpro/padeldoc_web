@@ -163,7 +163,8 @@ NEXT_PUBLIC_PADELDOC_WORKER=https://padel-share-demo.padel-coach.workers.dev
 
 With neither set the build is thepadeldoc.com's, exactly as before. On the demo build: `/` opens Try it as (`/signin`,
 drawn by the player bundle), the marketing pages move to thepadeldoc.com, `/privacy` is the demo's own notice,
-`robots.txt` shuts every path, every answer carries `X-Robots-Tag: noindex`, Plausible counts
-`demo.thepadeldoc.com`, and `/unsubscribe` and `/cal/*` answer 404. `scripts/demo-prebuild.mjs` (npm's prebuild and
-postbuild) does the demo-only steps and stops the build on a wrong pair of variables, on tool bundles from before demo
-mode, or if anything Next wrote holds production's Worker address. `netlify.toml` is shared and says nothing of the demo.
+`robots.txt` shuts every path, every answer carries `X-Robots-Tag: noindex`, there is no Plausible at all (Kevin
+16 Nov 2026: no second Plausible site; the demo Worker counts role taps instead, shown on /admin), and `/unsubscribe` and
+`/cal/*` answer 404. `scripts/demo-prebuild.mjs` (npm's prebuild and postbuild) does the demo-only steps (the tool
+pages' Plausible tag taken out among them) and stops the build on a wrong pair of variables, on tool bundles from
+before demo mode, or if anything Next wrote holds production's Worker address or any page holds Plausible's script. `netlify.toml` is shared and says nothing of the demo.

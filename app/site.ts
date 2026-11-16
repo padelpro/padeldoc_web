@@ -13,8 +13,11 @@ export const LAUNCH_HOME: boolean = false
 export const LAUNCH_MOVED = ['/players', '/coaches', '/clubs', '/tools/box-league']
 export const MAIN_SITE = 'https://thepadeldoc.com'
 export const DEMO_HOST = 'demo.thepadeldoc.com'
-// Plausible counts the demo as its own site (spec 9.4, question 7): production's stats never count a demo visit.
-export const plausibleDomain = (demo: boolean): string => (demo ? DEMO_HOST : 'thepadeldoc.com')
+// Plausible: thepadeldoc.com only (Kevin 16 Nov 2026: no second Plausible site for the demo). The demo build has no
+// Plausible tag at all (layout.tsx, and scripts/demo-prebuild.mjs takes it out of the tool pages); its role taps are
+// counted by the demo Worker instead (a role and a day, nothing about who). thepadeldoc.com's own tag is as it was.
+export const PLAUSIBLE_DOMAIN = 'thepadeldoc.com'
+export const plausibleOn = (demo: boolean): boolean => !demo
 
 // On the demo build the marketing pages live on thepadeldoc.com only: each of these moves there, same path.
 export const DEMO_MOVED = ['/about', '/coaches', '/players', '/clubs', '/tools', '/tools/:slug', '/contribute', '/cookies']
