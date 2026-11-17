@@ -1,0 +1,15 @@
+# Line endings (Kevin 17 Nov 2026): every text file is LF in the repo and in the working tree, whatever core.autocrlf
+# says. Git for Windows sets core.autocrlf=true in its system config, so without this a checkout writes CRLF, the release
+# and the tools write LF, and git status calls the file modified with an empty diff. The repo itself is already LF
+# throughout (nothing renormalised). padel-share-api scripts/eol-refresh.mjs rewrites a checkout made before this, once.
+* text=auto eol=lf
+
+# Binary, never converted.
+*.png binary
+*.jpg binary
+*.webp binary
+*.mp4 binary
+*.webm binary
+*.woff2 binary
+*.ico binary
+*.zip binary
