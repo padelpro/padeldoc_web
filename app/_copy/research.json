@@ -1,0 +1,18 @@
+{
+  "_about": "The research section's labels (padel-coach-src specs/research-blog-spec.md; Kevin 17 Nov 2026). Every post's own words are in its markdown file in content/research/; the pages compose no copy. en-IE, no em dashes.",
+  "nav": "Research",
+  "indexTitle": "Research",
+  "indexDescription": "Padel research, read by a padel coach and sport scientist: a roundup of new studies every Monday, and the odd deep dive.",
+  "heading": "Research",
+  "intro": "New padel and sport science studies, read and explained by Dr Kevin O'Brien. A roundup every Monday, and the odd deep dive.",
+  "read": "Read",
+  "draft": "Draft (dev only)",
+  "types": { "roundup": "Roundup", "deep-dive": "Deep dive" },
+  "empty": "No posts yet. The first roundup is on its way.",
+  "rss": "RSS feed",
+  "rssTitle": "The Padel Doc: Research",
+  "rssDescription": "Padel research, read by a padel coach and sport scientist. A roundup every Monday.",
+  "footerLine": "New research every Monday.",
+  "back": "All research",
+  "imageAlt": "Image for {title}"
+}

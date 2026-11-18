@@ -64,7 +64,11 @@ const inFill = `inline-flex items-center justify-center min-h-11 whitespace-nowr
 
 // The header's right side: Sign in and Set up account, or the signed-in visitor's first name and their one button
 // (the home page's "Signed in as" line went, Kevin 2 Nov 2026).
-export function HeaderAccount({ big = false }: { big?: boolean }) {
+// research: the signed-out bar's Research link (Kevin 18 Nov 2026), given by the server (site-parts.tsx), which knows
+// whether this is the demo build. From sm up only: at 360 and 390 the bar has no room for a third link (the name wraps
+// out of the bar, the home page's buttons go to a third row), and every public page's footer has it on a phone. Signed
+// in, the link is in the tools' avatar menu and the footer instead.
+export function HeaderAccount({ big = false, research }: { big?: boolean; research?: { href: string; label: string } }) {
   const who = useWho()
   if (big) {
     if (who.phase === 'checking') return <div className={bigRow} />
@@ -79,6 +83,7 @@ export function HeaderAccount({ big = false }: { big?: boolean }) {
     }
     return (
       <div className={bigRow}>
+        {research && <a href={research.href} className={`${bigBtn} hidden sm:inline-flex border-transparent text-text/80 hover:text-text`}>{research.label}</a>}
         <a href="/signin" className={`${bigBtn} border-text/30 text-text hover:border-text/70`}>Sign in</a>
         <a href="/signin#new" className={bigFill}>Set up account</a>
       </div>
@@ -96,7 +101,8 @@ export function HeaderAccount({ big = false }: { big?: boolean }) {
   }
   return (
     <>
-      <a href="/signin" className="ml-auto inline-flex items-center min-h-11 sm:min-h-0 text-sm text-text/75 hover:text-text">Sign in</a>
+      {research && <a href={research.href} className="ml-auto hidden sm:inline-flex items-center min-h-11 sm:min-h-0 text-sm text-text/75 hover:text-text">{research.label}</a>}
+      <a href="/signin" className={`${research ? 'ml-auto sm:ml-0 ' : 'ml-auto '}inline-flex items-center min-h-11 sm:min-h-0 text-sm text-text/75 hover:text-text`}>Sign in</a>
       <a href="/signin#new" className="inline-flex items-center min-h-11 sm:min-h-0 text-sm font-medium text-accent hover:underline">Set up account</a>
     </>
   )

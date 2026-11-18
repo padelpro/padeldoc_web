@@ -60,7 +60,9 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${splineSans.variable} ${ibmPlexMono.variable}`}>
+    // suppressHydrationWarning: the research pages set data-theme on <html> before React starts (app/research/theme.ts).
+    // React writes nothing for it into the page.
+    <html lang="en" className={`${splineSans.variable} ${ibmPlexMono.variable}`} suppressHydrationWarning>
       <body>
         {/* The demo build only: the ribbon after the page, as the tools' one. thepadeldoc.com's own tree is exactly
             as it was (one child, no empty slot), so its pages come out byte for byte the same. */}
