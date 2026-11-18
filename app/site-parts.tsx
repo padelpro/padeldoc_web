@@ -1,5 +1,9 @@
 import { HeaderAccount } from './signed-in-header'
-import { LAUNCH_HOME } from './site'
+import { IS_DEMO, LAUNCH_HOME, researchHref } from './site'
+import researchCopy from './_copy/research.json'
+
+// The Research link (Kevin 18 Nov 2026): in the signed-out top bar and the footer; on the demo build, thepadeldoc.com's.
+const research = { href: researchHref(IS_DEMO), label: researchCopy.nav }
 
 // The top bar on every page: the band colour, full width. The logo at 40px and the name at 20px (Kevin 2 Nov 2026), with
 // the tagline beside them from md up. The home page passes big: its text at twice the size, Sign in and Set up account as
@@ -14,7 +18,7 @@ export function SiteHeader({ big = false }: { big?: boolean }) {
           <span className="whitespace-nowrap text-[28px] lg:text-[40px] leading-tight font-bold tracking-tight">The Padel Doc</span>
         </a>
         <span className="hidden lg:inline whitespace-nowrap text-[28px] text-muted">Play. Tag. Talk.</span>
-        <HeaderAccount big />
+        <HeaderAccount big research={research} />
       </div>
     </header>
   )
@@ -27,7 +31,7 @@ export function SiteHeader({ big = false }: { big?: boolean }) {
         </a>
         <span className="hidden md:inline text-sm text-muted">Play. Tag. Talk.</span>
         {/* Sign in and Set up account, or the signed-in visitor's one button (signed-in-header.tsx). */}
-        <HeaderAccount />
+        <HeaderAccount research={research} />
       </div>
     </header>
   )
@@ -63,6 +67,7 @@ export function Footer() {
         <a className={`${link} hover:text-text`} href="/clubs">Clubs</a>
       </>}
       <a className={`${link} hover:text-text`} href="/tools">All tools</a>
+      <a className={`${link} hover:text-text`} href={research.href}>{research.label}</a>
       <a className={`${link} hover:text-text`} href="/about">About</a>
       <a className={`${link} hover:text-text`} href="/privacy">Privacy</a>
       <a className={`${link} hover:text-text`} href="/cookies">Cookies</a>

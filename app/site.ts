@@ -20,7 +20,12 @@ export const PLAUSIBLE_DOMAIN = 'thepadeldoc.com'
 export const plausibleOn = (demo: boolean): boolean => !demo
 
 // On the demo build the marketing pages live on thepadeldoc.com only: each of these moves there, same path.
-export const DEMO_MOVED = ['/about', '/coaches', '/players', '/clubs', '/tools', '/tools/:slug', '/contribute', '/cookies']
+export const DEMO_MOVED = ['/about', '/coaches', '/players', '/clubs', '/tools', '/tools/:slug', '/contribute', '/cookies',
+  // The research blog (Kevin 18 Nov 2026): thepadeldoc.com's only, so no copy of a post on demo.thepadeldoc.com.
+  '/research', '/research/:path*']
+
+// Where the research section is from a page of this build: here, or on thepadeldoc.com from the demo.
+export const researchHref = (demo: boolean): string => (demo ? `${MAIN_SITE}/research` : '/research')
 
 // /robots.txt (app/robots.ts): thepadeldoc.com open with its sitemap; the demo shut, no sitemap (spec 9.3).
 export const robotsFor = (demo: boolean) =>
