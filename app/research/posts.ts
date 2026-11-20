@@ -119,6 +119,12 @@ export function loadPosts({ dir = CONTENT_DIR, drafts = showDrafts() }: { dir?: 
   return posts.sort((a, b) => (a.date === b.date ? a.title.localeCompare(b.title) : a.date < b.date ? 1 : -1))
 }
 
+// The home page's Latest research card (Kevin 18 Nov 2026): the newest of the posts given, whatever their order, or null
+// for no card. Given loadPosts(), in the release build that is the newest released post (drafts are already out); in
+// next dev a draft can be it. On the same date, the first by title, as /research lists them.
+export const latestPost = (posts: Post[]): Post | null =>
+  posts.reduce<Post | null>((best, p) => (!best || p.date > best.date || (p.date === best.date && p.title.localeCompare(best.title) < 0) ? p : best), null)
+
 export const imageUrl = (image: string): string => (image.startsWith('/') ? image : `/research/img/${image}`)
 export const postPath = (slug: string): string => `/research/${slug}`
 

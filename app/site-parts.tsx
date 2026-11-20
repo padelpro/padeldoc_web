@@ -37,9 +37,10 @@ export function SiteHeader({ big = false }: { big?: boolean }) {
   )
 }
 
-export function Community() {
+// top: its gap above, as it always was by default; the home page closes it up under the Latest research card.
+export function Community({ top = 'mt-12 sm:mt-24' }: { top?: string } = {}) {
   return (
-    <section className="mt-12 sm:mt-24 rounded-xl border border-accent/40 bg-[linear-gradient(135deg,color-mix(in_srgb,var(--color-accent)_10%,transparent),color-mix(in_srgb,var(--color-accent)_2%,transparent))] p-8 sm:p-10">
+    <section className={`${top} rounded-xl border border-accent/40 bg-[linear-gradient(135deg,color-mix(in_srgb,var(--color-accent)_10%,transparent),color-mix(in_srgb,var(--color-accent)_2%,transparent))] p-8 sm:p-10`}>
       <p className="text-accent font-medium">Research project</p>
       <h2 className="mt-2 text-3xl sm:text-4xl font-bold tracking-tight">Help build padel-vision</h2>
       <p className="mt-4 max-w-prose text-text/85 leading-relaxed">

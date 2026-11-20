@@ -8,6 +8,8 @@ import Reveal from './reveal'
 import copy from './_copy/home.json'
 import Proof from './proof'
 import { PromiseBlocks, ToolRow, PillarsBand } from './home-parts'
+import { latestPost, loadPosts } from './research/posts'
+import { LatestResearchCard } from './research/latest-card'
 
 // The homepage (Kevin 26 Oct 2026): one question, a pill per role, then a section per role with its main tool, what it
 // does in a few ticks, its button and Learn more (its own page, /players, /coaches or /clubs). Each role has its colour: player copper, coach
@@ -55,6 +57,7 @@ const looks = {
 const roles = (['player', 'coach', 'club'] as const).map((id) => ({ id, ...copy.roles[id], ...looks[id] }))
 
 export default function HomePage() {
+  const latest = latestPost(loadPosts())
   return (
     <>
       <SiteHeader big />
@@ -118,7 +121,9 @@ export default function HomePage() {
         <div className="mx-auto max-w-6xl px-6 pb-16">
           <UsedByStrip className="mt-12 sm:mt-24" />
           <ReviewsStrip className="mt-10 sm:mt-16" />
-          <Community />
+          {/* Latest research (Kevin 18 Nov 2026, spot A): in the gap Help build padel-vision had, which then sits just
+              under it, the two research items together. No released post: no card, and the band is as it was. */}
+          {latest ? <><LatestResearchCard post={latest} className="mt-12 sm:mt-24" /><Community top="mt-6" /></> : <Community />}
           <Footer />
         </div>
       </div>
