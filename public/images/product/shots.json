@@ -8,7 +8,7 @@
       "width": 1440,
       "height": 900,
       "shown": 1440,
-      "bytes": 81604,
+      "bytes": 95594,
       "quality": 0.9,
       "role": "coach",
       "alt": "The Tactics Board: a play drawn on the court, with the ball's flight shown from the side",
@@ -85,6 +85,30 @@
       "role": "self_coached",
       "alt": "A self-coached player's development plan, with goals suggested from her own ratings and matches",
       "shows": "Clíona's development plan with Suggest goals."
+    },
+    {
+      "name": "session-board",
+      "file": "session-board-1440.webp",
+      "width": 1440,
+      "height": 900,
+      "shown": 1440,
+      "bytes": 65332,
+      "quality": 0.9,
+      "role": "head_coach",
+      "alt": "The session board: a group session's courts with their players and coach",
+      "shows": "The session board: a group session's courts, who plays on which, and who is still unplaced."
+    },
+    {
+      "name": "box-league",
+      "file": "box-league-1440.webp",
+      "width": 1440,
+      "height": 900,
+      "shown": 1440,
+      "bytes": 122484,
+      "quality": 0.9,
+      "role": "club_admin",
+      "alt": "A club's Box League: the boxes, the standings and this round's matches",
+      "shows": "The Box League, mid-month: the live round's boxes, tables and matches (the Mixed Box League)."
     },
     {
       "name": "board",
@@ -169,23 +193,37 @@
       "role": "self_coached",
       "alt": "A self-coached player's development plan, with goals suggested from her own ratings and matches",
       "shows": "Clíona's development plan with Suggest goals."
+    },
+    {
+      "name": "session-board",
+      "file": "session-board-390.webp",
+      "width": 780,
+      "height": 1688,
+      "shown": 390,
+      "bytes": 75634,
+      "quality": 0.9,
+      "role": "head_coach",
+      "alt": "The session board: a group session's courts with their players and coach",
+      "shows": "The session board: a group session's courts, who plays on which, and who is still unplaced."
+    },
+    {
+      "name": "box-league",
+      "file": "box-league-390.webp",
+      "width": 780,
+      "height": 1688,
+      "shown": 390,
+      "bytes": 111682,
+      "quality": 0.9,
+      "role": "club_admin",
+      "alt": "A club's Box League: the boxes, the standings and this round's matches",
+      "shows": "The Box League, mid-month: the live round's boxes, tables and matches (the Mixed Box League)."
     }
   ],
   "notTaken": [
     {
-      "name": "session-board",
-      "why": "the demo's world has none yet (scripts/demo-world.mjs: not yet)",
-      "shows": "The session board: the academy's week of sessions."
-    },
-    {
       "name": "gym-plan",
       "why": "the demo's world has none yet (scripts/demo-world.mjs: not yet)",
       "shows": "A gym plan, as the player sees it."
-    },
-    {
-      "name": "box-league",
-      "why": "the demo's world has none yet (scripts/demo-world.mjs: not yet)",
-      "shows": "The Box League, mid-month."
     }
   ]
 }
