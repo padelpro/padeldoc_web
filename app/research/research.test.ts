@@ -2,7 +2,7 @@
 // safe renderer, JSON-LD, the feed, the links in and the demo rule.
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { mkdtempSync, writeFileSync, rmSync, readFileSync, readdirSync } from 'node:fs'
+import { mkdtempSync, writeFileSync, rmSync, readFileSync, readdirSync, existsSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -72,8 +72,15 @@ test('Latest research on the home page: the newest post whatever the order, noth
   assert.equal(latestPost([]), null)
   assert.equal(latestPost([at('a', '2026-11-03'), at('c', '2026-11-24'), at('b', '2026-11-17')])?.slug, 'c')
   assert.equal(latestPost([at('y', '2026-11-24', 'Zebra'), at('x', '2026-11-24', 'Apple')])?.slug, 'x')   // as /research lists them
-  // The release build today: only the sample, a draft, so no card.
-  assert.equal(latestPost(loadPosts({ dir: join(root, 'content', 'research'), drafts: false })), null)
+  // The release build (Kevin 20 Nov 2026): the first two posts are out, both dated 17 November, so the card shows the
+  // first by title, the deep dive. Written to hold as posts are added: the card is always the first /research lists.
+  const released = loadPosts({ dir: join(root, 'content', 'research'), drafts: false })
+  const first = ['2026-11-17-padel-app-stats', '2026-11-17-research-roundup']
+  for (const slug of first) assert.ok(released.some((p) => p.slug === slug), `${slug} is released`)
+  assert.equal(latestPost(released.filter((p) => first.includes(p.slug)))?.slug, '2026-11-17-padel-app-stats')
+  assert.equal(latestPost(released)?.slug, released[0].slug)
+  // Every released post's picture is a file the site has (a missing one would be a broken image on three pages).
+  for (const p of released) assert.ok(existsSync(join(root, 'public', imageUrl(p.image))), `${p.slug}: ${imageUrl(p.image)} isn't in public/`)
   const home = readFileSync(join(root, 'app', 'home-page.tsx'), 'utf8')
   assert.match(home, /const latest = latestPost\(loadPosts\(\)\)/)
   // Between the reviews and Help build padel-vision; without a post the band is exactly as before.
@@ -88,7 +95,7 @@ test('Latest research on the home page: the newest post whatever the order, noth
 test('the repo\'s posts all read, and the sample post is a draft (never released)', () => {
   const dir = join(root, 'content', 'research')
   const all = loadPosts({ dir, drafts: true })
-  assert.ok(all.length >= 1)
+  assert.ok(all.length >= 3)   // the sample and the first two posts (20 Nov 2026)
   const sample = all.find((p) => p.slug === '2026-11-18-sample-layout')
   assert.ok(sample && sample.draft)
   assert.ok(!loadPosts({ dir, drafts: false }).some((p) => p.slug === sample!.slug))
