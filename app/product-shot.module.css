@@ -1,0 +1,74 @@
+/* A laptop and a phone outline for product screenshots (product-shot.tsx; Kevin 20 Nov 2026). Plain CSS, no image:
+   a dark bezel, rounded corners and a soft shadow. The site's own colours come from globals.css's tokens. */
+.frame {
+  margin: 0;
+  max-width: 100%;
+}
+
+.shot {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--color-panel-2);
+}
+
+/* The laptop: a lid with a thin bezel, then the base, a little wider, with a notch to lift it by. */
+.laptop {
+  padding: 0 6%;
+}
+
+.lid {
+  border: 10px solid #0d0e10;
+  border-bottom-width: 12px;
+  border-radius: 14px 14px 0 0;
+  background: #0d0e10;
+  box-shadow: 0 30px 60px -30px color-mix(in srgb, var(--color-shade) 55%, transparent);
+}
+
+.lid .shot {
+  border-radius: 4px;
+}
+
+.base {
+  position: relative;
+  height: 12px;
+  margin: 0 -7%;
+  border-radius: 2px 2px 12px 12px;
+  background: linear-gradient(#d9d5ce, #b9b4ab);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.base::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 16%;
+  height: 5px;
+  transform: translateX(-50%);
+  border-radius: 0 0 6px 6px;
+  background: #a8a297;
+}
+
+/* The phone: a rounded body all round the screen. */
+.phone {
+  padding: 9px;
+  border-radius: 2.4rem;
+  background: #0d0e10;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 30px 60px -30px color-mix(in srgb, var(--color-shade) 55%, transparent);
+}
+
+.phone .shot {
+  border-radius: 1.9rem;
+}
+
+@media (max-width: 480px) {
+  .lid {
+    border-width: 6px;
+    border-bottom-width: 8px;
+    border-radius: 10px 10px 0 0;
+  }
+  .base {
+    height: 8px;
+  }
+}

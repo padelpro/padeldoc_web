@@ -1,0 +1,191 @@
+{
+  "made": "2026-11-20",
+  "from": "the demo's made-up world, locally",
+  "shots": [
+    {
+      "name": "board",
+      "file": "board-1440.webp",
+      "width": 1440,
+      "height": 900,
+      "shown": 1440,
+      "bytes": 81604,
+      "quality": 0.9,
+      "role": "coach",
+      "alt": "The Tactics Board: a play drawn on the court, with the ball's flight shown from the side",
+      "shows": "The Tactics Board with a play on it (drawn by Show me, kept) and a shot's side view."
+    },
+    {
+      "name": "coach-report",
+      "file": "coach-report-1440.webp",
+      "width": 1440,
+      "height": 900,
+      "shown": 1440,
+      "bytes": 95090,
+      "quality": 0.9,
+      "role": "academy_player",
+      "alt": "A tagged match's coach report: points won, winners and errors by shot, with the clips to watch",
+      "shows": "A tagged match in the Match Tagger: the Coach report."
+    },
+    {
+      "name": "match-insights",
+      "file": "match-insights-1440.webp",
+      "width": 1440,
+      "height": 900,
+      "shown": 1440,
+      "bytes": 92856,
+      "quality": 0.9,
+      "role": "academy_player",
+      "alt": "Match insights: three counted lines from a player's own matches, beside his coach's plan",
+      "shows": "The Match insights card on a player's Coach tab: counted lines from his own matches."
+    },
+    {
+      "name": "pair-stats",
+      "file": "pair-stats-1440.webp",
+      "width": 1440,
+      "height": 900,
+      "shown": 1440,
+      "bytes": 76466,
+      "quality": 0.9,
+      "role": "academy_player",
+      "alt": "Pair stats for two partners: how they do together, side by side",
+      "shows": "Pair stats: Eoin and Ciara together."
+    },
+    {
+      "name": "coach-home",
+      "file": "coach-home-1440.webp",
+      "width": 1440,
+      "height": 900,
+      "shown": 1440,
+      "bytes": 112200,
+      "quality": 0.9,
+      "role": "coach",
+      "alt": "A coach's home page: his players and what needs a look today",
+      "shows": "The coach's Home."
+    },
+    {
+      "name": "player-page",
+      "file": "player-page-1440.webp",
+      "width": 1440,
+      "height": 900,
+      "shown": 1440,
+      "bytes": 94770,
+      "quality": 0.9,
+      "role": "coach",
+      "alt": "A player's page as his coach sees it: sessions, ratings and homework",
+      "shows": "A player's page, as his coach sees it (Liam Carroll, a private client)."
+    },
+    {
+      "name": "plan-suggest-goals",
+      "file": "plan-suggest-goals-1440.webp",
+      "width": 1440,
+      "height": 900,
+      "shown": 1440,
+      "bytes": 117266,
+      "quality": 0.9,
+      "role": "self_coached",
+      "alt": "A self-coached player's development plan, with goals suggested from her own ratings and matches",
+      "shows": "Clíona's development plan with Suggest goals."
+    },
+    {
+      "name": "board",
+      "file": "board-390.webp",
+      "width": 780,
+      "height": 1688,
+      "shown": 390,
+      "bytes": 60062,
+      "quality": 0.9,
+      "role": "coach",
+      "alt": "The Tactics Board: a play drawn on the court, with the ball's flight shown from the side",
+      "shows": "The Tactics Board with a play on it (drawn by Show me, kept) and a shot's side view."
+    },
+    {
+      "name": "coach-report",
+      "file": "coach-report-390.webp",
+      "width": 780,
+      "height": 1688,
+      "shown": 390,
+      "bytes": 112960,
+      "quality": 0.9,
+      "role": "academy_player",
+      "alt": "A tagged match's coach report: points won, winners and errors by shot, with the clips to watch",
+      "shows": "A tagged match in the Match Tagger: the Coach report."
+    },
+    {
+      "name": "match-insights",
+      "file": "match-insights-390.webp",
+      "width": 780,
+      "height": 1688,
+      "shown": 390,
+      "bytes": 89686,
+      "quality": 0.9,
+      "role": "academy_player",
+      "alt": "Match insights: three counted lines from a player's own matches, beside his coach's plan",
+      "shows": "The Match insights card on a player's Coach tab: counted lines from his own matches."
+    },
+    {
+      "name": "pair-stats",
+      "file": "pair-stats-390.webp",
+      "width": 780,
+      "height": 1688,
+      "shown": 390,
+      "bytes": 85966,
+      "quality": 0.9,
+      "role": "academy_player",
+      "alt": "Pair stats for two partners: how they do together, side by side",
+      "shows": "Pair stats: Eoin and Ciara together."
+    },
+    {
+      "name": "coach-home",
+      "file": "coach-home-390.webp",
+      "width": 780,
+      "height": 1688,
+      "shown": 390,
+      "bytes": 110974,
+      "quality": 0.9,
+      "role": "coach",
+      "alt": "A coach's home page: his players and what needs a look today",
+      "shows": "The coach's Home."
+    },
+    {
+      "name": "player-page",
+      "file": "player-page-390.webp",
+      "width": 780,
+      "height": 1688,
+      "shown": 390,
+      "bytes": 91046,
+      "quality": 0.9,
+      "role": "coach",
+      "alt": "A player's page as his coach sees it: sessions, ratings and homework",
+      "shows": "A player's page, as his coach sees it (Liam Carroll, a private client)."
+    },
+    {
+      "name": "plan-suggest-goals",
+      "file": "plan-suggest-goals-390.webp",
+      "width": 780,
+      "height": 1688,
+      "shown": 390,
+      "bytes": 127946,
+      "quality": 0.9,
+      "role": "self_coached",
+      "alt": "A self-coached player's development plan, with goals suggested from her own ratings and matches",
+      "shows": "Clíona's development plan with Suggest goals."
+    }
+  ],
+  "notTaken": [
+    {
+      "name": "session-board",
+      "why": "the demo's world has none yet (scripts/demo-world.mjs: not yet)",
+      "shows": "The session board: the academy's week of sessions."
+    },
+    {
+      "name": "gym-plan",
+      "why": "the demo's world has none yet (scripts/demo-world.mjs: not yet)",
+      "shows": "A gym plan, as the player sees it."
+    },
+    {
+      "name": "box-league",
+      "why": "the demo's world has none yet (scripts/demo-world.mjs: not yet)",
+      "shows": "The Box League, mid-month."
+    }
+  ]
+}
