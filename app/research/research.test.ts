@@ -7,7 +7,7 @@ import { tmpdir } from 'node:os'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { splitFrontMatter, postFrom, loadPosts, showDrafts, renderMarkdown, safeUrl, articleJsonLd, feedXml, longDate,
-  imageUrl, type Post } from './posts.ts'
+  imageUrl, latestPost, type Post } from './posts.ts'
 import { resolveTheme, THEME_BOOT } from './theme.ts'
 import { DEMO_MOVED, researchHref, MAIN_SITE } from '../site.ts'
 
@@ -60,8 +60,29 @@ test('drafts: in next dev, never in the release build; newest first', () => {
     writeFileSync(join(dir, 'notes.txt'), 'not a post')
     assert.deepEqual(loadPosts({ dir, drafts: false }).map((p) => p.slug), ['b-new', 'a-old'])
     assert.deepEqual(loadPosts({ dir, drafts: true }).map((p) => p.slug), ['c-draft', 'b-new', 'a-old'])
+    // The home page's card: the newest released post in the release build, a draft only in next dev.
+    assert.equal(latestPost(loadPosts({ dir, drafts: false }))?.slug, 'b-new')
+    assert.equal(latestPost(loadPosts({ dir, drafts: true }))?.slug, 'c-draft')
   } finally { rmSync(dir, { recursive: true, force: true }) }
   assert.deepEqual(loadPosts({ dir: join(tmpdir(), 'no-such-research-dir') }), [])
+})
+
+test('Latest research on the home page: the newest post whatever the order, nothing with none, spot A', () => {
+  const at = (slug: string, date: string, title = slug) => ({ ...postFrom(front({ ...good, slug: `"${slug}"`, date: `"${date}"` }) + 'x', slug), title })
+  assert.equal(latestPost([]), null)
+  assert.equal(latestPost([at('a', '2026-11-03'), at('c', '2026-11-24'), at('b', '2026-11-17')])?.slug, 'c')
+  assert.equal(latestPost([at('y', '2026-11-24', 'Zebra'), at('x', '2026-11-24', 'Apple')])?.slug, 'x')   // as /research lists them
+  // The release build today: only the sample, a draft, so no card.
+  assert.equal(latestPost(loadPosts({ dir: join(root, 'content', 'research'), drafts: false })), null)
+  const home = readFileSync(join(root, 'app', 'home-page.tsx'), 'utf8')
+  assert.match(home, /const latest = latestPost\(loadPosts\(\)\)/)
+  // Between the reviews and Help build padel-vision; without a post the band is exactly as before.
+  assert.match(home, /<ReviewsStrip[^>]*\/>\s*\{\/\*[\s\S]*?\*\/\}\s*\{latest \? <><LatestResearchCard post=\{latest\}[^>]*\/><Community top="mt-6" \/><\/> : <Community \/>\}/)
+  const card = readFileSync(join(root, 'app', 'research', 'latest-card.tsx'), 'utf8')
+  for (const label of ['copy.latest', 'copy.types[post.type]', 'copy.read', 'postPath(post.slug)', 'longDate(post.date)']) assert.ok(card.includes(label), label)
+  assert.match(card, /min-h-11/)   // Read, and the card around it, at least 44px
+  // No words of its own: every text node is a value from the copy or the post.
+  for (const m of card.matchAll(/>([^<>{}]+)</g)) assert.match(m[1], /^[\s·]*$/, `words in the card: ${m[1]}`)
 })
 
 test('the repo\'s posts all read, and the sample post is a draft (never released)', () => {
@@ -230,6 +251,7 @@ test('links in: the top bar and the footer; on the demo, thepadeldoc.com\'s page
   assert.match(one, /if \(IS_DEMO\) return \[\]/)
   assert.match(one, /dynamicParams = false/)
   assert.equal(copy.nav, 'Research')
+  assert.equal(copy.latest, 'Latest research')
   for (const v of Object.values(copy).flatMap((x) => (typeof x === 'string' ? [x] : Object.values(x as object)))) {
     assert.ok(!String(v).includes('—'), `no em dash: ${v}`)
   }

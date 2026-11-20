@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Spline_Sans, IBM_Plex_Mono } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
-import { IS_DEMO, plausibleOn, PLAUSIBLE_DOMAIN } from './site'
+import { IS_DEMO, PLAUSIBLE_DOMAIN } from './site'
 import { DemoRibbon } from './_demo/ribbon'
 
 const splineSans = Spline_Sans({
@@ -67,8 +67,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* The demo build only: the ribbon after the page, as the tools' one. thepadeldoc.com's own tree is exactly
             as it was (one child, no empty slot), so its pages come out byte for byte the same. */}
         {IS_DEMO ? <><main>{children}</main><DemoRibbon /></> : <main>{children}</main>}
-        {/* Privacy-light analytics; no cookies, no personal data. thepadeldoc.com only: the demo build has none. */}
-        {plausibleOn(IS_DEMO) && (
+        {/* Privacy-light analytics; no cookies, no personal data. thepadeldoc.com only: the demo build has none.
+            The rule is site.ts plausibleOn, written out here: next.config.ts puts PADELDOC_SITE in as text at build
+            time, so on the demo this is "demo" !== "demo" in this file and the minifier drops the tag, address and all.
+            Through an import (IS_DEMO, plausibleOn) it can't, and the address stayed in the code (Kevin 18 Nov 2026). */}
+        {process.env.PADELDOC_SITE !== 'demo' && (
           <Script
             defer
             data-domain={PLAUSIBLE_DOMAIN}
