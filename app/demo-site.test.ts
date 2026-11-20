@@ -97,6 +97,19 @@ test('robots, Plausible and the moved pages', () => {
   assert.ok(DEMO_MOVED.includes('/tools/:slug'))
 })
 
+// Kevin 18 Nov 2026: every demo build since 3790cb2 stopped at its own check, because the layout's compiled code kept
+// Plausible's address (dead, but there). The site is now text written in at build time, and the layout tests it in the
+// same file, so the minifier drops the tag on the demo. Through an import it can't (the real build showed it).
+test('Plausible on the demo: the site is fixed at build time and the layout tests it itself', () => {
+  const config = read('next.config.ts')
+  assert.match(config, /env: \{ NEXT_PUBLIC_PADELDOC_WORKER: worker, PADELDOC_SITE: demo \? 'demo' : '' \}/)
+  const layout = read('app/layout.tsx')
+  assert.match(layout, /\{process\.env\.PADELDOC_SITE !== 'demo' && \(\s*<Script\b[^>]*src="https:\/\/plausible\.io\/js\/script\.js"/)
+  assert.equal(layout.includes('plausibleOn('), false, 'not through the import')
+  // The same rule as site.ts plausibleOn, which says it in words.
+  assert.equal(plausibleOn(process.env.PADELDOC_SITE === 'demo'), process.env.PADELDOC_SITE !== 'demo')
+})
+
 test('the demo\'s words: the notice of spec 9.4, no em dashes', () => {
   const text = JSON.stringify({ notice, RIBBON, NOTICE_TITLE })
   assert.equal(/—|–/.test(text), false)

@@ -15,7 +15,11 @@ const demo = site === 'demo'
 
 const nextConfig: NextConfig = {
   // The one Worker address the pages hold (app/worker-url.ts): always set here, production's by default.
-  env: { NEXT_PUBLIC_PADELDOC_WORKER: worker },
+  // PADELDOC_SITE too (Kevin 18 Nov 2026), so IS_DEMO (app/site.ts) is fixed when the site is built, not read when a page
+  // is served: on the demo the layout's Plausible tag is dead code and the minifier drops it, so no file Next writes
+  // holds Plausible's address (scripts/demo-prebuild.mjs --check). Before, the layout's compiled code kept it, unused,
+  // and the check stopped every demo build since 16 Nov (3790cb2).
+  env: { NEXT_PUBLIC_PADELDOC_WORKER: worker, PADELDOC_SITE: demo ? 'demo' : '' },
   // The demo only: / is Try it as (the player bundle's page at /signin on demo.thepadeldoc.com), and the marketing
   // pages live on thepadeldoc.com. Nothing here on thepadeldoc.com's build.
   async redirects() {
