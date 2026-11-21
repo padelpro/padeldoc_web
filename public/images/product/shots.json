@@ -1,5 +1,5 @@
 {
-  "made": "2026-11-20",
+  "made": "2026-11-21",
   "from": "the demo's made-up world, locally",
   "shots": [
     {
@@ -56,7 +56,7 @@
       "width": 1440,
       "height": 900,
       "shown": 1440,
-      "bytes": 112200,
+      "bytes": 112186,
       "quality": 0.9,
       "role": "coach",
       "alt": "A coach's home page: his players and what needs a look today",
@@ -80,7 +80,7 @@
       "width": 1440,
       "height": 900,
       "shown": 1440,
-      "bytes": 117266,
+      "bytes": 117564,
       "quality": 0.9,
       "role": "self_coached",
       "alt": "A self-coached player's development plan, with goals suggested from her own ratings and matches",
@@ -99,12 +99,24 @@
       "shows": "The session board: a group session's courts, who plays on which, and who is still unplaced."
     },
     {
+      "name": "gym-plan",
+      "file": "gym-plan-1440.webp",
+      "width": 1440,
+      "height": 900,
+      "shown": 1440,
+      "bytes": 92730,
+      "quality": 0.9,
+      "role": "academy_player",
+      "alt": "A gym plan: the week's sessions with their exercises, sets and reps",
+      "shows": "A gym plan, as the player sees it: the week's sessions, one opened with its exercises, sets and weights."
+    },
+    {
       "name": "box-league",
       "file": "box-league-1440.webp",
       "width": 1440,
       "height": 900,
       "shown": 1440,
-      "bytes": 122484,
+      "bytes": 122448,
       "quality": 0.9,
       "role": "club_admin",
       "alt": "A club's Box League: the boxes, the standings and this round's matches",
@@ -188,7 +200,7 @@
       "width": 780,
       "height": 1688,
       "shown": 390,
-      "bytes": 127946,
+      "bytes": 129334,
       "quality": 0.9,
       "role": "self_coached",
       "alt": "A self-coached player's development plan, with goals suggested from her own ratings and matches",
@@ -200,11 +212,23 @@
       "width": 780,
       "height": 1688,
       "shown": 390,
-      "bytes": 75634,
+      "bytes": 73626,
       "quality": 0.9,
       "role": "head_coach",
       "alt": "The session board: a group session's courts with their players and coach",
       "shows": "The session board: a group session's courts, who plays on which, and who is still unplaced."
+    },
+    {
+      "name": "gym-plan",
+      "file": "gym-plan-390.webp",
+      "width": 780,
+      "height": 1688,
+      "shown": 390,
+      "bytes": 97222,
+      "quality": 0.9,
+      "role": "academy_player",
+      "alt": "A gym plan: the week's sessions with their exercises, sets and reps",
+      "shows": "A gym plan, as the player sees it: the week's sessions, one opened with its exercises, sets and weights."
     },
     {
       "name": "box-league",
@@ -212,18 +236,12 @@
       "width": 780,
       "height": 1688,
       "shown": 390,
-      "bytes": 111682,
+      "bytes": 107914,
       "quality": 0.9,
       "role": "club_admin",
       "alt": "A club's Box League: the boxes, the standings and this round's matches",
       "shows": "The Box League, mid-month: the live round's boxes, tables and matches (the Mixed Box League)."
     }
   ],
-  "notTaken": [
-    {
-      "name": "gym-plan",
-      "why": "the demo's world has none yet (scripts/demo-world.mjs: not yet)",
-      "shows": "A gym plan, as the player sees it."
-    }
-  ]
+  "notTaken": []
 }
