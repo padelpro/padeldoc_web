@@ -24,6 +24,12 @@
   from = "/v/*"
   to = "/tagger/index.html"
   status = 200
+# A shared Tagger template (padel-coach-src tagger-templates-spec T6; padel-share-api 0130): thepadeldoc.com/tt/CODE, drawn
+# by the Tagger bundle. Not /t/: that is the Americano's live page, above.
+[[redirects]]
+  from = "/tt/*"
+  to = "/tagger/index.html"
+  status = 200
 [[redirects]]
   from = "/contribute/withdraw"
   to = "/tagger/index.html"
@@ -161,6 +167,12 @@
     Cache-Control = "no-cache"
 [[headers]]
   for = "/s/*"
+  [headers.values]
+    Cache-Control = "no-cache"
+    X-Robots-Tag = "noindex"
+# A shared Tagger template's page: never indexed (it can be switched off at any time).
+[[headers]]
+  for = "/tt/*"
   [headers.values]
     Cache-Control = "no-cache"
     X-Robots-Tag = "noindex"

@@ -8,7 +8,7 @@
 export const SITE_PATHS = new Set([
   'about', 'academy', 'admin', 'americano', 'americano-25', 'analyse', 'avatars', 'balance', 'cal', 'club', 'clubs', 'coach', 'coaches', 'community', 'contribute',
   'cookies', 'embed', 'fonts', 'images', 'launch', 'league', 'legal', 'm', 'me', 'p', 'player', 'players', 'preview', 'privacy', 'research', 's', 'scoreboard', 'shots', 'signin',
-  't', 'tabs', 'tactics', 'tagger', 'terms', 'tools', 'tracker', 'unsubscribe', 'v', 'vamos',
+  't', 'tabs', 'tactics', 'tagger', 'terms', 'tools', 'tracker', 'tt', 'unsubscribe', 'v', 'vamos',
 ])
 
 // Letters and numbers, with single hyphens or underscores between them (Kevin 29 Oct 2026: _ and - are different names).
