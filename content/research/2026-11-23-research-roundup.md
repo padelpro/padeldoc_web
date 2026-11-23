@@ -21,7 +21,7 @@ Each week I sift through the new studies on padel, fitness, nutrition and recove
 
 - In high-level amateur padel, the players who lost moved more per minute than the players who won.
 - Stretching did not prevent injuries but short neuromuscular warm-ups, 2 or 3 times a week, did better.
-- On a rest day, thinking about the last match, was linked to more mental fatigue, and the fatigue fed more rumination.
+- On a rest day, thinking about the last match was linked to more mental fatigue, and the fatigue fed more rumination.
 
 ## New padel research
 
