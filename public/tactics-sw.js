@@ -15,7 +15,7 @@
 // Only requests for the Board page itself (/tactics, /tactics/...) are answered here; every other request (the rest of
 // the site, the fonts, the API, Plausible) is left to the browser as if there were no worker. player-sw.js (alerts) is
 // a separate worker and stays as it is.
-const VERSION = "70034d34fc09";
+const VERSION = "7ea6725b92b3";
 const ON = true;
 const PREFIX = "pd-tactics-";
 const CACHE = PREFIX + VERSION;
