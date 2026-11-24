@@ -3,8 +3,7 @@
 // only, never on the /research card. latest.json goes by date, so an older post added later never takes the New dot.
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { mkdtempSync, writeFileSync, rmSync, readFileSync, readdirSync, copyFileSync, existsSync } from 'node:fs'
-import { tmpdir } from 'node:os'
+import { readFileSync, readdirSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { postFrom, loadPosts, latestJson, feedXml } from './posts.ts'
@@ -51,26 +50,37 @@ test('the 23 Nov roundup: the new title and kicker, slug, date and summary uncha
   assert.ok(!feed.includes('Padel Research Roundup: 23 November 2026'))
 })
 
-test('latest.json: names the 23 Nov post, and an older post added later (the TUD post, 25 Jun 2026) never takes it', () => {
-  const now = latestJson(loadPosts({ dir: CONTENT, drafts: false }))!
+test('latest.json: names the 23 Nov post; the TUD post (25 Jun 2026, added on 24 Nov) never takes it', () => {
+  // The real content folder, the TUD post in it (blog-titles-2, Kevin 24 Nov 2026): no stand-in.
+  const posts = loadPosts({ dir: CONTENT, drafts: false })
+  const tud = posts.find((p) => p.slug === '2026-06-25-irish-padel-1000-rallies')
+  assert.ok(tud, 'the TUD post is in content/research')
+  assert.equal(tud.date, '2026-06-25')
+  const now = latestJson(posts)!
   assert.equal(now.slug, '2026-11-23-research-roundup')
   assert.equal(now.title, 'Is stretching before padel a waste of time?')
   assert.deepEqual(Object.keys(now).sort(), ['date', 'slug', 'summary', 'title'], 'no kicker in latest.json')
-  const dir = mkdtempSync(join(tmpdir(), 'blog-titles-'))
-  try {
-    for (const f of readdirSync(CONTENT).filter((f) => f.endsWith('.md'))) copyFileSync(join(CONTENT, f), join(dir, f))
-    const tud = '2026-06-25-irish-padel-1000-rallies'
-    if (!existsSync(join(dir, `${tud}.md`))) {
-      writeFileSync(join(dir, `${tud}.md`), front({ ...base, title: '"What actually wins points at club level in Ireland?"',
-        slug: `"${tud}"`, date: '"2026-06-25"', type: '"deep-dive"' }))
-    }
-    const posts = loadPosts({ dir, drafts: false })
-    assert.ok(posts.some((p) => p.slug === tud))
-    assert.equal(latestJson(posts)!.slug, '2026-11-23-research-roundup')
-    assert.equal(posts[0].slug, '2026-11-23-research-roundup', 'first on /research too')
-  } finally {
-    rmSync(dir, { recursive: true, force: true })
-  }
+  assert.equal(posts[0].slug, '2026-11-23-research-roundup', 'first on /research too')
+  assert.equal(posts[posts.length - 1].slug, tud.slug, 'the oldest, so last on /research')
+})
+
+test('the 17 Nov roundup and the TUD post: question titles, no date in them; the TUD post has no kicker and no Sources', () => {
+  const posts = loadPosts({ dir: CONTENT, drafts: false })
+  const r17 = posts.find((p) => p.slug === '2026-11-17-research-roundup')!
+  assert.equal(r17.title, 'Where do padel players actually get hurt?')
+  assert.equal(r17.kicker, 'Research Roundup')
+  assert.equal(r17.date, '2026-11-17')
+  assert.equal(r17.summary, 'Half of the padel players in a new survey had been injured, plus caffeine dosing, court sprints and a simple knee check.')
+  const tud = posts.find((p) => p.slug === '2026-06-25-irish-padel-1000-rallies')!
+  assert.equal(tud.title, 'What actually wins points at club level in Ireland?')
+  assert.equal('kicker' in tud, false)
+  assert.equal(tud.draft, false)
+  assert.equal(tud.image, '/og.png')
+  assert.equal(tud.type, 'deep-dive')
+  assert.ok(!/^#+\s*Sources/im.test(tud.body))
+  for (const p of posts) assert.ok(p.title.endsWith('?') && !/\b(19|20)\d\d\b|January|February|March|April|May|June|July|August|September|October|November|December/.test(p.title), p.title)
+  const feed = feedXml(posts, copy)
+  for (const p of posts) assert.ok(feed.includes(`<title>${p.title.replace(/'/g, '&apos;')}</title>`), p.title)
 })
 
 test('no em dashes in any post or the research pages', () => {
