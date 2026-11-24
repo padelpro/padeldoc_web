@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node scripts/demo-prebuild.mjs",
+    "prebuild": "node scripts/build-stamp.mjs && node scripts/demo-prebuild.mjs",
     "build": "next build",
     "postbuild": "node scripts/demo-prebuild.mjs --check",
     "start": "next start",

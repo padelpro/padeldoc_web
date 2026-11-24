@@ -33,6 +33,10 @@ tsconfig.tsbuildinfo
 # (its source is netlify/demo/demo-site.ts). Never committed: thepadeldoc.com's deploy has no such function.
 netlify/edge-functions/demo-site.ts
 
+# The build stamp, written before every build by scripts/build-stamp.mjs (which commit this build is; ship.ps1 -Site
+# reads it from the live site). Never committed.
+public/build.json
+
 # Brand asset staging folder — source PNGs live here; only the generated
 # public/ favicon + OG files get committed.
 brand-assets/

@@ -124,6 +124,12 @@
   for = "/tactics-sw.js"
   [headers.values]
     Cache-Control = "no-cache"
+# The build stamp (scripts/build-stamp.mjs; Kevin 14 Nov 2026): which commit is live. Never kept, so ship.ps1 -Site
+# sees a new build the moment it is published.
+[[headers]]
+  for = "/build.json"
+  [headers.values]
+    Cache-Control = "no-store"
 [[headers]]
   for = "/player.webmanifest"
   [headers.values]
