@@ -17,12 +17,22 @@ export type Post = {
   slug: string
   date: string            // YYYY-MM-DD
   summary: string
-  image: string           // a file in public/research/img/, or a site path starting with /
+  image: string           // a file in public/research/img/, or a site path starting with /. With no image in the front
+                          // matter: the first slide, else /og.png (Kevin 24 Nov 2026)
   tags: string[]
   type: PostType
   draft: boolean
   body: string            // the markdown after the front matter
+  slides?: Slide[]        // optional: the post's Instagram slides, a carousel above the body (Kevin 24 Nov 2026)
+  hook?: string           // optional, slides only: the line above the carousel (the default is in _copy/research.json)
 }
+
+// A slide: a picture under /research/img/ and its alt text. width and height are read from the file by loadPosts.
+export type Slide = { src: string; alt: string; width?: number; height?: number }
+
+export const SLIDE_PATH = /^\/research\/img\/(?:[\w-]+\/)*[\w-][\w.-]*\.(?:jpe?g|png|webp)$/i
+export const DEFAULT_IMAGE = '/og.png'
+const EM_DASH = String.fromCharCode(0x2014)
 
 // --- Front matter: the small YAML the spec shows (key: "text", key: [ "a", "b" ], key: true, # comments) -------------
 // A "quoted" string from the start of s: [value, the rest]. A # inside the quotes is part of the text.
@@ -55,6 +65,7 @@ function scalar(raw: string, where: string): string | boolean | string[] {
       items.push(item)
       s = s.trimStart()
       if (s.startsWith(',')) s = s.slice(1).trimStart()
+      else if (!s) throw new Error(`${where}: a list must end with ]`)
       else if (!s.startsWith(']')) throw new Error(`${where}: items in a list are split by commas`)
     }
     onlyComment(s.slice(1), where)
@@ -71,11 +82,20 @@ export function splitFrontMatter(text: string, where = 'post'): { data: Record<s
   const m = /^---\n([\s\S]*?)\n---\n?([\s\S]*)$/.exec(src)
   if (!m) throw new Error(`${where}: no front matter (--- lines at the top)`)
   const data: Record<string, unknown> = {}
-  for (const line of m[1].split('\n')) {
+  const lines = m[1].split('\n')
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i]
     if (!line.trim() || line.trim().startsWith('#')) continue
     const kv = /^([A-Za-z_][\w-]*):\s*(.*)$/.exec(line)
     if (!kv) throw new Error(`${where}: can't read the line "${line}"`)
-    data[kv[1]] = scalar(kv[2], `${where} ${kv[1]}`)
+    // A [ list may run over several lines (the slides, one a line) until its ]: the lines are joined and read as one.
+    let raw = kv[2]
+    for (;;) {
+      try { data[kv[1]] = scalar(raw, `${where} ${kv[1]}`); break } catch (e) {
+        if (!/must end with \]/.test((e as Error).message) || i + 1 >= lines.length || /^[A-Za-z_][\w-]*:/.test(lines[i + 1])) throw e
+        raw += ' ' + lines[++i].trim()
+      }
+    }
   }
   return { data, body: m[2] }
 }
@@ -97,15 +117,80 @@ export function postFrom(text: string, fileSlug: string): Post {
   if (!(TYPES as readonly string[]).includes(type)) throw new Error(`${where}: type must be roundup or deep-dive`)
   const tags = data.tags === undefined ? [] : data.tags
   if (!Array.isArray(tags)) throw new Error(`${where}: tags must be a list`)
-  const image = str('image')
+  const title = str('title')
+  const slides = slidesFrom(data.slides, title, where)
+  // The picture for the card, og, twitter and JSON-LD: the post's own image, else its first slide, else the site's.
+  const image = data.image !== undefined ? str('image') : slides ? slides[0].src : DEFAULT_IMAGE
   if (!/^[\w.-]+\.(jpe?g|png|webp|gif|avif)$/i.test(image) && !/^\/[\w./-]+\.(jpe?g|png|webp|gif|avif)$/i.test(image)) {
     throw new Error(`${where}: image must be a file name in public/research/img/ (or a site path)`)
   }
   if (data.draft !== undefined && typeof data.draft !== 'boolean') throw new Error(`${where}: draft must be true or false`)
   if (data.kicker !== undefined && (typeof data.kicker !== 'string' || !data.kicker.trim())) throw new Error(`${where}: kicker must be text`)
   const kicker = data.kicker === undefined ? {} : { kicker: (data.kicker as string).trim() }
-  return { title: str('title'), ...kicker, slug, date, summary: str('summary'), image, tags: tags.map(String), type: type as PostType,
-    draft: data.draft === true, body }
+  if (data.hook !== undefined && (typeof data.hook !== 'string' || !data.hook.trim())) throw new Error(`${where}: hook must be text`)
+  if (typeof data.hook === 'string' && data.hook.includes(EM_DASH)) throw new Error(`${where}: hook: no em dashes`)
+  // A post without slides ignores its hook.
+  const extra = slides ? { slides, ...(typeof data.hook === 'string' ? { hook: data.hook.trim() } : {}) } : {}
+  return { title, ...kicker, slug, date, summary: str('summary'), image, tags: tags.map(String), type: type as PostType,
+    draft: data.draft === true, body, ...extra }
+}
+
+// slides: ["/research/img/a-1.jpg | Alt text", "/research/img/a-2.jpg", ...]: a path under /research/img/ (jpg, png or
+// webp), then optionally " | " and the alt text. No alt: "Slide N of M: <title>". undefined when there are none.
+function slidesFrom(v: unknown, title: string, where: string): Slide[] | undefined {
+  if (v === undefined) return undefined
+  if (!Array.isArray(v)) throw new Error(`${where}: slides must be a list`)
+  if (!v.length) return undefined
+  return v.map((item, i) => {
+    const s = String(item)
+    const bar = s.indexOf('|')
+    const src = (bar < 0 ? s : s.slice(0, bar)).trim()
+    const alt = bar < 0 ? '' : s.slice(bar + 1).trim()
+    if (!SLIDE_PATH.test(src)) throw new Error(`${where}: slide ${i + 1} "${src}" must be a .jpg, .png or .webp under /research/img/`)
+    if (alt.includes(EM_DASH)) throw new Error(`${where}: slide ${i + 1} alt: no em dashes`)
+    return { src, alt: alt || `Slide ${i + 1} of ${v.length}: ${title}` }
+  })
+}
+
+// Width and height of a JPEG, PNG or WebP from its bytes, or null.
+export function imageSize(b: Uint8Array): { width: number; height: number } | null {
+  const u16 = (i: number) => (b[i] << 8) | b[i + 1]
+  const u32 = (i: number) => ((b[i] << 24) | (b[i + 1] << 16) | (b[i + 2] << 8) | b[i + 3]) >>> 0
+  const le16 = (i: number) => b[i] | (b[i + 1] << 8)
+  const le24 = (i: number) => b[i] | (b[i + 1] << 8) | (b[i + 2] << 16)
+  const ascii = (i: number, n: number) => String.fromCharCode(...b.slice(i, i + n))
+  if (b.length > 24 && b[0] === 0x89 && ascii(1, 3) === 'PNG') return { width: u32(16), height: u32(20) }
+  if (b.length > 30 && ascii(0, 4) === 'RIFF' && ascii(8, 4) === 'WEBP') {
+    const kind = ascii(12, 4)
+    if (kind === 'VP8X') return { width: le24(24) + 1, height: le24(27) + 1 }
+    if (kind === 'VP8L') { const n = b[21] | (b[22] << 8) | (b[23] << 16) | (b[24] << 24); return { width: (n & 0x3fff) + 1, height: ((n >>> 14) & 0x3fff) + 1 } }
+    if (kind === 'VP8 ') return { width: le16(26) & 0x3fff, height: le16(28) & 0x3fff }
+    return null
+  }
+  if (b[0] === 0xff && b[1] === 0xd8) {
+    let i = 2
+    while (i + 9 < b.length) {
+      if (b[i] !== 0xff) { i++; continue }
+      const marker = b[i + 1]
+      if (marker === 0xff) { i++; continue }
+      if (marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker)) return { width: u16(i + 7), height: u16(i + 5) }
+      if (marker === 0xd8 || (marker >= 0xd0 && marker <= 0xd7) || marker === 0x01) { i += 2; continue }
+      i += 2 + u16(i + 2)
+    }
+  }
+  return null
+}
+
+// The slides' files (Kevin 24 Nov 2026): each must exist in public/ (else the build stops), and each gets its size.
+export function withSlideFiles(p: Post, publicDir: string): Post {
+  if (!p.slides) return p
+  const slides = p.slides.map((s, i) => {
+    const file = join(publicDir, ...s.src.split('/').filter(Boolean))
+    if (!existsSync(file)) throw new Error(`content/research/${p.slug}.md: slide ${i + 1} ${s.src} is not in public${s.src}`)
+    const size = imageSize(readFileSync(file))
+    return size ? { ...s, ...size } : s
+  })
+  return { ...p, slides }
 }
 
 // The release build (next build) leaves drafts out; next dev and the tests can show them.
@@ -113,12 +198,15 @@ export const showDrafts = (env: Record<string, string | undefined> = process.env
 
 export const CONTENT_DIR = join(process.cwd(), 'content', 'research')
 
-// Every post, newest first (then by title), drafts only when asked for.
-export function loadPosts({ dir = CONTENT_DIR, drafts = showDrafts() }: { dir?: string; drafts?: boolean } = {}): Post[] {
+// Every post, newest first (then by title), drafts only when asked for. Slides are checked against publicDir (by default
+// the public/ beside content/): a missing slide file stops the build.
+export function loadPosts({ dir = CONTENT_DIR, drafts = showDrafts(), publicDir = join(dir, '..', '..', 'public') }:
+  { dir?: string; drafts?: boolean; publicDir?: string } = {}): Post[] {
   if (!existsSync(dir)) return []
   const posts = readdirSync(dir).filter((f) => f.endsWith('.md'))
     .map((f) => postFrom(readFileSync(join(dir, f), 'utf8'), f.slice(0, -3)))
     .filter((p) => drafts || !p.draft)
+    .map((p) => withSlideFiles(p, publicDir))
   return posts.sort((a, b) => (a.date === b.date ? a.title.localeCompare(b.title) : a.date < b.date ? 1 : -1))
 }
 

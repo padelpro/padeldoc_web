@@ -1,5 +1,5 @@
 ---
-title: "Can You Trust Your Padel App's Stats?"
+title: "Can you trust your padel app's stats?"
 slug: "2026-11-17-padel-app-stats"
 date: "2026-11-17"
 summary: "An automated padel stats app showed 15% fewer shots than a careful video count of the same matches, and 45% fewer smashes. Here is how far to trust your match report."

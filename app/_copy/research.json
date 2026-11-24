@@ -16,5 +16,15 @@
   "back": "All research",
   "latest": "Latest research",
   "backToApp": "Back to the app",
-  "imageAlt": "Image for {title}"
+  "imageAlt": "Image for {title}",
+  "slidesCount": "{n} slides",
+  "carousel": {
+    "hookDefault": "Short on time? Swipe the slides.",
+    "carouselLabel": "Slides: {title}",
+    "slideLabel": "{n} of {m}",
+    "live": "Slide {n} of {m}",
+    "prev": "Previous slide",
+    "next": "Next slide",
+    "dot": "Go to slide {n}"
+  }
 }
