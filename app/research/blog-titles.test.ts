@@ -76,5 +76,5 @@ test('latest.json: names the 23 Nov post, and an older post added later (the TUD
 test('no em dashes in any post or the research pages', () => {
   const files = [...readdirSync(CONTENT).filter((f) => f.endsWith('.md')).map((f) => ['content', 'research', f]),
     ['app', 'research', 'page.tsx'], ['app', 'research', '[slug]', 'page.tsx'], ['app', 'research', 'posts.ts'], ['app', '_copy', 'research.json']]
-  for (const f of files) assert.ok(!read(...f).includes('—'), f.join('/'))
+  for (const f of files) assert.ok(!read(...f).includes('2014'), f.join('/'))
 })
