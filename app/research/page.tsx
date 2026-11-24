@@ -3,7 +3,8 @@ import { redirect } from 'next/navigation'
 import { Footer, SiteHeader } from '../site-parts'
 import { IS_DEMO, MAIN_SITE } from '../site'
 import copy from '../_copy/research.json'
-import { imageUrl, loadPosts, longDate, postPath, SITE } from './posts'
+import { imageUrl, latestPost, loadPosts, longDate, postPath, SITE } from './posts'
+import { SeenMark } from './seen-mark'
 
 // /research: every post, newest first (padel-coach-src specs/research-blog-spec.md). Built at build time; on the demo
 // build it is thepadeldoc.com's page (next.config.ts sends it there first: no copy of it on demo.thepadeldoc.com).
@@ -28,7 +29,8 @@ export default function ResearchIndex() {
   }
   return (
     <>
-      <SiteHeader />
+      <SiteHeader back={copy.backToApp} />
+      <SeenMark date={latestPost(posts)?.date ?? null} />
       <div className="mx-auto max-w-[720px] px-4 sm:px-6 pt-10 sm:pt-16">
         <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">{copy.heading}</h1>
         <p className="mt-4 text-base sm:text-[17px] leading-[1.6] text-text/85">{copy.intro}</p>

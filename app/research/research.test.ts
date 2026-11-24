@@ -248,8 +248,8 @@ test('links in: the top bar and the footer; on the demo, thepadeldoc.com\'s page
   assert.ok(DEMO_MOVED.includes('/research') && DEMO_MOVED.includes('/research/:path*'))
   const parts = readFileSync(join(root, 'app', 'site-parts.tsx'), 'utf8')
   assert.match(parts, /href=\{research\.href\}>\{research\.label\}<\/a>/)          // the footer
-  assert.match(parts, /<HeaderAccount research=\{research\} \/>/)                // the top bar
-  assert.match(parts, /<HeaderAccount big research=\{research\} \/>/)
+  assert.match(parts, /<HeaderAccount research=\{research\} back=\{back\} \/>/)   // the top bar
+  assert.match(parts, /<HeaderAccount big research=\{research\} back=\{back\} \/>/)
   const header = readFileSync(join(root, 'app', 'signed-in-header.tsx'), 'utf8')
   assert.equal((header.match(/\{research && <a href=\{research\.href\}/g) || []).length, 2)  // signed out only, both bars
   const page = readFileSync(join(root, 'app', 'research', 'page.tsx'), 'utf8')

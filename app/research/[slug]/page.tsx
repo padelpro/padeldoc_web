@@ -3,7 +3,8 @@ import { notFound, redirect } from 'next/navigation'
 import { Footer, SiteHeader } from '../../site-parts'
 import { IS_DEMO, MAIN_SITE } from '../../site'
 import copy from '../../_copy/research.json'
-import { AUTHOR, articleJsonLd, imageUrl, loadPosts, longDate, postPath, renderMarkdown } from '../posts'
+import { AUTHOR, articleJsonLd, imageUrl, latestPost, loadPosts, longDate, postPath, renderMarkdown } from '../posts'
+import { SeenMark } from '../seen-mark'
 
 // /research/<slug>: one post, its markdown turned into HTML at build time (posts.ts renderMarkdown, sanitised). Only the
 // posts the build shows exist: a draft has no page in the release build. None on the demo build.
@@ -41,7 +42,8 @@ export default async function ResearchPost({ params }: { params: Promise<{ slug:
   if (!p) notFound()
   return (
     <>
-      <SiteHeader />
+      <SiteHeader back={copy.backToApp} />
+      <SeenMark date={latestPost(loadPosts())?.date ?? null} />
       <article className="mx-auto max-w-[720px] px-4 sm:px-6 pt-8 sm:pt-14">
         <a href="/research" className="inline-flex items-center min-h-11 text-sm text-muted hover:text-text">{copy.heading}</a>
         <h1 className="mt-2 text-[32px] sm:text-5xl font-bold tracking-tight leading-[1.1] text-balance">{p.title}</h1>
