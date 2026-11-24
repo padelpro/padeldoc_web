@@ -46,7 +46,8 @@ export default async function ResearchPost({ params }: { params: Promise<{ slug:
       <SeenMark date={latestPost(loadPosts())?.date ?? null} />
       <article className="mx-auto max-w-[720px] px-4 sm:px-6 pt-8 sm:pt-14">
         <a href="/research" className="inline-flex items-center min-h-11 text-sm text-muted hover:text-text">{copy.heading}</a>
-        <h1 className="mt-2 text-[32px] sm:text-5xl font-bold tracking-tight leading-[1.1] text-balance">{p.title}</h1>
+        {p.kicker && <p className="mt-2 text-sm font-semibold uppercase tracking-wide text-accent">{p.kicker}</p>}
+        <h1 className={`${p.kicker ? 'mt-1' : 'mt-2'} text-[32px] sm:text-5xl font-bold tracking-tight leading-[1.1] text-balance`}>{p.title}</h1>
         <div className="mt-4 flex flex-wrap items-center gap-2 text-sm text-muted">
           <time dateTime={p.date}>{longDate(p.date)}</time>
           <span aria-hidden="true">·</span>
