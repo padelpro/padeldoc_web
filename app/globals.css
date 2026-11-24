@@ -104,6 +104,46 @@ html[data-theme="dark"]:has([data-research]) body { color-scheme: dark; }
 .r-body th { font-weight: 600; background: var(--color-panel-2); white-space: nowrap; }
 .r-body tr:last-child td { border-bottom: 0; }
 
+/* The slide carousel on a research post (app/research/carousel.ts; Kevin 24 Nov 2026). With JavaScript off: a
+   horizontal scroll row that snaps one slide at a time, the next slide's edge showing. Every slide keeps the first
+   slide's shape (--car-w / --car-h), so nothing jumps while they load; on a wide screen a slide is never taller than
+   60% of the window. Copper only on the active dot and the arrows. */
+.r-car-hook { font-size: 16px; line-height: 1.5; font-weight: 600; }
+@media (min-width: 640px) { .r-car-hook { font-size: 17px; } }
+.r-car-track {
+  margin-top: 12px; display: flex; gap: 12px; overflow-x: auto; overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: thin; padding-bottom: 6px;
+  list-style: none; padding-left: 0; border-radius: 12px;
+}
+.r-car-track:focus-visible { outline: 2px solid var(--color-accent-2); outline-offset: 3px; }
+@media (prefers-reduced-motion: no-preference) { .r-car-track { scroll-behavior: smooth; } }
+.r-car-slide {
+  flex: 0 0 min(86%, calc(60vh * var(--car-w) / var(--car-h)));
+  aspect-ratio: var(--car-w) / var(--car-h); scroll-snap-align: start;
+  border: 1px solid var(--color-edge); border-radius: 12px; overflow: hidden; background: var(--color-panel-2);
+}
+.r-car-slide img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.r-car-js .r-car-track { scrollbar-width: none; }
+.r-car-js .r-car-track::-webkit-scrollbar { display: none; }
+.r-car-bar { margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+.r-car-bar[hidden] { display: none; }
+.r-car-dots { display: flex; flex-wrap: wrap; align-items: center; min-width: 0; }
+.r-car-dot { width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; border-radius: 9999px; }
+.r-car-dot span { width: 8px; height: 8px; border-radius: 9999px; background: var(--color-edge); transition: width 0.15s; }
+.r-car-dot:hover span { background: var(--color-muted); }
+.r-car-dot[aria-current="true"] span { width: 20px; background: var(--color-accent); }
+.r-car-dot:focus-visible, .r-car-arrow:focus-visible { outline: 2px solid var(--color-accent-2); outline-offset: 1px; }
+.r-car-count { margin-left: auto; padding: 0 6px; font-size: 14px; color: var(--color-muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.r-car-arrow {
+  display: none; width: 44px; height: 44px; flex: 0 0 44px; align-items: center; justify-content: center;
+  border-radius: 9999px; border: 1px solid color-mix(in srgb, var(--color-accent) 50%, transparent); color: var(--color-accent);
+}
+.r-car-arrow:hover:not(:disabled) { background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
+.r-car-arrow:disabled { opacity: 0.35; cursor: default; }
+@media (min-width: 640px) { .r-car-arrow { display: inline-flex; } .r-car-count { margin-left: 8px; margin-right: auto; } }
+@media (prefers-reduced-motion: reduce) { .r-car-dot span { transition: none; } }
+.r-car-live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
 body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;

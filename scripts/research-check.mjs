@@ -56,9 +56,14 @@ async function main() {
   if (!base) { console.error('usage: node scripts/research-check.mjs <base url> [--drafts]'); process.exit(2) }
   const { loadPosts, postPath } = await import(pathToFileURL(join(ROOT, 'app', 'research', 'posts.ts')).href)
   const copy = JSON.parse(readFileSync(join(ROOT, 'app', '_copy', 'research.json'), 'utf8'))
-  const all = loadPosts({ dir: join(ROOT, 'content', 'research'), drafts: true })
   let fails = 0
   const say = (ok, what, extra = '') => { console.log(`${ok ? 'ok  ' : 'FAIL'} ${what}${extra ? `: ${extra}` : ''}`); if (!ok) fails++ }
+  // Every post must read, its slides included (Kevin 24 Nov 2026): a slide outside /research/img/ or a slide file that
+  // isn't in public/ fails the release here (and stops next build).
+  let all
+  try { all = loadPosts({ dir: join(ROOT, 'content', 'research'), drafts: true, publicDir: join(ROOT, 'public') }) }
+  catch (e) { say(false, 'the posts read', e.message); console.log('\n1 check(s) failed'); process.exit(1) }
+  say(true, 'the posts read, their slides in public/research/img/')
   const get = async (p) => { const r = await fetch(base + p, { redirect: 'manual' }); return { status: r.status, text: await r.text(), type: r.headers.get('content-type') } }
 
   const idx = await get('/research')
@@ -86,6 +91,15 @@ async function main() {
     say(idx.text.includes(`href="${path}"`), `${path} on the index`)
     say(feed.text.includes(`<link>${SITE}${path}</link>`), `${path} in the feed`)
     say(sitemap.text.includes(`<loc>${SITE}${path}</loc>`) || p.draft, `${path} in the sitemap${p.draft ? ' (a draft: the dev sitemap may list it)' : ''}`)
+    if (p.slides) {
+      // Counted on the HTML's own attributes: the page data repeats the markup with its quotes escaped (\").
+      say(r.text.includes('data-carousel') && (r.text.match(/ aria-roledescription="slide"/g) || []).length === p.slides.length,
+        `${path} carousel with ${p.slides.length} slides`)
+      for (const s of p.slides) {
+        const img = await fetch(base + s.src)
+        say(img.status === 200 && /^image\//.test(img.headers.get('content-type') || ''), `${s.src} is served`, `${img.status} ${img.headers.get('content-type')}`)
+      }
+    }
   }
   console.log(fails ? `\n${fails} check(s) failed` : '\nall research checks passed')
   process.exit(fails ? 1 : 0)

@@ -47,6 +47,7 @@ export default function ResearchIndex() {
                     <div className="flex flex-wrap items-center gap-2 text-sm text-muted">
                       <time dateTime={p.date}>{longDate(p.date)}</time>
                       <span className="rounded-full border border-accent/50 px-2 py-0.5 text-xs font-semibold text-accent">{copy.types[p.type]}</span>
+                      {p.slides && <span>{copy.slidesCount.replace('{n}', String(p.slides.length))}</span>}
                       {p.draft && <span className="rounded-full bg-panel-2 px-2 py-0.5 text-xs font-semibold">{copy.draft}</span>}
                     </div>
                     <h2 className="mt-2 text-xl sm:text-2xl font-bold tracking-tight leading-snug group-hover:text-accent">{p.title}</h2>

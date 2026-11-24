@@ -5,6 +5,8 @@ import { IS_DEMO, MAIN_SITE } from '../../site'
 import copy from '../../_copy/research.json'
 import { AUTHOR, articleJsonLd, imageUrl, latestPost, loadPosts, longDate, postPath, renderMarkdown } from '../posts'
 import { SeenMark } from '../seen-mark'
+import { carouselHtml } from '../carousel'
+import { CarouselWire } from '../carousel-client'
 
 // /research/<slug>: one post, its markdown turned into HTML at build time (posts.ts renderMarkdown, sanitised). Only the
 // posts the build shows exist: a draft has no page in the release build. None on the demo build.
@@ -55,7 +57,15 @@ export default async function ResearchPost({ params }: { params: Promise<{ slug:
           <span className="rounded-full border border-accent/50 px-2 py-0.5 text-xs font-semibold text-accent">{copy.types[p.type]}</span>
           {p.draft && <span className="rounded-full bg-panel-2 px-2 py-0.5 text-xs font-semibold">{copy.draft}</span>}
         </div>
-        <img src={imageUrl(p.image)} alt={copy.imageAlt.replace('{title}', p.title)} className="mt-8 w-full rounded-xl border border-edge bg-panel-2" />
+        {/* With slides (Kevin 24 Nov 2026): the carousel takes the hero picture's place, above the body. Without: as before. */}
+        {p.slides ? (
+          <>
+            <div className="mt-8" dangerouslySetInnerHTML={{ __html: carouselHtml(p, copy.carousel) }} />
+            <CarouselWire liveLabel={copy.carousel.live} />
+          </>
+        ) : (
+          <img src={imageUrl(p.image)} alt={copy.imageAlt.replace('{title}', p.title)} className="mt-8 w-full rounded-xl border border-edge bg-panel-2" />
+        )}
         <div className="r-body mt-8" dangerouslySetInnerHTML={{ __html: renderMarkdown(p.body) }} />
         <footer className="mt-14 border-t border-edge pt-6">
           <p className="text-base sm:text-[17px] leading-[1.6] font-medium">{copy.footerLine}</p>
