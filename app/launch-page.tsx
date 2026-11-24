@@ -13,7 +13,8 @@ const FILL: Record<string, string> = {
   coach: 'bg-accent-2 text-on-accent',
 }
 const row = 'py-6 sm:py-7 border-b border-edge sm:grid sm:grid-cols-[11rem_minmax(0,1fr)] sm:gap-6 sm:items-baseline'
-const label = 'font-mono text-xs uppercase tracking-[0.14em] text-muted'
+// The small print rule (padel-coach-src tweaks 6): nothing under 14 px on a phone; 12 px from sm up, as before.
+const label = 'font-mono text-sm sm:text-xs uppercase tracking-[0.14em] text-muted'
 const foot = 'inline-flex items-center min-h-11 sm:min-h-0 hover:text-text'
 
 export default function LaunchPage() {
