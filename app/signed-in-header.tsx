@@ -68,7 +68,8 @@ const inFill = `inline-flex items-center justify-center min-h-11 whitespace-nowr
 // whether this is the demo build. From sm up only: at 360 and 390 the bar has no room for a third link (the name wraps
 // out of the bar, the home page's buttons go to a third row), and every public page's footer has it on a phone. Signed
 // in, the link is in the tools' avatar menu and the footer instead.
-export function HeaderAccount({ big = false, research }: { big?: boolean; research?: { href: string; label: string } }) {
+// back (the research pages, Kevin 23 Nov 2026): the signed-in visitor's one button says it, "Back to the app".
+export function HeaderAccount({ big = false, research, back }: { big?: boolean; research?: { href: string; label: string }; back?: string }) {
   const who = useWho()
   if (big) {
     if (who.phase === 'checking') return <div className={bigRow} />
@@ -77,7 +78,7 @@ export function HeaderAccount({ big = false, research }: { big?: boolean; resear
       return (
         <div className={bigRow}>
           {who.name && <span className={`${inText} font-medium`}>{who.name}</span>}
-          <a href={home.href} className={inFill}>{home.label}</a>
+          <a href={home.href} className={inFill}>{back || home.label}</a>
         </div>
       )
     }
@@ -95,7 +96,7 @@ export function HeaderAccount({ big = false, research }: { big?: boolean; resear
     return (
       <>
         {who.name && <span className="ml-auto text-sm font-medium">{who.name}</span>}
-        <a href={home.href} className={`${who.name ? '' : 'ml-auto '}${buttonCls}`}>{home.label}</a>
+        <a href={home.href} className={`${who.name ? '' : 'ml-auto '}${buttonCls}`}>{back || home.label}</a>
       </>
     )
   }

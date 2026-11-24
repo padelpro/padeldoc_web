@@ -9,7 +9,8 @@ const research = { href: researchHref(IS_DEMO), label: researchCopy.nav }
 // the tagline beside them from md up. The home page passes big: its text at twice the size, Sign in and Set up account as
 // real buttons (people said the text was too small, Kevin 3 Nov 2026); below lg the wordmark at 28px and the two
 // buttons on a row of their own. Every other page keeps the header as it was.
-export function SiteHeader({ big = false }: { big?: boolean }) {
+// back: the signed-in visitor's button label on the research pages ("Back to the app").
+export function SiteHeader({ big = false, back }: { big?: boolean; back?: string }) {
   if (big) return (
     <header className="bg-band border-b border-edge">
       <div className="mx-auto max-w-6xl px-4 lg:px-6 py-3 lg:py-4 flex flex-wrap lg:flex-nowrap items-center gap-x-3 gap-y-3">
@@ -18,7 +19,7 @@ export function SiteHeader({ big = false }: { big?: boolean }) {
           <span className="whitespace-nowrap text-[28px] lg:text-[40px] leading-tight font-bold tracking-tight">The Padel Doc</span>
         </a>
         <span className="hidden lg:inline whitespace-nowrap text-[28px] text-muted">Play. Tag. Talk.</span>
-        <HeaderAccount big research={research} />
+        <HeaderAccount big research={research} back={back} />
       </div>
     </header>
   )
@@ -31,7 +32,7 @@ export function SiteHeader({ big = false }: { big?: boolean }) {
         </a>
         <span className="hidden md:inline text-sm text-muted">Play. Tag. Talk.</span>
         {/* Sign in and Set up account, or the signed-in visitor's one button (signed-in-header.tsx). */}
-        <HeaderAccount research={research} />
+        <HeaderAccount research={research} back={back} />
       </div>
     </header>
   )

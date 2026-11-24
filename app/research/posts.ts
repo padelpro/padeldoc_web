@@ -125,6 +125,14 @@ export function loadPosts({ dir = CONTENT_DIR, drafts = showDrafts() }: { dir?: 
 export const latestPost = (posts: Post[]): Post | null =>
   posts.reduce<Post | null>((best, p) => (!best || p.date > best.date || (p.date === best.date && p.title.localeCompare(best.title) < 0) ? p : best), null)
 
+// /research/latest.json (Kevin 23 Nov 2026): what the app needs for its New dot and its Latest research card, and nothing
+// of the post's body. null when there is no released post.
+export type LatestJson = { slug: string; title: string; date: string; summary: string }
+export function latestJson(posts: Post[]): LatestJson | null {
+  const p = latestPost(posts)
+  return p ? { slug: p.slug, title: p.title, date: p.date, summary: p.summary } : null
+}
+
 export const imageUrl = (image: string): string => (image.startsWith('/') ? image : `/research/img/${image}`)
 export const postPath = (slug: string): string => `/research/${slug}`
 
