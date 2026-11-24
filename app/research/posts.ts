@@ -13,6 +13,7 @@ export type PostType = (typeof TYPES)[number]
 
 export type Post = {
   title: string
+  kicker?: string         // optional: a small line above the title on the post page only (Kevin 24 Nov 2026), no date in it
   slug: string
   date: string            // YYYY-MM-DD
   summary: string
@@ -101,7 +102,9 @@ export function postFrom(text: string, fileSlug: string): Post {
     throw new Error(`${where}: image must be a file name in public/research/img/ (or a site path)`)
   }
   if (data.draft !== undefined && typeof data.draft !== 'boolean') throw new Error(`${where}: draft must be true or false`)
-  return { title: str('title'), slug, date, summary: str('summary'), image, tags: tags.map(String), type: type as PostType,
+  if (data.kicker !== undefined && (typeof data.kicker !== 'string' || !data.kicker.trim())) throw new Error(`${where}: kicker must be text`)
+  const kicker = data.kicker === undefined ? {} : { kicker: (data.kicker as string).trim() }
+  return { title: str('title'), ...kicker, slug, date, summary: str('summary'), image, tags: tags.map(String), type: type as PostType,
     draft: data.draft === true, body }
 }
 

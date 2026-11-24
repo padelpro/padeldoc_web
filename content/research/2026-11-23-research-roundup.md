@@ -1,5 +1,6 @@
 ---
-title: "Padel Research Roundup: 23 November 2026"
+title: "Is stretching before padel a waste of time?"
+kicker: "Research Roundup"
 slug: "2026-11-23-research-roundup"
 date: "2026-11-23"
 summary: "In amateur padel the losers moved more per minute than the winners, plus why short neuromuscular warm-ups beat stretching for injury prevention."
