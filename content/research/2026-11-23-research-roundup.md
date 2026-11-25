@@ -3,12 +3,14 @@ title: "Is stretching before padel a waste of time?"
 kicker: "Research Roundup"
 slug: "2026-11-23-research-roundup"
 date: "2026-11-23"
-summary: "In amateur padel the losers moved more per minute than the winners, plus why short neuromuscular warm-ups beat stretching for injury prevention."
+summary: "Not for injuries: a review of 15 studies and over 9,000 people found stretching made no clear difference, while short neuromuscular warm-ups were linked to 28% fewer leg injuries."
 image: "research-roundup-2026-11-23-single.jpg"
 tags: ["padel", "injury", "warm-up", "match-analysis", "nutrition", "recovery"]
 type: "roundup"
 draft: false
 ---
+
+Not for injuries: a review of 15 studies and over 9,000 people found stretching made no clear difference, while short neuromuscular warm-ups were linked to 28% fewer leg injuries.
 
 Hello Padel research enthusiasts!
 
