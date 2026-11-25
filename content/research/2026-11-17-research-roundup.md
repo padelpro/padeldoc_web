@@ -3,7 +3,7 @@ title: "Where do padel players actually get hurt?"
 kicker: "Research Roundup"
 slug: "2026-11-17-research-roundup"
 date: "2026-11-17"
-summary: "Half of the padel players in a new survey had been injured, plus caffeine dosing, court sprints and a simple knee check."
+summary: "Mostly the upper limbs. Half of the padel players in a new survey had been injured, plus caffeine dosing, court sprints and a simple knee check."
 image: "/og.png"
 tags: ["padel", "injury", "caffeine", "conditioning"]
 type: "roundup"

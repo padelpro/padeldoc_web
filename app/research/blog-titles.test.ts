@@ -37,12 +37,12 @@ test('kicker: drawn above the title on the post page only, never on the /researc
   assert.equal((post.match(/<time /g) || []).length, 1)
 })
 
-test('the 23 Nov roundup: the new title and kicker, slug, date and summary unchanged, no date in the title', () => {
+test('the 23 Nov roundup: the new title and kicker, slug, date and summary as Kevin set it on 25 Nov, no date in the title', () => {
   const p = loadPosts({ dir: CONTENT, drafts: false }).find((x) => x.slug === '2026-11-23-research-roundup')!
   assert.equal(p.title, 'Is stretching before padel a waste of time?')
   assert.equal(p.kicker, 'Research Roundup')
   assert.equal(p.date, '2026-11-23')
-  assert.equal(p.summary, 'In amateur padel the losers moved more per minute than the winners, plus why short neuromuscular warm-ups beat stretching for injury prevention.')
+  assert.equal(p.summary, 'Not for injuries: a review of 15 studies and over 9,000 people found stretching made no clear difference, while short neuromuscular warm-ups were linked to 28% fewer leg injuries.')
   assert.ok(!/November|2026/.test(p.title))
   assert.ok(!/\d{4}|November/.test(p.kicker!), 'no date in the kicker')
   const feed = feedXml(loadPosts({ dir: CONTENT, drafts: false }), copy)
@@ -70,7 +70,7 @@ test('the 17 Nov roundup and the TUD post: question titles, no date in them; the
   assert.equal(r17.title, 'Where do padel players actually get hurt?')
   assert.equal(r17.kicker, 'Research Roundup')
   assert.equal(r17.date, '2026-11-17')
-  assert.equal(r17.summary, 'Half of the padel players in a new survey had been injured, plus caffeine dosing, court sprints and a simple knee check.')
+  assert.equal(r17.summary, 'Mostly the upper limbs. Half of the padel players in a new survey had been injured, plus caffeine dosing, court sprints and a simple knee check.')
   const tud = posts.find((p) => p.slug === '2026-06-25-irish-padel-1000-rallies')!
   assert.equal(tud.title, 'What actually wins points at club level in Ireland?')
   assert.equal('kicker' in tud, false)
