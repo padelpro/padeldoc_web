@@ -3,6 +3,9 @@
 // Written from an audit of what the code actually stores, not from a template. Version 1 is a first draft
 // for an expert to review, so every claim here should be true of the code on the day it is published.
 //
+// Version 22.1 (Kevin, 26 Nov 2026): a private page link no longer shows or sends the messages (padel-share-api
+// b27b757, messages private: /v1/player-view/:viewCode/messages answers 404 for every verb). One sentence in Messages
+// between you and your coach, and the version line. DRAFT FOR EXPERT REVIEW, as every version.
 // Version 22 (Kevin, 10 Nov 2026) adds the season planner's first phase, the watch app's install counter and habits
 // (padel-share-api 0096 on branch season-s1, season.js; 0095 on branch watch-counter, watchCounter.js; 0097 on branch
 // journey-j3, habits.js; padel-coach-src specs/season-planner-spec.md, watch-score-app-spec.md 8 and
@@ -166,7 +169,7 @@
 // - Anthropic as a processor for draw reading: its retention period under the API terms, and the US transfer wording;
 // - anonymous posts: the admin can see the author.
 
-export const VERSION = 'Version 22, 10 November 2026'
+export const VERSION = 'Version 22.1, 26 November 2026'
 export const CONTACT = 'hello@padelpro.ie'
 
 export type Block =
@@ -613,6 +616,7 @@ export const sections: Section[] = [
       p('Version 20 (9 November 2026) adds coaches’ offers and prices on their public page, with no money taken yet, and free intro calls booked from a coach’s hours: what we keep about a call, who sees it, the call’s calendar file and calendar links, the reminders, 18 and over, and calls kept 12 months after the date. This version is a draft for expert review.'),
       p('Version 21 (9 November 2026) says that an academy’s staff see your niggles only with your yes to the academy and your niggles consent with your own coach, whatever you share of your check-ins, and that withdrawing either, or setting your check-ins with your coach to Nothing, withdraws your yes until you say yes again. This version is a draft for expert review.'),
       p('Version 22 (10 November 2026) adds season plans: what we keep, what we build them from, the 18 or over rule and the coach’s tick, who sees them, and what happens when you leave an academy or delete your account. It also adds the Padel Doc watch app: the live score it can send and the usage totals we count, with each install’s record deleted after 12 months without use. And it adds habits: what we keep, who sees them and at what level, your coach’s habits and Hide this, the Today card, 18 and over, 24 months, and how to turn them off, download or delete them. This version is a draft for expert review.'),
+      p('Version 22.1 (26 November 2026): a private page link no longer shows or sends your messages with your coach; they are only on your account. This version is a draft for expert review.'),
     ],
   },
 ]
