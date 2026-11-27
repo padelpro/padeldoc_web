@@ -1,0 +1,1 @@
+var e="nodownload",o=t=>{t&&t.preventDefault&&t.preventDefault()},r=t=>t===!0?{"data-clip-guard":"owner"}:{controlsList:e,onContextMenu:o,"data-clip-guard":"viewer"},n=t=>!!t&&(t.fromPlayer===!0||t.by==="player");export{r as a,n as b};
